@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <bean id="credentialsMatcher" class="org.aurora.base.shiro.SysUserCredentialsMatcher">
+        <!--org.aurora.base.shiro.shiroUtils-->
+        <property name="hashAlgorithmName" value="SHA-256"/>
+        <property name="hashIterations" value="1"/>
+    </bean>
+
+    <bean id="sysUserRealm" class="org.aurora.base.shiro.SysUserRealm">
+        <property name="credentialsMatcher" ref="credentialsMatcher"/>
+    </bean>
+
+    <bean id="shiroSessionListener" class="org.aurora.base.shiro.listener.ShiroSessionListener"/>
+
+    <bean id="shiroSessionFactory" class="org.aurora.base.shiro.session.ShiroSessionFactory"/>
+
+    <bean id="sessionManager" class="org.apache.shiro.web.session.mgt.DefaultWebSessionManager">
+        <property name="sessionListeners">
+            <list>
+                <ref bean="shiroSessionListener"/>
+            </list>
+        </property>
+        <property name="sessionFactory" ref="shiroSessionFactory"/>
+        <property name="globalSessionTimeout" value="3600000"/>
+    </bean>
+
+    <bean id="securityManager" class="org.apache.shiro.web.mgt.DefaultWebSecurityManager">
+        <property name="realm" ref="sysUserRealm"/>
+        <property name="sessionManager" ref="sessionManager"/>
+    </bean>
+
+    <bean id="shiroFilter" class="org.apache.shiro.spring.web.ShiroFilterFactoryBean">
+        <property name="securityManager" ref="securityManager"/>
+    </bean>
+
+    <bean id="lifecycleBeanPostProcessor" class="org.apache.shiro.spring.LifecycleBeanPostProcessor"/>
+
+    <bean class="org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSourceAdvisor">
+        <property name="securityManager" ref="securityManager"/>
+    </bean>
+
+</beans>
