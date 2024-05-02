@@ -10,16 +10,15 @@ import java.lang.reflect.ParameterizedType;
 import java.util.Arrays;
 
 public abstract class BaseDaoImpl<T extends BaseEntity> implements BaseDao<T> {
+    @SuppressWarnings("unchecked")
+    protected BaseDaoImpl() {
+        this.entityClass = (Class<T>) ((ParameterizedType) this.getClass().getGenericSuperclass()).getActualTypeArguments()[0];
+    }
 
     private final Class<T> entityClass;
 
     @PersistenceContext
     private EntityManager entityManager;
-
-    @SuppressWarnings("unchecked")
-    protected BaseDaoImpl() {
-        this.entityClass = (Class<T>) ((ParameterizedType) this.getClass().getGenericSuperclass()).getActualTypeArguments()[0];
-    }
 
     protected Session getSession() {
         return entityManager.unwrap(Session.class);
@@ -40,6 +39,11 @@ public abstract class BaseDaoImpl<T extends BaseEntity> implements BaseDao<T> {
 
     @Override
     public void create(T entity) {
+        getSession().persist(entity);
+    }
+
+    @Override
+    public void silentCreate(T entity) {
         getSession().persist(entity);
     }
 

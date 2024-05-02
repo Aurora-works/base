@@ -8,6 +8,8 @@ public interface BaseService<T extends BaseEntity> {
 
     void create(T entity);
 
+    void silentCreate(T entity);
+
     void update(T entity);
 
     void delete(Long id);

@@ -11,11 +11,17 @@ public abstract class BaseServiceImpl<T extends BaseEntity> implements BaseServi
     @Override
     public T findById(Long id) {
         return getDao().findByIdWithFetchGraph(id);
+        // return getDao().findById(id);
     }
 
     @Override
     public void create(T entity) {
         getDao().create(entity);
+    }
+
+    @Override
+    public void silentCreate(T entity) {
+        getDao().silentCreate(entity);
     }
 
     @Override

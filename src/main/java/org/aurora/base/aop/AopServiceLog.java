@@ -14,7 +14,7 @@ import java.time.Instant;
 @Component
 public class AopServiceLog {
 
-    @Pointcut("execution(* org.aurora.base.service..*.*(..))")
+    @Pointcut("execution(* org.aurora.base.service..*.*(..)) && !execution(* org.aurora.base.service..*.silent*(..))")
     private void serviceAspect() {
     }
 

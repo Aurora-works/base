@@ -14,7 +14,7 @@ import java.time.Instant;
 @Component
 public class AopDaoLog {
 
-    @Pointcut("execution(* org.aurora.base.dao..*.*(..))")
+    @Pointcut("execution(* org.aurora.base.dao..*.*(..)) && !execution(* org.aurora.base.dao..silent*(..))")
     private void daoAspect() {
     }
 

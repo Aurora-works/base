@@ -1,13 +1,11 @@
 package org.aurora.base.service.impl.sys;
 
+import org.aurora.base.entity.sys.*;
 import org.aurora.base.util.enums.Status;
 import org.aurora.base.dao.BaseDao;
 import org.aurora.base.dao.sys.SysRoleMenuDao;
 import org.aurora.base.dao.sys.SysUserDao;
 import org.aurora.base.dao.sys.SysUserRoleDao;
-import org.aurora.base.entity.sys.SysRoleMenu;
-import org.aurora.base.entity.sys.SysUser;
-import org.aurora.base.entity.sys.SysUserRole;
 import org.aurora.base.service.impl.BaseServiceImpl;
 import org.aurora.base.service.sys.SysUserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -61,7 +59,7 @@ public class SysUserServiceImpl extends BaseServiceImpl<SysUser> implements SysU
                 });
         List<SysRoleMenu> roleMenus = roleMenuDao.findByRoleIdWithFetchGraph(roleIds.toArray(new Long[0]));
         roleMenus.stream()
-                .filter(rm -> Status.ENABLED.getKey().equals(rm.getMenu().getStatus()))
+                .filter(rm -> checkMenuStatus(rm.getMenu()))
                 .forEach(rm -> {
                     String menuCode = rm.getMenu().getMenuCode();
                     if (Status.ENABLED.getKey().equals(rm.getCreateOp())) {
@@ -80,5 +78,45 @@ public class SysUserServiceImpl extends BaseServiceImpl<SysUser> implements SysU
         resultMap.put("roles", roles);
         resultMap.put("permissions", permissions);
         return resultMap;
+    }
+
+    @Override
+    public TreeSet<SysMenu> getMenuTree(Long id) {
+
+        TreeSet<SysMenu> menus = new TreeSet<>(Comparator.comparing(SysMenu::getOrderBy));
+
+        List<SysUserRole> userRoles = userRoleDao.findByUserIdWithFetchGraph(id);
+        Set<Long> roleIds = new HashSet<>();
+        userRoles.stream()
+                .map(SysUserRole::getRole)
+                .filter(r -> Status.ENABLED.getKey().equals(r.getStatus()))
+                .forEach(r -> roleIds.add(r.getId()));
+        List<SysRoleMenu> roleMenus = roleMenuDao.findByRoleIdWithFetchGraph(roleIds.toArray(new Long[0]));
+        roleMenus.stream()
+                .filter(rm -> checkMenuStatus(rm.getMenu()))
+                .forEach(rm -> {
+                    if (Status.ENABLED.getKey().equals(rm.getReadOp())) {
+                        addMenu(menus, rm.getMenu());
+                    }
+                });
+        return menus;
+    }
+
+    private void addMenu(TreeSet<SysMenu> menus, SysMenu menu) {
+        menus.add(menu);
+        if (menu.getParentId() != null) {
+            addMenu(menus, menu.getParentMenu());
+        }
+    }
+
+    private boolean checkMenuStatus(SysMenu menu) {
+        boolean status = Status.ENABLED.getKey().equals(menu.getStatus());
+        if (status && menu.getParentId() == null) {
+            return true;
+        }
+        if (status) {
+            return checkMenuStatus(menu.getParentMenu());
+        }
+        return false;
     }
 }

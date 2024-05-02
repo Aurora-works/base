@@ -21,9 +21,4 @@ public class SysErrorLogServiceImpl extends BaseServiceImpl<SysErrorLog> impleme
     protected BaseDao<SysErrorLog> getDao() {
         return errorLogDao;
     }
-
-    @Override
-    public void newErrorLog(SysErrorLog sysErrorLog) {
-        getDao().create(sysErrorLog);
-    }
 }

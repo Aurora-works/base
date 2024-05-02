@@ -1,8 +1,10 @@
 package org.aurora.base.util.redis;
 
 import org.aurora.base.entity.sys.SysTable;
+import org.aurora.base.entity.sys.SysUser;
 import org.aurora.base.extension.TimingExtension;
 import org.aurora.base.service.sys.SysTableService;
+import org.aurora.base.service.sys.SysUserService;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +24,17 @@ class RedisUtilsTest {
 
     @Autowired
     private SysTableService tableService;
+
+    @Autowired
+    private SysUserService userService;
+
+    @Test
+    void testUserObj() {
+        SysUser user = userService.findById(1L);
+        System.out.println(user);
+        redisUtils.set("key-user", user);
+        System.out.println(redisUtils.getStr("key-user"));
+    }
 
     @Test
     void testObj() {

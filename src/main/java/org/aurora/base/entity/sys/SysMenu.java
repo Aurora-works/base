@@ -38,6 +38,7 @@ public class SysMenu extends BaseEntity {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "parent_id", insertable = false, updatable = false)
+    @JsonIgnore
     private SysMenu parentMenu;
 
     @Basic(optional = false)

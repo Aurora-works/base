@@ -18,18 +18,18 @@
         <junit.version>5.10.2</junit.version>
         <log4j.version>2.23.1</log4j.version>
         <hikaricp.version>5.1.0</hikaricp.version>
-        <spring.version>6.1.5</spring.version>
+        <spring.version>6.1.6</spring.version>
         <aspectj.version>1.9.22</aspectj.version>
         <shiro.version>2.0.0</shiro.version>
-        <hibernate.version>6.4.4.Final</hibernate.version>
+        <hibernate.version>6.4.8.Final</hibernate.version>
         <mysql-connector.version>8.3.0</mysql-connector.version>
-        <spring-data-redis.version>3.2.4</spring-data-redis.version>
+        <spring-data-redis.version>3.2.5</spring-data-redis.version>
         <lettuce.version>6.3.2.RELEASE</lettuce.version>
         <jackson.version>2.17.0</jackson.version>
         <lombok.version>1.18.32</lombok.version>
 
-        <hibernate-commons-annotations.version>6.0.6.Final</hibernate-commons-annotations.version>
         <jboss-logging.version>3.5.0.Final</jboss-logging.version>
+        <hibernate-commons-annotations.version>6.0.6.Final</hibernate-commons-annotations.version>
 
         <jakarta.servlet-api.version>6.0.0</jakarta.servlet-api.version>
     </properties>
@@ -158,6 +158,11 @@
             <artifactId>jackson-datatype-jsr310</artifactId>
             <version>${jackson.version}</version>
         </dependency>
+        <dependency>
+            <groupId>com.fasterxml.jackson.datatype</groupId>
+            <artifactId>jackson-datatype-hibernate6</artifactId>
+            <version>${jackson.version}</version>
+        </dependency>
         <!-- lombok -->
         <dependency>
             <groupId>org.projectlombok</groupId>
@@ -166,17 +171,16 @@
             <scope>provided</scope>
         </dependency>
 
-        <!-- hibernate-core:6.4.4.Final -->
-        <dependency>
-            <groupId>org.hibernate.common</groupId>
-            <artifactId>hibernate-commons-annotations</artifactId>
-            <version>${hibernate-commons-annotations.version}</version>
-        </dependency>
-        <!-- hibernate-core:6.4.4.Final -->
+        <!-- hibernate-core:6.4.8.Final -->
         <dependency>
             <groupId>org.jboss.logging</groupId>
             <artifactId>jboss-logging</artifactId>
             <version>${jboss-logging.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.hibernate.common</groupId>
+            <artifactId>hibernate-commons-annotations</artifactId>
+            <version>${hibernate-commons-annotations.version}</version>
         </dependency>
 
         <!-- jakarta.servlet-api -->
@@ -186,11 +190,22 @@
             <version>${jakarta.servlet-api.version}</version>
             <scope>provided</scope>
         </dependency>
-
     </dependencies>
 
     <build>
         <finalName>base</finalName>
+        <pluginManagement>
+            <plugins>
+                <!-- https://github.com/spring-projects/spring-framework/wiki/Upgrading-to-Spring-Framework-6.x#parameter-name-retention -->
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-compiler-plugin</artifactId>
+                    <configuration>
+                        <parameters>true</parameters>
+                    </configuration>
+                </plugin>
+            </plugins>
+        </pluginManagement>
     </build>
 
 </project>

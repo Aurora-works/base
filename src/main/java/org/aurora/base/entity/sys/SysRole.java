@@ -35,6 +35,7 @@ public class SysRole extends BaseEntity {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "parent_id", insertable = false, updatable = false)
+    @JsonIgnore
     private SysRole parentRole;
 
     @Basic(optional = false)

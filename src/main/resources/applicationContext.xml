@@ -3,11 +3,10 @@
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context" xmlns:tx="http://www.springframework.org/schema/tx" xmlns:aop="http://www.springframework.org/schema/aop"
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/context https://www.springframework.org/schema/context/spring-context.xsd http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd http://www.springframework.org/schema/aop https://www.springframework.org/schema/aop/spring-aop.xsd">
 
+    <aop:aspectj-autoproxy/>
     <context:component-scan base-package="org.aurora.base">
         <context:exclude-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
     </context:component-scan>
-
-    <aop:aspectj-autoproxy/>
 
     <context:property-placeholder location="classpath:database.properties" ignore-unresolvable="true"/>
 
@@ -39,7 +38,7 @@
     <!--<tx:advice id="txAdvice" transaction-manager="transactionManager">-->
     <tx:advice id="txAdvice">
         <tx:attributes>
-            <tx:method name="new*" propagation="REQUIRES_NEW"/>
+            <tx:method name="silent*" propagation="REQUIRES_NEW"/>
             <tx:method name="find*" propagation="SUPPORTS" read-only="true"/>
             <tx:method name="get*" propagation="SUPPORTS" read-only="true"/>
             <!--<tx:method name="*" propagation="REQUIRED"/>-->

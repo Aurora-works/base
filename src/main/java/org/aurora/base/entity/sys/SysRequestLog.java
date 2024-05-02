@@ -17,11 +17,11 @@ import org.aurora.base.entity.BaseEntity;
 @ToString(callSuper = true)
 @EqualsAndHashCode(callSuper = true)
 @Entity
-@Table(name = "t_system_operation_log")
-public class SysOperationLog extends BaseEntity {
+@Table(name = "t_system_request_log")
+public class SysRequestLog extends BaseEntity {
 
-    @Column(name = "op_controller")
-    private String opController;
+    @Column(name = "request_controller")
+    private String requestController;
 
     @Column(name = "request_url")
     private String requestUrl;

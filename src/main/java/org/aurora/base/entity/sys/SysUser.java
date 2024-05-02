@@ -27,9 +27,11 @@ public class SysUser extends BaseEntity {
     private String username;
 
     @Column(length = 64)
+    @JsonIgnore
     private String password;
 
     @Column(length = 32)
+    @JsonIgnore
     private String salt;
 
     @Basic(optional = false)
