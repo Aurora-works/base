@@ -8,4 +8,6 @@ public interface SysUserDao extends BaseDao<SysUser> {
     SysUser findByUsername(String username);
 
     SysUser findByMobile(String mobilePhoneNumber);
+
+    void softDelete(Long[] ids);
 }

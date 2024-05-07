@@ -13,12 +13,25 @@ public class SysUserRoleDaoImpl extends BaseDaoImpl<SysUserRole> implements SysU
     @Override
     public List<SysUserRole> findByUserIdWithFetchGraph(Long userId) {
         String hql = "from SysUserRole ur join fetch ur.role where ur.userId = :userId";
-        return getSession().createSelectionQuery(hql, SysUserRole.class).setParameter("userId", userId).getResultList();
+        return getSession().createSelectionQuery(hql, SysUserRole.class)
+                .setParameter("userId", userId)
+                .list();
     }
 
     @Override
     public void delete(Long roleId, Long[] userIds) {
-        String hql = "delete from SysUserRole where roleId = :roleId and userId in (:userIds)";
-        getSession().createMutationQuery(hql).setParameter("roleId", roleId).setParameterList("userIds", userIds).executeUpdate();
+        String hql = "delete from SysUserRole where roleId = :roleId and userId in(:userIds)";
+        getSession().createMutationQuery(hql)
+                .setParameter("roleId", roleId)
+                .setParameterList("userIds", userIds)
+                .executeUpdate();
+    }
+
+    @Override
+    public void deleteByUserIds(Long[] userIds) {
+        String hql = "delete from SysUserRole where userId in(:userIds)";
+        getSession().createMutationQuery(hql)
+                .setParameterList("userIds", userIds)
+                .executeUpdate();
     }
 }

@@ -40,7 +40,7 @@
     <form id="login_by_mobile_form" method="post" style="display: none">
         <div style="width: 300px; margin: 25px auto">
             <%-- 手机号 --%>
-            <input type="text" id="mobile" name="mobile" style="width: 100%" tabindex="1"/>
+            <input type="text" id="mobilePhoneNumber" name="mobilePhoneNumber" style="width: 100%" tabindex="1"/>
         </div>
         <div style="width: 300px; margin: 25px auto">
             <%-- 验证码 --%>
@@ -128,7 +128,7 @@
     $('#username').textbox('textbox').focus();
 
     // 短信登录
-    $('#mobile').textbox({
+    $('#mobilePhoneNumber').textbox({
         prompt: '手机号',
         buttonText: '+86',
         buttonAlign: 'left',
@@ -136,14 +136,14 @@
             $(this).textbox('textbox').focus();
         },
         required: true,
-        validType: 'mobile'
+        validType: 'mobilePhoneNumber'
     });
     let isSendCode = false; // 是否在60s内发送过验证码
     $('#code').textbox({
         prompt: '验证码',
         buttonText: '获取验证码',
         onClickButton: function () {
-            let isValid = $('#mobile').textbox('enableValidation').textbox('isValid');
+            let isValid = $('#mobilePhoneNumber').textbox('enableValidation').textbox('isValid');
             if (isValid) {
                 if (isSendCode) {
                     return;
@@ -161,7 +161,7 @@
                     }
                 }, 1000);
                 $(this).textbox('textbox').focus();
-                $.post('/sendCode', {mobile: $('#mobile').textbox('getText')}, function (result) {
+                $.post('/sendCode', {mobilePhoneNumber: $('#mobilePhoneNumber').textbox('getText')}, function (result) {
                     if (result.code != 0) {
                         $.messager.alert({
                             title: '提示',
@@ -170,7 +170,7 @@
                     }
                 });
             } else {
-                $('#mobile').textbox('textbox').focus();
+                $('#mobilePhoneNumber').textbox('textbox').focus();
             }
         },
         required: true
@@ -233,14 +233,14 @@
             if (isChecked) { // 短信登录
                 $('#login_by_mobile_form').css('display', 'block');
                 $('#login_form').css('display', 'none');
-                $('#mobile').textbox('textbox').focus();
+                $('#mobilePhoneNumber').textbox('textbox').focus();
             }
         }
     });
 
     // 添加验证规则
     $.extend($.fn.validatebox.defaults.rules, {
-        mobile: { // 手机号验证
+        mobilePhoneNumber: { // 手机号验证
             validator: function (value, param) {
                 return /^1[0-9]{10}$/.test(value);
             },

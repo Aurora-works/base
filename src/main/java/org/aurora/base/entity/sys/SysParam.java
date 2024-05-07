@@ -22,8 +22,8 @@ import org.aurora.base.entity.BaseEntity;
 public class SysParam extends BaseEntity {
 
     @Basic(optional = false)
-    @Column(name = "param_key", length = 50, unique = true)
-    private String paramKey;
+    @Column(name = "param_code", length = 50, unique = true)
+    private String paramCode;
 
     @Basic(optional = false)
     @Column(name = "param_desc", length = 50, unique = true)

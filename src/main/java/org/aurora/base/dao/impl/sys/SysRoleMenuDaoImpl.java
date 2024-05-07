@@ -12,7 +12,9 @@ public class SysRoleMenuDaoImpl extends BaseDaoImpl<SysRoleMenu> implements SysR
 
     @Override
     public List<SysRoleMenu> findByRoleIdWithFetchGraph(Long[] roleIds) {
-        String hql = "from SysRoleMenu rm join fetch rm.menu m join fetch m.parentMenu where rm.roleId in (:roleIds)";
-        return getSession().createSelectionQuery(hql, SysRoleMenu.class).setParameterList("roleIds", roleIds).getResultList();
+        String hql = "from SysRoleMenu rm join fetch rm.menu m join fetch m.parentMenu where rm.roleId in(:roleIds)";
+        return getSession().createSelectionQuery(hql, SysRoleMenu.class)
+                .setParameterList("roleIds", roleIds)
+                .list();
     }
 }

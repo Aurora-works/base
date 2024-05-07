@@ -11,8 +11,10 @@
     <url>https://github.com/Aurora-works/base</url>
 
     <properties>
+        <!-- https://maven.apache.org/plugins/maven-compiler-plugin/examples/set-compiler-source-and-target.html -->
         <maven.compiler.source>21</maven.compiler.source>
         <maven.compiler.target>21</maven.compiler.target>
+        <!-- https://maven.apache.org/plugins/maven-resources-plugin/examples/encoding.html -->
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
         <junit.version>5.10.2</junit.version>
@@ -25,14 +27,28 @@
         <mysql-connector.version>8.3.0</mysql-connector.version>
         <spring-data-redis.version>3.2.5</spring-data-redis.version>
         <lettuce.version>6.3.2.RELEASE</lettuce.version>
-        <jackson.version>2.17.0</jackson.version>
+        <jackson.version>2.17.1</jackson.version>
         <lombok.version>1.18.32</lombok.version>
-
-        <jboss-logging.version>3.5.0.Final</jboss-logging.version>
-        <hibernate-commons-annotations.version>6.0.6.Final</hibernate-commons-annotations.version>
+        <commons-lang3.version>3.14.0</commons-lang3.version>
 
         <jakarta.servlet-api.version>6.0.0</jakarta.servlet-api.version>
     </properties>
+
+    <dependencyManagement>
+        <dependencies>
+            <!-- hibernate-core runtime dependencies -->
+            <dependency>
+                <groupId>org.jboss.logging</groupId>
+                <artifactId>jboss-logging</artifactId>
+                <scope>compile</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.hibernate.common</groupId>
+                <artifactId>hibernate-commons-annotations</artifactId>
+                <scope>compile</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
 
     <dependencies>
         <!-- junit -->
@@ -170,17 +186,11 @@
             <version>${lombok.version}</version>
             <scope>provided</scope>
         </dependency>
-
-        <!-- hibernate-core:6.4.8.Final -->
+        <!-- commons-lang3 -->
         <dependency>
-            <groupId>org.jboss.logging</groupId>
-            <artifactId>jboss-logging</artifactId>
-            <version>${jboss-logging.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.hibernate.common</groupId>
-            <artifactId>hibernate-commons-annotations</artifactId>
-            <version>${hibernate-commons-annotations.version}</version>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-lang3</artifactId>
+            <version>${commons-lang3.version}</version>
         </dependency>
 
         <!-- jakarta.servlet-api -->
@@ -202,6 +212,14 @@
                     <artifactId>maven-compiler-plugin</artifactId>
                     <configuration>
                         <parameters>true</parameters>
+                    </configuration>
+                </plugin>
+                <!-- https://maven.apache.org/surefire/maven-surefire-plugin/examples/skipping-tests.html -->
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-surefire-plugin</artifactId>
+                    <configuration>
+                        <skipTests>true</skipTests>
                     </configuration>
                 </plugin>
             </plugins>

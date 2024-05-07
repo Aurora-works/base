@@ -15,7 +15,7 @@ import org.aurora.base.service.sys.SysRequestLogService;
 import org.aurora.base.shiro.ShiroUtils;
 import org.aurora.base.util.constant.CommonConstant;
 import org.aurora.base.util.web.IPUtils;
-import org.aurora.base.util.web.JSONUtils;
+import org.aurora.base.jackson.JSONUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.request.RequestContextHolder;

@@ -1,6 +1,8 @@
 package org.aurora.base.service.impl.sys;
 
+import org.aurora.base.dao.sys.SysParamDao;
 import org.aurora.base.entity.sys.*;
+import org.aurora.base.shiro.ShiroUtils;
 import org.aurora.base.util.enums.Status;
 import org.aurora.base.dao.BaseDao;
 import org.aurora.base.dao.sys.SysRoleMenuDao;
@@ -8,6 +10,11 @@ import org.aurora.base.dao.sys.SysUserDao;
 import org.aurora.base.dao.sys.SysUserRoleDao;
 import org.aurora.base.service.impl.BaseServiceImpl;
 import org.aurora.base.service.sys.SysUserService;
+import org.aurora.base.util.enums.SysParam;
+import org.aurora.base.util.enums.UserType;
+import org.aurora.base.util.enums.YesOrNo;
+import org.aurora.base.util.view.FilterRuleHelper;
+import org.aurora.base.util.view.PageHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -16,15 +23,17 @@ import java.util.*;
 @Service
 public class SysUserServiceImpl extends BaseServiceImpl<SysUser> implements SysUserService {
     @Autowired
-    public SysUserServiceImpl(SysUserDao userDao, SysUserRoleDao userRoleDao, SysRoleMenuDao roleMenuDao) {
+    public SysUserServiceImpl(SysUserDao userDao, SysUserRoleDao userRoleDao, SysRoleMenuDao roleMenuDao, SysParamDao paramDao) {
         this.userDao = userDao;
         this.userRoleDao = userRoleDao;
         this.roleMenuDao = roleMenuDao;
+        this.paramDao = paramDao;
     }
 
     private final SysUserDao userDao;
     private final SysUserRoleDao userRoleDao;
     private final SysRoleMenuDao roleMenuDao;
+    private final SysParamDao paramDao;
 
     @Override
     protected BaseDao<SysUser> getDao() {
@@ -32,13 +41,70 @@ public class SysUserServiceImpl extends BaseServiceImpl<SysUser> implements SysU
     }
 
     @Override
+    public void create(SysUser user) {
+        String defaultPwd = paramDao.findByCode(SysParam.SYS_DEFAULT_PASSWORD.getCode()).getParamValue();
+        user.setUserType(UserType.ADMIN.getKey());
+        user.setIsDeleted(YesOrNo.NO.getKey());
+        user.setPassword(defaultPwd);
+        ShiroUtils.encryptPassword(user);
+        super.create(user);
+    }
+
+    @Override
+    public void update(SysUser user) {
+        SysUser updateUser = userDao.findById(user.getId());
+        if (updateUser == null || YesOrNo.YES.getKey().equals(updateUser.getIsDeleted()) || !UserType.ADMIN.getKey().equals(updateUser.getUserType())) {
+            throw new IllegalArgumentException();
+        }
+        user.setUsername(updateUser.getUsername());
+        user.setPassword(updateUser.getPassword());
+        user.setSalt(updateUser.getSalt());
+        user.setUserType(updateUser.getUserType());
+        user.setIsDeleted(updateUser.getIsDeleted());
+        super.update(user);
+    }
+
+    @Override
+    public void delete(Long[] ids) {
+        userDao.softDelete(ids);
+    }
+
+    @Override
+    public PageHelper<SysUser> findAll(int page, int size, String sort, String order, List<FilterRuleHelper> filterRules) {
+        FilterRuleHelper filterRule_0 = FilterRuleHelper.builder()
+                .field("userType")
+                .op(FilterRuleHelper.EQUAL)
+                .value(UserType.ADMIN.getKey())
+                .build();
+        FilterRuleHelper filterRule_1 = FilterRuleHelper.builder()
+                .field("isDeleted")
+                .op(FilterRuleHelper.EQUAL)
+                .value(YesOrNo.NO.getKey())
+                .build();
+        List<FilterRuleHelper> list = List.of(filterRule_0, filterRule_1);
+        if (filterRules == null) {
+            return super.findAll(page, size, sort, order, list);
+        }
+        filterRules.addAll(list);
+        return super.findAll(page, size, sort, order, filterRules);
+    }
+
+    @Override
     public SysUser findByUsername(String username) {
-        return userDao.findByUsername(username);
+        SysUser user = userDao.findByUsername(username);
+        if (user != null && YesOrNo.NO.getKey().equals(user.getIsDeleted())) {
+            return user;
+        }
+        return null;
     }
 
     @Override
     public SysUser findByMobile(String mobilePhoneNumber) {
-        return userDao.findByMobile(mobilePhoneNumber);
+        SysUser user = userDao.findByMobile(mobilePhoneNumber);
+        if (user != null && YesOrNo.NO.getKey().equals(user.getIsDeleted())) {
+            return user;
+        }
+        return null;
     }
 
     @Override
@@ -100,6 +166,17 @@ public class SysUserServiceImpl extends BaseServiceImpl<SysUser> implements SysU
                     }
                 });
         return menus;
+    }
+
+    @Override
+    public void resetPwd(Long[] ids) {
+        String defaultPwd = paramDao.findByCode(SysParam.SYS_DEFAULT_PASSWORD.getCode()).getParamValue();
+        List<SysUser> users = userDao.findByIds(ids);
+        for (SysUser user : users) {
+            user.setPassword(defaultPwd);
+            ShiroUtils.encryptPassword(user);
+            super.update(user);
+        }
     }
 
     private void addMenu(TreeSet<SysMenu> menus, SysMenu menu) {

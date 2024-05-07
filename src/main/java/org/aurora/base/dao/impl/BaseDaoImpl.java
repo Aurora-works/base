@@ -4,18 +4,23 @@ import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import org.aurora.base.dao.BaseDao;
 import org.aurora.base.entity.BaseEntity;
+import org.aurora.base.util.view.FilterRuleHelper;
 import org.hibernate.Session;
+import org.hibernate.query.SelectionQuery;
 
 import java.lang.reflect.ParameterizedType;
 import java.util.Arrays;
+import java.util.List;
 
 public abstract class BaseDaoImpl<T extends BaseEntity> implements BaseDao<T> {
     @SuppressWarnings("unchecked")
     protected BaseDaoImpl() {
-        this.entityClass = (Class<T>) ((ParameterizedType) this.getClass().getGenericSuperclass()).getActualTypeArguments()[0];
+        entityClass = (Class<T>) ((ParameterizedType) this.getClass().getGenericSuperclass()).getActualTypeArguments()[0];
+        entityClassName = entityClass.getName();
     }
 
     private final Class<T> entityClass;
+    private final String entityClassName;
 
     @PersistenceContext
     private EntityManager entityManager;
@@ -35,6 +40,14 @@ public abstract class BaseDaoImpl<T extends BaseEntity> implements BaseDao<T> {
         graph.addSubgraph("createUser");
         graph.addSubgraph("lastUser");
         return getSession().byId(entityClass).withFetchGraph(graph).load(id);
+    }
+
+    @Override
+    public List<T> findByIds(Long[] ids) {
+        String hql = "from " + entityClassName + " e where e.id in(:ids)";
+        return getSession().createSelectionQuery(hql, entityClass)
+                .setParameterList("ids", ids)
+                .list();
     }
 
     @Override
@@ -60,5 +73,72 @@ public abstract class BaseDaoImpl<T extends BaseEntity> implements BaseDao<T> {
     @Override
     public void delete(Long[] ids) {
         Arrays.stream(ids).forEach(this::delete);
+    }
+
+    @Override
+    public List<T> findAll(int page, int size, String sort, String order) {
+        String hql = "from " + entityClassName + " e join fetch e.createUser order by e." + sort + " " + order;
+        return getSession().createSelectionQuery(hql, entityClass)
+                .setFirstResult((page - 1) * size)
+                .setMaxResults(size)
+                .list();
+    }
+
+    @Override
+    public List<T> findAll(int page, int size, String sort, String order, List<FilterRuleHelper> filterRules) {
+        if (filterRules == null) {
+            return findAll(page, size, sort, order);
+        }
+        StringBuilder hql = new StringBuilder("from " + entityClassName + " e join fetch e.createUser where 1=1");
+        addFilterRules(hql, filterRules);
+        hql.append(" order by e.").append(sort).append(" ").append(order);
+        var query = getSession().createSelectionQuery(hql.toString(), entityClass);
+        setParameters(query, filterRules);
+        return query
+                .setFirstResult((page - 1) * size)
+                .setMaxResults(size)
+                .list();
+    }
+
+    @Override
+    public long getTotal() {
+        String hql = "select count(*) from " + entityClassName;
+        return getSession().createSelectionQuery(hql, Long.class).uniqueResult();
+    }
+
+    @Override
+    public long getTotal(List<FilterRuleHelper> filterRules) {
+        if (filterRules == null) {
+            return getTotal();
+        }
+        StringBuilder hql = new StringBuilder("select count(*) from " + entityClassName + " e where 1=1");
+        var query = getSession().createSelectionQuery(addFilterRules(hql, filterRules), Long.class);
+        setParameters(query, filterRules);
+        return query.uniqueResult();
+    }
+
+    @Override
+    public long columnValueCount(String columnName, Object value) {
+        String hql = "select count(*) from " + entityClassName + " where " + columnName + "=:value";
+        return getSession().createSelectionQuery(hql, Long.class)
+                .setParameter("value", value)
+                .uniqueResult();
+    }
+
+    private String addFilterRules(StringBuilder hql, List<FilterRuleHelper> filterRules) {
+        for (FilterRuleHelper filterRule : filterRules) {
+            if (FilterRuleHelper.DATE_BOX.equals(filterRule.getType())) {
+                hql.append(" and extract(date from e.").append(filterRule.getField()).append(") ").append(filterRule.getOp()).append(" extract(date from :").append(filterRule.getField().replace(".", "_")).append(")");
+                continue;
+            }
+            hql.append(" and e.").append(filterRule.getField()).append(" ").append(filterRule.getOp()).append(" :").append(filterRule.getField().replace(".", "_"));
+        }
+        return hql.toString();
+    }
+
+    private void setParameters(SelectionQuery<?> query, List<FilterRuleHelper> filterRules) {
+        for (FilterRuleHelper filterRule : filterRules) {
+            query.setParameter(filterRule.getField().replace(".", "_"), filterRule.getValue());
+        }
     }
 }

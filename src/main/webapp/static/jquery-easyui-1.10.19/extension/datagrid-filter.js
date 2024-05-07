@@ -173,8 +173,10 @@
 		filterBtnIconCls: 'icon-filter',
 		filterBtnPosition: 'right',
 		filterPosition: 'bottom',
-		remoteFilter: false,
-		clientPaging: true,
+		// remoteFilter: false, 是否在服务器进行过滤
+		// clientPaging: true, 是否在客户端进行分页
+		remoteFilter: true,
+		clientPaging: false,
 		showFilterBar: true,
 		filterDelay: 400,
 		filterRules: [],
@@ -330,7 +332,8 @@
 								field: field,
 								// op: opts.defaultFilterOperator,
 								op: op,
-								value: value
+								value: value,
+								type: filterOpts.type // 过滤类型
 							});
 							$(target)[name]('doFilter');
 						}
@@ -377,10 +380,12 @@
 	// filter operators
 	$.fn.datagrid.defaults.operators = {
 		nofilter: {
-			text: 'No Filter'
+			// text: 'No Filter'
+			text: '不过滤'
 		},
 		contains: {
-			text: 'Contains',
+			// text: 'Contains',
+			text: '包含',
 			isMatch: function(source, value){
 				source = String(source);
 				value = String(value);
@@ -388,19 +393,22 @@
 			}
 		},
 		equal: {
-			text: 'Equal',
+			// text: 'Equal',
+			text: '等于',
 			isMatch: function(source, value){
 				return source == value;
 			}
 		},
 		notequal: {
-			text: 'Not Equal',
+			// text: 'Not Equal',
+			text: '不等于',
 			isMatch: function(source, value){
 				return source != value;
 			}
 		},
 		beginwith: {
-			text: 'Begin With',
+			// text: 'Begin With',
+			text: '开始',
 			isMatch: function(source, value){
 				source = String(source);
 				value = String(value);
@@ -408,7 +416,8 @@
 			}
 		},
 		endwith: {
-			text: 'End With',
+			// text: 'End With',
+			text: '结束',
 			isMatch: function(source, value){
 				source = String(source);
 				value = String(value);
@@ -416,25 +425,29 @@
 			}
 		},
 		less: {
-			text: 'Less',
+			// text: 'Less',
+			text: '小于',
 			isMatch: function(source, value){
 				return source < value;
 			}
 		},
 		lessorequal: {
-			text: 'Less Or Equal',
+			// text: 'Less Or Equal',
+			text: '小于等于',
 			isMatch: function(source, value){
 				return source <= value;
 			}
 		},
 		greater: {
-			text: 'Greater',
+			// text: 'Greater',
+			text: '大于',
 			isMatch: function(source, value){
 				return source > value;
 			}
 		},
 		greaterorequal: {
-			text: 'Greater Or Equal',
+			// text: 'Greater Or Equal',
+			text: '大于等于',
 			isMatch: function(source, value){
 				return source >= value;
 			}
@@ -1017,7 +1030,8 @@
 					addFilterRule(target, {
 						field: field,
 						op: item.name,
-						value: value
+						value: value,
+						type: input[0].filterOptions.type
 					});
 					
 					doFilter(target);

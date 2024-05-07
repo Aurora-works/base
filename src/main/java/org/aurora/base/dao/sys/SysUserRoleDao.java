@@ -10,4 +10,6 @@ public interface SysUserRoleDao extends BaseDao<SysUserRole> {
     List<SysUserRole> findByUserIdWithFetchGraph(Long userId);
 
     void delete(Long roleId, Long[] userIds);
+
+    void deleteByUserIds(Long[] userIds);
 }

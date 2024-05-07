@@ -20,7 +20,6 @@ import java.time.LocalDateTime;
 // public class BaseEntity implements Serializable {
 public abstract class BaseEntity {
 
-    @Setter(value = AccessLevel.PRIVATE)
     @Id
     @GeneratedValue(generator = "hibernate_default_generator")
     @GenericGenerator(name = "hibernate_default_generator")
@@ -30,10 +29,12 @@ public abstract class BaseEntity {
     private String description;
 
     @Setter(value = AccessLevel.PRIVATE)
+    @Basic(optional = false)
     @Column(name = "create_time", precision = 3, updatable = false)
     @CreationTimestamp
     private LocalDateTime createTime;
 
+    @Basic(optional = false)
     @Column(name = "create_user_id", updatable = false)
     private Long createUserId;
 
@@ -55,7 +56,6 @@ public abstract class BaseEntity {
     @JsonSerialize(using = JsonSysUserSerializer.class)
     private SysUser lastUser;
 
-    @Setter(value = AccessLevel.PRIVATE)
     @Version
     private Integer version;
 

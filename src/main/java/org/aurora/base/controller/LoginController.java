@@ -14,6 +14,9 @@ import java.util.regex.Pattern;
 @Controller
 public class LoginController {
 
+    /**
+     * 跳转至登录页面
+     */
     @GetMapping(value = "/login")
     public String login() {
         return "login";
@@ -34,9 +37,9 @@ public class LoginController {
      */
     @PostMapping(value = "/loginByMobile")
     @ResponseBody
-    public Result<Object> loginByMobile(@RequestParam String mobile, @RequestParam String code) {
-        checkMobileNumber(mobile);
-        ShiroUtils.loginByMobile(mobile, code);
+    public Result<Object> loginByMobile(@RequestParam String mobilePhoneNumber, @RequestParam String code) {
+        checkMobilePhoneNumber(mobilePhoneNumber);
+        ShiroUtils.loginByMobile(mobilePhoneNumber, code);
         return Result.success();
     }
 
@@ -45,8 +48,8 @@ public class LoginController {
      */
     @PostMapping(value = "/sendCode")
     @ResponseBody
-    public Result<Object> sendCode(@RequestParam String mobile) {
-        checkMobileNumber(mobile);
+    public Result<Object> sendCode(@RequestParam String mobilePhoneNumber) {
+        checkMobilePhoneNumber(mobilePhoneNumber);
         // TODO 发送验证码
         return Result.success();
     }
@@ -62,10 +65,13 @@ public class LoginController {
         return Result.success();
     }
 
-    private void checkMobileNumber(String mobile) {
+    /**
+     * 手机号校验
+     */
+    private void checkMobilePhoneNumber(String mobilePhoneNumber) {
         Pattern pattern = Pattern.compile("^1[0-9]{10}$");
-        if (!pattern.matcher(mobile).matches()) {
-            throw new IllegalArgumentException("check mobile number");
+        if (!pattern.matcher(mobilePhoneNumber).matches()) {
+            throw new IllegalArgumentException("check mobile phone number");
         }
     }
 }

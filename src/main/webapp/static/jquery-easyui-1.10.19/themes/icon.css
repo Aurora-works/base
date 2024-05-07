@@ -1,4 +1,10 @@
 /*begin extra icons*/
+.icon-excel-in{
+	background:url('icons/extra/excel_in.png') no-repeat center center;
+}
+.icon-excel-out{
+	background:url('icons/extra/excel_out.png') no-repeat center center;
+}
 .icon-exit{
 	background:url('icons/extra/exit.png') no-repeat center center;
 }

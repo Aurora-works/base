@@ -9,6 +9,9 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+/**
+ * 全局异常处理
+ */
 @Log4j2
 @ControllerAdvice
 public class GlobalExceptionHandler {
@@ -29,7 +32,7 @@ public class GlobalExceptionHandler {
     @ResponseBody
     public Result<Object> unauthorizedException(UnauthorizedException e) {
         log.error(e.getMessage(), e);
-        return Result.fail();
+        return Result.fail(null);
     }
 
     @ExceptionHandler(BusinessException.class)

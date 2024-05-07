@@ -54,4 +54,37 @@ public class SysUserRealm extends AuthorizingRealm {
                 getName()
         );
     }
+
+    private static final String OR_OPERATOR = " or ";
+    private static final String AND_OPERATOR = " and ";
+    private static final String NOT_OPERATOR = "not ";
+
+    @Override
+    public boolean isPermitted(PrincipalCollection principals, String permission) {
+        if (permission.contains(OR_OPERATOR)) {
+            String[] permissions = permission.split(OR_OPERATOR);
+            for (String orPermission : permissions) {
+                if (isPermittedWithNotOperator(principals, orPermission)) {
+                    return true;
+                }
+            }
+            return false;
+        } else if (permission.contains(AND_OPERATOR)) {
+            String[] permissions = permission.split(AND_OPERATOR);
+            for (String andPermission : permissions) {
+                if (!isPermittedWithNotOperator(principals, andPermission)) {
+                    return false;
+                }
+            }
+            return true;
+        }
+        return isPermittedWithNotOperator(principals, permission);
+    }
+
+    private boolean isPermittedWithNotOperator(PrincipalCollection principals, String permission) {
+        if (permission.startsWith(NOT_OPERATOR)) {
+            return !super.isPermitted(principals, permission.substring(NOT_OPERATOR.length()));
+        }
+        return super.isPermitted(principals, permission);
+    }
 }

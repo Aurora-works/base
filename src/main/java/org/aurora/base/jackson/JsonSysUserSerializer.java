@@ -14,30 +14,30 @@ import java.io.IOException;
 public class JsonSysUserSerializer extends JsonSerializer<SysUser> {
 
     @Override
-    public void serialize(SysUser user, JsonGenerator jsonGenerator, SerializerProvider serializerProvider) throws IOException {
+    public void serialize(SysUser user, JsonGenerator gen, SerializerProvider serializers) throws IOException {
         if (!Hibernate.isInitialized(user)) {
-            jsonGenerator.writeNull();
-            return;
-        }
-        jsonGenerator.writeStartObject();
-        jsonGenerator.writeNumberField("id", user.getId());
-        jsonGenerator.writeStringField("username", user.getUsername());
-        jsonGenerator.writeStringField("nickname", user.getNickname());
-        jsonGenerator.writeStringField("isDeleted", user.getIsDeleted());
-        jsonGenerator.writeEndObject();
-    }
-
-    @Override
-    public void serializeWithType(SysUser value, JsonGenerator gen, SerializerProvider serializers, TypeSerializer typeSer) throws IOException {
-        if (!Hibernate.isInitialized(value)) {
             gen.writeNull();
             return;
         }
-        WritableTypeId typeIdDef = typeSer.writeTypePrefix(gen, typeSer.typeId(value, JsonToken.START_OBJECT));
-        gen.writeNumberField("id", value.getId());
-        gen.writeStringField("username", value.getUsername());
-        gen.writeStringField("nickname", value.getNickname());
-        gen.writeStringField("isDeleted", value.getIsDeleted());
+        gen.writeStartObject();
+        gen.writeNumberField("id", user.getId());
+        gen.writeStringField("username", user.getUsername());
+        gen.writeStringField("nickname", user.getNickname());
+        gen.writeStringField("isDeleted", user.getIsDeleted());
+        gen.writeEndObject();
+    }
+
+    @Override
+    public void serializeWithType(SysUser user, JsonGenerator gen, SerializerProvider serializers, TypeSerializer typeSer) throws IOException {
+        if (!Hibernate.isInitialized(user)) {
+            gen.writeNull();
+            return;
+        }
+        WritableTypeId typeIdDef = typeSer.writeTypePrefix(gen, typeSer.typeId(user, JsonToken.START_OBJECT));
+        gen.writeNumberField("id", user.getId());
+        gen.writeStringField("username", user.getUsername());
+        gen.writeStringField("nickname", user.getNickname());
+        gen.writeStringField("isDeleted", user.getIsDeleted());
         typeSer.writeTypeSuffix(gen, typeIdDef);
     }
 }

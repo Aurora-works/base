@@ -1,6 +1,11 @@
 package org.aurora.base.service;
 
 import org.aurora.base.entity.BaseEntity;
+import org.aurora.base.util.dto.TableFormatter;
+import org.aurora.base.util.view.FilterRuleHelper;
+import org.aurora.base.util.view.PageHelper;
+
+import java.util.List;
 
 public interface BaseService<T extends BaseEntity> {
 
@@ -15,4 +20,10 @@ public interface BaseService<T extends BaseEntity> {
     void delete(Long id);
 
     void delete(Long[] ids);
+
+    PageHelper<T> findAll(int page, int size, String sort, String order, List<FilterRuleHelper> filterRules);
+
+    List<TableFormatter> getFormatters();
+
+    boolean uniqueValidate(String columnName, String value);
 }

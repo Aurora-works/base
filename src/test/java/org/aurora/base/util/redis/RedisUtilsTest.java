@@ -21,10 +21,8 @@ class RedisUtilsTest {
 
     @Autowired
     private RedisUtils redisUtils;
-
     @Autowired
     private SysTableService tableService;
-
     @Autowired
     private SysUserService userService;
 

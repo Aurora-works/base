@@ -10,6 +10,7 @@
     <script type="text/javascript" src="<%=basePath%>/static/jquery-easyui-1.10.19/jquery.min.js"></script>
     <script type="text/javascript" src="<%=basePath%>/static/jquery-easyui-1.10.19/jquery.easyui.min.js"></script>
     <script type="text/javascript" src="<%=basePath%>/static/jquery-easyui-1.10.19/locale/easyui-lang-zh_CN.js"></script>
+    <script type="text/javascript" src="<%=basePath%>/static/jquery-easyui-1.10.19/extension/datagrid-filter.js"></script>
     <link rel="stylesheet" type="text/css" href="<%=basePath%>/static/jquery-easyui-1.10.19/themes/gray/easyui.css">
     <link rel="stylesheet" type="text/css" href="<%=basePath%>/static/jquery-easyui-1.10.19/themes/icon.css">
 </head>
@@ -41,30 +42,20 @@
 </body>
 <script type="text/javascript">
     // 加载功能菜单
-    $.ajax({
-        type: 'post',
-        url: '/menu',
-        success: function (result) {
-            if (result.code == 0) {
-                $('#west_menu').sidemenu({
-                    data: convert_west_menu(result.data),
-                    border: false,
-                    onSelect: function (item) {
-                        let url = item.url;
-                        let title = item.text;
-                        if ($('#center_tabs').tabs('exists', title)) {
-                            $('#center_tabs').tabs('select', title);
-                        } else {
-                            $('#center_tabs').tabs('add', {
-                                title: title,
-                                href: url,
-                                closable: true
-                            });
-                        }
-                    }
-                });
+    $('#west_menu').sidemenu({
+        data: convert_west_menu(JSON.parse('${westMenuData}')),
+        border: false,
+        onSelect: function (item) {
+            let url = item.url;
+            let title = item.text;
+            if ($('#center_tabs').tabs('exists', title)) {
+                $('#center_tabs').tabs('select', title);
             } else {
-                $.messager.alert('提示', result.message);
+                $('#center_tabs').tabs('add', {
+                    title: title,
+                    href: url,
+                    closable: true
+                });
             }
         }
     });
@@ -79,7 +70,7 @@
                     text: row.menuName,
                     iconCls: row.css,
                     url: row.href,
-                    state: row.isOpen == '1' ? 'open' : ''
+                    state: row.isOpen == '1' ? 'open' : 'closed'
                 });
             }
         });
@@ -93,7 +84,7 @@
                         text: row.menuName,
                         iconCls: row.css,
                         url: row.href,
-                        state: row.isOpen == '1' ? 'open' : ''
+                        state: row.isOpen == '1' ? 'open' : 'closed'
                     };
                     if (node.children) {
                         node.children.push(child);
@@ -133,5 +124,33 @@
             }
         });
     }
+
+    // 格式化日期时间
+    function formatDateTime(date) {
+        let d = new Date(date),
+            month = '' + (d.getMonth() + 1),
+            day = '' + d.getDate(),
+            year = d.getFullYear();
+        if (month.length < 2)
+            month = '0' + month;
+        if (day.length < 2)
+            day = '0' + day;
+        return [year, month, day].join('-') + ' ' + d.toLocaleTimeString();
+    }
+
+    // 格式化创建人/最后修改人
+    function formatSysUser(user) {
+        return user.nickname + '[' + user.username + ']';
+    }
+
+    // 添加验证规则
+    $.extend($.fn.validatebox.defaults.rules, {
+        mobilePhoneNumber: { // 手机号验证
+            validator: function (value, param) {
+                return /^1[0-9]{10}$/.test(value);
+            },
+            message: '请输入正确的手机号码'
+        }
+    });
 </script>
 </html>

@@ -7,4 +7,12 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public class SysParamDaoImpl extends BaseDaoImpl<SysParam> implements SysParamDao {
+
+    @Override
+    public SysParam findByCode(String paramCode) {
+        String hql = "from SysParam where paramCode = :paramCode";
+        return getSession().createSelectionQuery(hql, SysParam.class)
+                .setParameter("paramCode", paramCode)
+                .uniqueResult();
+    }
 }

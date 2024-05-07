@@ -4,12 +4,11 @@ import org.apache.shiro.authz.annotation.RequiresAuthentication;
 import org.aurora.base.entity.sys.SysMenu;
 import org.aurora.base.service.sys.SysUserService;
 import org.aurora.base.shiro.ShiroUtils;
-import org.aurora.base.util.Result;
+import org.aurora.base.jackson.JSONUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.TreeSet;
 
@@ -23,16 +22,14 @@ public class IndexController {
 
     private final SysUserService userService;
 
+    /**
+     * 主页
+     */
     @GetMapping(value = "/")
-    public String index() {
-        return "index";
-    }
-
-    @PostMapping(value = "/menu")
-    @ResponseBody
-    public Result<TreeSet<SysMenu>> menu() {
+    public String index(Model model) {
         Long currentUserId = ShiroUtils.getCurrentUserId();
-        TreeSet<SysMenu> data = userService.getMenuTree(currentUserId);
-        return Result.success(data);
+        TreeSet<SysMenu> menus = userService.getMenuTree(currentUserId);
+        model.addAttribute("westMenuData", JSONUtils.writeValueAsString(menus));
+        return "index";
     }
 }

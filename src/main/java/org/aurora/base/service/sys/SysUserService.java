@@ -17,4 +17,6 @@ public interface SysUserService extends BaseService<SysUser> {
     Map<String, Set<String>> getAuthorizationInfo(Long id);
 
     TreeSet<SysMenu> getMenuTree(Long id);
+
+    void resetPwd(Long[] ids);
 }
