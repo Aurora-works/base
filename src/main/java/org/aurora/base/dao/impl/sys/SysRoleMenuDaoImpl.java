@@ -15,6 +15,8 @@ public class SysRoleMenuDaoImpl extends BaseDaoImpl<SysRoleMenu> implements SysR
         String hql = "from SysRoleMenu rm join fetch rm.menu m join fetch m.parentMenu where rm.roleId in(:roleIds)";
         return getSession().createSelectionQuery(hql, SysRoleMenu.class)
                 .setParameterList("roleIds", roleIds)
+                .setCacheable(true)
+                .setCacheRegion("AuthorizationInfoRegion")
                 .list();
     }
 }

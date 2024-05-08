@@ -15,6 +15,8 @@ public class SysUserRoleDaoImpl extends BaseDaoImpl<SysUserRole> implements SysU
         String hql = "from SysUserRole ur join fetch ur.role where ur.userId = :userId";
         return getSession().createSelectionQuery(hql, SysUserRole.class)
                 .setParameter("userId", userId)
+                .setCacheable(true)
+                .setCacheRegion("AuthorizationInfoRegion")
                 .list();
     }
 

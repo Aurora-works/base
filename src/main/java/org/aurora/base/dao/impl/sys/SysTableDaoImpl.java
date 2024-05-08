@@ -16,6 +16,7 @@ public class SysTableDaoImpl extends BaseDaoImpl<SysTable> implements SysTableDa
         String hql = "select 'SysTable', str(id), tableDesc from SysTable where id in(:ids)";
         return getSession().createSelectionQuery(hql, TableFormatter.class)
                 .setParameterList("ids", ids)
+                .setCacheable(true)
                 .list();
     }
 }

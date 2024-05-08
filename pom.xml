@@ -24,6 +24,7 @@
         <aspectj.version>1.9.22</aspectj.version>
         <shiro.version>2.0.0</shiro.version>
         <hibernate.version>6.4.8.Final</hibernate.version>
+        <ehcache.version>3.10.8</ehcache.version>
         <mysql-connector.version>8.3.0</mysql-connector.version>
         <spring-data-redis.version>3.2.5</spring-data-redis.version>
         <lettuce.version>6.3.2.RELEASE</lettuce.version>
@@ -144,6 +145,24 @@
             <groupId>org.hibernate.orm</groupId>
             <artifactId>hibernate-core</artifactId>
             <version>${hibernate.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.hibernate.orm</groupId>
+            <artifactId>hibernate-jcache</artifactId>
+            <version>${hibernate.version}</version>
+        </dependency>
+        <!-- ehcache -->
+        <dependency>
+            <groupId>org.ehcache</groupId>
+            <artifactId>ehcache</artifactId>
+            <version>${ehcache.version}</version>
+            <classifier>jakarta</classifier>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.glassfish.jaxb</groupId>
+                    <artifactId>jaxb-runtime</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
         <!-- mysql-connector -->
         <dependency>

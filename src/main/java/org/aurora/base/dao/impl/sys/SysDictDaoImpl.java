@@ -16,6 +16,7 @@ public class SysDictDaoImpl extends BaseDaoImpl<SysDict> implements SysDictDao {
         String hql = "select dictCode, dictKey, dictValue from SysDict where dictCode in(:codes)";
         return getSession().createSelectionQuery(hql, TableFormatter.class)
                 .setParameterList("codes", codes)
+                .setCacheable(true)
                 .list();
     }
 
@@ -24,6 +25,7 @@ public class SysDictDaoImpl extends BaseDaoImpl<SysDict> implements SysDictDao {
         String hql = "from SysDict where lower(dictCode) = lower(:dictCode) order by orderBy asc";
         return getSession().createSelectionQuery(hql, SysDict.class)
                 .setParameter("dictCode", dictCode)
+                .setCacheable(true)
                 .list();
     }
 }

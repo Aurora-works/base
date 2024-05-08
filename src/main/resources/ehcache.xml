@@ -1,0 +1,26 @@
+<config xmlns="http://www.ehcache.org/v3">
+
+    <cache alias="default-update-timestamps-region" uses-template="defaultTemplate"/>
+
+    <cache alias="default-query-results-region">
+        <expiry>
+            <ttl unit="minutes">10</ttl>
+        </expiry>
+        <heap>100</heap>
+    </cache>
+
+    <cache alias="AuthorizationInfoRegion">
+        <expiry>
+            <ttl unit="minutes">10</ttl>
+        </expiry>
+        <heap>100</heap>
+    </cache>
+
+    <cache-template name="defaultTemplate">
+        <expiry>
+            <none/>
+        </expiry>
+        <heap>100</heap>
+    </cache-template>
+
+</config>

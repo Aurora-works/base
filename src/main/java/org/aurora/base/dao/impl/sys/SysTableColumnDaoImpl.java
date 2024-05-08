@@ -15,6 +15,7 @@ public class SysTableColumnDaoImpl extends BaseDaoImpl<SysTableColumn> implement
         String hql = "from SysTableColumn where table.entityName = :tableEntityName";
         return getSession().createSelectionQuery(hql, SysTableColumn.class)
                 .setParameter("tableEntityName", tableEntityName)
+                .setCacheable(true)
                 .list();
     }
 }
