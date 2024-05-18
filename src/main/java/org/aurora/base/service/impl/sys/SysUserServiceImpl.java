@@ -14,6 +14,7 @@ import org.aurora.base.util.enums.SysParam;
 import org.aurora.base.util.enums.UserType;
 import org.aurora.base.util.enums.YesOrNo;
 import org.aurora.base.util.view.FilterRuleHelper;
+import org.aurora.base.util.view.PageHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -196,6 +197,15 @@ public class SysUserServiceImpl extends BaseServiceImpl<SysUser> implements SysU
             ShiroUtils.encryptPassword(user);
             super.update(user);
         }
+    }
+
+    @Override
+    public PageHelper<SysUser> findByRoleId(int page, int size, String sort, String order, Long roleId) {
+        checkFields(sort, order, null);
+        return new PageHelper<>(
+                userRoleDao.getTotalByRoleId(roleId),
+                userRoleDao.findUserListByRoleId(page, size, sort, order, roleId),
+                getFormatters());
     }
 
     private void addMenu(TreeSet<SysMenu> menus, SysMenu menu) {

@@ -8,6 +8,8 @@ import org.aurora.base.service.sys.SysUserRoleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class SysUserRoleServiceImpl extends BaseServiceImpl<SysUserRole> implements SysUserRoleService {
     @Autowired
@@ -20,5 +22,27 @@ public class SysUserRoleServiceImpl extends BaseServiceImpl<SysUserRole> impleme
     @Override
     protected BaseDao<SysUserRole> getDao() {
         return userRoleDao;
+    }
+
+    @Override
+    public void create(Long roleId, Long[] userIds) {
+        List<SysUserRole> list = userRoleDao.findByRoleIdAndUserIds(roleId, userIds);
+        outer:
+        for (Long userId : userIds) {
+            for (SysUserRole userRole : list) {
+                if (userId.equals(userRole.getUserId())) {
+                    continue outer;
+                }
+            }
+            SysUserRole userRole = new SysUserRole();
+            userRole.setRoleId(roleId);
+            userRole.setUserId(userId);
+            userRoleDao.create(userRole);
+        }
+    }
+
+    @Override
+    public void delete(Long roleId, Long[] userIds) {
+        userRoleDao.delete(roleId, userIds);
     }
 }

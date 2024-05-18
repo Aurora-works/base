@@ -40,6 +40,17 @@
     <p>后台管理系统</p>
 </div>
 </body>
+<style>
+    /** 不显示上边框 **/
+    .no_border_top {
+        border-top: none;
+    }
+
+    /** 不显示下边框 **/
+    .no_border_bottom {
+        border-bottom: none;
+    }
+</style>
 <script type="text/javascript">
     // 加载功能菜单
     $('#west_menu').sidemenu({

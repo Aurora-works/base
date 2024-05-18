@@ -22,6 +22,8 @@ public interface BaseService<T extends BaseEntity> {
 
     void delete(Long[] ids);
 
+    List<T> findAll(String sort, String order);
+
     PageHelper<T> findAll(int page, int size, String sort, String order, List<FilterRuleHelper> filterRules);
 
     List<TableFormatter> getFormatters();

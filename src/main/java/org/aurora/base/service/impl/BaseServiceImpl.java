@@ -88,9 +88,15 @@ public abstract class BaseServiceImpl<T extends BaseEntity> implements BaseServi
     }
 
     @Override
+    public List<T> findAll(String sort, String order) {
+        checkFields(sort, order, null);
+        return getDao().findAll(sort, order, addBusinessFilterRules(null));
+    }
+
+    @Override
     public PageHelper<T> findAll(int page, int size, String sort, String order, List<FilterRuleHelper> filterRules) {
+        checkFields(sort, order, filterRules);
         filterRules = addBusinessFilterRules(filterRules);
-        checkFields(filterRules);
         return new PageHelper<>(
                 getDao().getTotal(filterRules),
                 getDao().findAll(page, size, sort, order, filterRules),
@@ -127,8 +133,8 @@ public abstract class BaseServiceImpl<T extends BaseEntity> implements BaseServi
 
     @Override
     public String exportExcel(ByteArrayOutputStream stream, String sort, String order, List<FilterRuleHelper> filterRules) {
+        checkFields(sort, order, filterRules);
         filterRules = addBusinessFilterRules(filterRules);
-        checkFields(filterRules);
         // 数据列表
         List<T> list = getDao().findAll(sort, order, filterRules);
         // 数据表结构
@@ -209,22 +215,48 @@ public abstract class BaseServiceImpl<T extends BaseEntity> implements BaseServi
     /**
      * 校验过滤条件中所有字段名称的合法性
      */
-    protected void checkFields(List<FilterRuleHelper> filterRules) {
-        if (filterRules == null) return;
-        outer:
-        for (FilterRuleHelper filterRule : filterRules) {
+    protected void checkFields(String sort, String order, List<FilterRuleHelper> filterRules) {
+        if (filterRules != null) {
+            outer:
+            for (FilterRuleHelper filterRule : filterRules) {
+                for (Field field : entityFields) {
+                    if (field.getName().equals(filterRule.getField())) {
+                        filterRule.setFieldType(field.getType());
+                        continue outer;
+                    }
+                }
+                for (String otherField : otherFields) {
+                    if (otherField.equals(filterRule.getField())) {
+                        continue outer;
+                    }
+                }
+                throw new IllegalArgumentException();
+            }
+        }
+        if (sort != null) {
+            boolean flag = true;
             for (Field field : entityFields) {
-                if (field.getName().equals(filterRule.getField())) {
-                    filterRule.setFieldType(field.getType());
-                    continue outer;
+                if (field.getName().equals(sort)) {
+                    flag = false;
+                    break;
                 }
             }
-            for (String otherField : otherFields) {
-                if (otherField.equals(filterRule.getField())) {
-                    continue outer;
+            if (flag) {
+                for (String otherField : otherFields) {
+                    if (otherField.equals(sort)) {
+                        flag = false;
+                        break;
+                    }
                 }
             }
-            throw new IllegalArgumentException();
+            if (flag) {
+                throw new IllegalArgumentException();
+            }
+        }
+        if (order != null) {
+            if (!"asc".equals(order) && !"desc".equals(order)) {
+                throw new IllegalArgumentException();
+            }
         }
     }
 
