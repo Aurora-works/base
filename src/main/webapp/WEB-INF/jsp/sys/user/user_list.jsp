@@ -41,13 +41,13 @@
 <%-- 数据网格头部工具栏 --%>
 <div id="sys_user_toolbar">
     <shiro:hasPermission name="sys_user:create">
-        <a href="javascript:" class="easyui-linkbutton" data-options="iconCls: 'icon-add', plain: true, text: '新增'" onclick="newSysUser()"></a>
+        <a href="javascript:" class="easyui-linkbutton" data-options="iconCls: 'icon-add', plain: true, text: '新增'" onclick="addSysUser()"></a>
     </shiro:hasPermission>
     <shiro:hasPermission name="sys_user:update">
         <a href="javascript:" class="easyui-linkbutton" data-options="iconCls: 'icon-edit', plain: true,text: '修改'" onclick="editSysUser()"></a>
     </shiro:hasPermission>
     <shiro:hasPermission name="sys_user:delete">
-        <a href="javascript:" class="easyui-linkbutton" data-options="iconCls: 'icon-remove', plain: true, text: '删除'" onclick="destroySysUser()"></a>
+        <a href="javascript:" class="easyui-linkbutton" data-options="iconCls: 'icon-remove', plain: true, text: '删除'" onclick="removeSysUser()"></a>
     </shiro:hasPermission>
     <shiro:hasPermission name="sys_user:update">
         <span class="datagrid-btn-separator" style="float: none"></span>
@@ -71,7 +71,7 @@
     }
 
     // 新增
-    function newSysUser() {
+    function addSysUser() {
         $('#sys_user_dialog').css('padding', '10px').dialog({
             height: 600,
             width: 1200,
@@ -134,7 +134,7 @@
     }
 
     // 删除
-    function destroySysUser() {
+    function removeSysUser() {
         let rows = $('#sys_user_list').datagrid('getSelections');
         if (!rows.length > 0) {
             return false;
@@ -323,6 +323,14 @@
 
     // Excel导出
     function excelOutSysUser() {
+        let filterRules = $('#sys_user_list').datagrid('options').filterRules;
+        let url = 'sys/user/excel/out?filterRules=' + encodeURIComponent(JSON.stringify(filterRules));
+        let sort = $('#sys_user_list').datagrid('options').sortName;
+        if (sort != null) {
+            let order = $('#sys_user_list').datagrid('options').sortOrder;
+            url += '&sort=' + sort + '&order=' + order;
+        }
+        window.location.href = url;
     }
 
     // Excel导入

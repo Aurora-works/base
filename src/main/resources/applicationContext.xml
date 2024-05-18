@@ -52,6 +52,8 @@
             <tx:method name="silent*" propagation="REQUIRES_NEW"/>
             <tx:method name="find*" propagation="SUPPORTS" read-only="true"/>
             <tx:method name="get*" propagation="SUPPORTS" read-only="true"/>
+            <tx:method name="unique*" propagation="SUPPORTS" read-only="true"/>
+            <tx:method name="export*" propagation="SUPPORTS" read-only="true"/>
             <!--<tx:method name="*" propagation="REQUIRED"/>-->
             <tx:method name="*"/>
         </tx:attributes>

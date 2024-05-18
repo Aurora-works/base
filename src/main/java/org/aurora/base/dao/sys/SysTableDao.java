@@ -9,4 +9,6 @@ import java.util.List;
 public interface SysTableDao extends BaseDao<SysTable> {
 
     List<TableFormatter> findFormatterByIds(Long[] ids);
+
+    SysTable findByEntityName(String entityName);
 }

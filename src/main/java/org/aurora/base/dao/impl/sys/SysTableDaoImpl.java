@@ -19,4 +19,12 @@ public class SysTableDaoImpl extends BaseDaoImpl<SysTable> implements SysTableDa
                 .setCacheable(true)
                 .list();
     }
+
+    @Override
+    public SysTable findByEntityName(String entityName) {
+        String hql = "from SysTable where entityName = :entityName";
+        return getSession().createSelectionQuery(hql, SysTable.class)
+                .setParameter("entityName", entityName)
+                .uniqueResult();
+    }
 }

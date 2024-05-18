@@ -76,44 +76,39 @@ public abstract class BaseDaoImpl<T extends BaseEntity> implements BaseDao<T> {
     }
 
     @Override
-    public List<T> findAll(int page, int size, String sort, String order) {
-        String hql = "from " + entityClassName + " e join fetch e.createUser order by e." + sort + " " + order;
-        return getSession().createSelectionQuery(hql, entityClass)
-                .setFirstResult((page - 1) * size)
-                .setMaxResults(size)
-                .list();
+    public List<T> findAll(String sort, String order, List<FilterRuleHelper> filterRules) {
+        return findAll(0, 0, sort, order, filterRules);
     }
 
     @Override
     public List<T> findAll(int page, int size, String sort, String order, List<FilterRuleHelper> filterRules) {
-        if (filterRules == null) {
-            return findAll(page, size, sort, order);
+        StringBuilder hql = new StringBuilder("from " + entityClassName + " e join fetch e.createUser");
+        if (filterRules != null) {
+            hql.append(" where 1=1");
+            addFilterRules(hql, filterRules);
         }
-        StringBuilder hql = new StringBuilder("from " + entityClassName + " e join fetch e.createUser where 1=1");
-        addFilterRules(hql, filterRules);
         hql.append(" order by e.").append(sort).append(" ").append(order);
         var query = getSession().createSelectionQuery(hql.toString(), entityClass);
-        setParameters(query, filterRules);
-        return query
-                .setFirstResult((page - 1) * size)
-                .setMaxResults(size)
-                .list();
-    }
-
-    @Override
-    public long getTotal() {
-        String hql = "select count(*) from " + entityClassName;
-        return getSession().createSelectionQuery(hql, Long.class).uniqueResult();
+        if (filterRules != null) {
+            setParameters(query, filterRules);
+        }
+        if (page == 0 && size == 0) {
+            return query.list();
+        }
+        return query.setFirstResult((page - 1) * size).setMaxResults(size).list();
     }
 
     @Override
     public long getTotal(List<FilterRuleHelper> filterRules) {
-        if (filterRules == null) {
-            return getTotal();
+        StringBuilder hql = new StringBuilder("select count(*) from " + entityClassName + " e");
+        if (filterRules != null) {
+            hql.append(" where 1=1");
+            addFilterRules(hql, filterRules);
         }
-        StringBuilder hql = new StringBuilder("select count(*) from " + entityClassName + " e where 1=1");
-        var query = getSession().createSelectionQuery(addFilterRules(hql, filterRules), Long.class);
-        setParameters(query, filterRules);
+        var query = getSession().createSelectionQuery(hql.toString(), Long.class);
+        if (filterRules != null) {
+            setParameters(query, filterRules);
+        }
         return query.uniqueResult();
     }
 
@@ -125,7 +120,7 @@ public abstract class BaseDaoImpl<T extends BaseEntity> implements BaseDao<T> {
                 .uniqueResult();
     }
 
-    private String addFilterRules(StringBuilder hql, List<FilterRuleHelper> filterRules) {
+    private void addFilterRules(StringBuilder hql, List<FilterRuleHelper> filterRules) {
         for (FilterRuleHelper filterRule : filterRules) {
             if (FilterRuleHelper.DATE_BOX.equals(filterRule.getType())) {
                 hql.append(" and extract(date from e.").append(filterRule.getField()).append(") ").append(filterRule.getOp()).append(" extract(date from :").append(filterRule.getField().replace(".", "_")).append(")");
@@ -133,7 +128,6 @@ public abstract class BaseDaoImpl<T extends BaseEntity> implements BaseDao<T> {
             }
             hql.append(" and e.").append(filterRule.getField()).append(" ").append(filterRule.getOp()).append(" :").append(filterRule.getField().replace(".", "_"));
         }
-        return hql.toString();
     }
 
     private void setParameters(SelectionQuery<?> query, List<FilterRuleHelper> filterRules) {

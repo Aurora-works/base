@@ -1,20 +1,19 @@
 package org.aurora.base.service.impl.sys;
 
-import org.aurora.base.dao.sys.SysParamDao;
-import org.aurora.base.entity.sys.*;
-import org.aurora.base.shiro.ShiroUtils;
-import org.aurora.base.util.enums.Status;
 import org.aurora.base.dao.BaseDao;
+import org.aurora.base.dao.sys.SysParamDao;
 import org.aurora.base.dao.sys.SysRoleMenuDao;
 import org.aurora.base.dao.sys.SysUserDao;
 import org.aurora.base.dao.sys.SysUserRoleDao;
+import org.aurora.base.entity.sys.*;
 import org.aurora.base.service.impl.BaseServiceImpl;
 import org.aurora.base.service.sys.SysUserService;
+import org.aurora.base.shiro.ShiroUtils;
+import org.aurora.base.util.enums.Status;
 import org.aurora.base.util.enums.SysParam;
 import org.aurora.base.util.enums.UserType;
 import org.aurora.base.util.enums.YesOrNo;
 import org.aurora.base.util.view.FilterRuleHelper;
-import org.aurora.base.util.view.PageHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -66,11 +65,18 @@ public class SysUserServiceImpl extends BaseServiceImpl<SysUser> implements SysU
 
     @Override
     public void delete(Long[] ids) {
+        List<SysUser> users = getDao().findByIds(ids);
+        for (SysUser user : users) {
+            if (!UserType.ADMIN.getKey().equals(user.getUserType())) {
+                throw new IllegalArgumentException();
+            }
+        }
         userDao.softDelete(ids);
     }
 
     @Override
-    public PageHelper<SysUser> findAll(int page, int size, String sort, String order, List<FilterRuleHelper> filterRules) {
+    protected List<FilterRuleHelper> addBusinessFilterRules(List<FilterRuleHelper> filterRules) {
+        filterRules = super.addBusinessFilterRules(filterRules);
         FilterRuleHelper filterRule_0 = FilterRuleHelper.builder()
                 .field("userType")
                 .op(FilterRuleHelper.EQUAL)
@@ -83,10 +89,23 @@ public class SysUserServiceImpl extends BaseServiceImpl<SysUser> implements SysU
                 .build();
         List<FilterRuleHelper> list = List.of(filterRule_0, filterRule_1);
         if (filterRules == null) {
-            return super.findAll(page, size, sort, order, list);
+            filterRules = new ArrayList<>();
         }
         filterRules.addAll(list);
-        return super.findAll(page, size, sort, order, filterRules);
+        return filterRules;
+    }
+
+    @Override
+    protected void checkExportColumns(List<SysTableColumn> columns) {
+        super.checkExportColumns(columns);
+        columns.removeIf(column -> {
+            String entityName = column.getEntityName();
+            return entityName.equals("password")
+                    || entityName.equals("salt")
+                    || entityName.equals("avatarImagePath")
+                    || entityName.equals("userType")
+                    || entityName.equals("isDeleted");
+        });
     }
 
     @Override

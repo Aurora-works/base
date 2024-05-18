@@ -3,14 +3,22 @@ package org.aurora.base.controller;
 import com.fasterxml.jackson.core.type.TypeReference;
 import org.apache.commons.lang3.StringUtils;
 import org.aurora.base.entity.BaseEntity;
+import org.aurora.base.jackson.JSONUtils;
 import org.aurora.base.service.BaseService;
 import org.aurora.base.shiro.ShiroUtils;
 import org.aurora.base.util.Result;
+import org.aurora.base.util.constant.CommonConstant;
 import org.aurora.base.util.view.FilterRuleHelper;
 import org.aurora.base.util.view.PageHelper;
-import org.aurora.base.jackson.JSONUtils;
+import org.springframework.core.io.ByteArrayResource;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.ByteArrayOutputStream;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.util.List;
 
 public abstract class BaseController<T extends BaseEntity> {
@@ -94,6 +102,24 @@ public abstract class BaseController<T extends BaseEntity> {
         if (ids != null) getService().delete(ids);
         else if (id != null) getService().delete(id);
         return Result.success();
+    }
+
+    /**
+     * Excel导出
+     */
+    @GetMapping(value = "/excel/out")
+    public ResponseEntity<ByteArrayResource> exportExcel(
+            @RequestParam(value = "sort", required = false, defaultValue = "id") String sort,
+            @RequestParam(value = "order", required = false, defaultValue = "asc") String order,
+            @RequestParam(value = "filterRules", required = false) String filterRules) {
+        ShiroUtils.checkPermission(getMenuCode() + ":read");
+        ByteArrayOutputStream stream = new ByteArrayOutputStream();
+        String excelName = getService().exportExcel(stream, sort, order, parseFilterRules(filterRules));
+        return ResponseEntity.ok()
+                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=" + URLEncoder.encode(excelName, StandardCharsets.UTF_8) + ".xlsx")
+                .contentType(MediaType.parseMediaType(CommonConstant.MIME_TYPE_XLSX))
+                .contentLength(stream.size())
+                .body(new ByteArrayResource(stream.toByteArray()));
     }
 
     /**

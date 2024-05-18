@@ -1,0 +1,4 @@
+# https://docs.github.com/zh/repositories/working-with-files/managing-files/customizing-how-changed-files-appear-on-github
+
+# easyui
+**/src/main/webapp/**/jquery-easyui-*/** linguist-vendored

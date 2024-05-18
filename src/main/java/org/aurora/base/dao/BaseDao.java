@@ -23,11 +23,9 @@ public interface BaseDao<T extends BaseEntity> {
 
     void delete(Long[] ids);
 
-    List<T> findAll(int page, int size, String sort, String order);
+    List<T> findAll(String sort, String order, List<FilterRuleHelper> filterRules);
 
     List<T> findAll(int page, int size, String sort, String order, List<FilterRuleHelper> filterRules);
-
-    long getTotal();
 
     long getTotal(List<FilterRuleHelper> filterRules);
 

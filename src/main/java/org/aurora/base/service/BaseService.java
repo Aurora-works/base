@@ -5,6 +5,7 @@ import org.aurora.base.util.dto.TableFormatter;
 import org.aurora.base.util.view.FilterRuleHelper;
 import org.aurora.base.util.view.PageHelper;
 
+import java.io.ByteArrayOutputStream;
 import java.util.List;
 
 public interface BaseService<T extends BaseEntity> {
@@ -26,4 +27,6 @@ public interface BaseService<T extends BaseEntity> {
     List<TableFormatter> getFormatters();
 
     boolean uniqueValidate(String columnName, String value);
+
+    String exportExcel(ByteArrayOutputStream stream, String sort, String order, List<FilterRuleHelper> filterRules);
 }
