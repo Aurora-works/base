@@ -94,7 +94,16 @@ public abstract class BaseServiceImpl<T extends BaseEntity> implements BaseServi
     }
 
     @Override
-    public PageHelper<T> findAll(int page, int size, String sort, String order, List<FilterRuleHelper> filterRules) {
+    public PageHelper<T> findAllInPage(String sort, String order) {
+        checkFields(sort, order, null);
+        return new PageHelper<>(
+                getDao().getTotal(addBusinessFilterRules(null)),
+                getDao().findAll(sort, order, addBusinessFilterRules(null)),
+                getFormatters());
+    }
+
+    @Override
+    public PageHelper<T> findAllInPage(int page, int size, String sort, String order, List<FilterRuleHelper> filterRules) {
         checkFields(sort, order, filterRules);
         filterRules = addBusinessFilterRules(filterRules);
         return new PageHelper<>(
@@ -107,17 +116,11 @@ public abstract class BaseServiceImpl<T extends BaseEntity> implements BaseServi
     public List<TableFormatter> getFormatters() {
         List<SysTableColumn> columns = tableColumnDao.findByTableEntityName(entityName);
         List<TableFormatter> formatters = new ArrayList<>();
-        Set<Long> foreignTableIdSet = new HashSet<>();
         Set<String> dictCodeSet = new HashSet<>();
         for (SysTableColumn column : columns) {
-            if (column.getForeignTableId() != null) {
-                foreignTableIdSet.add(column.getForeignTableId());
-            } else if (StringUtils.isNotBlank(column.getDictCode())) {
+            if (StringUtils.isNotBlank(column.getDictCode())) {
                 dictCodeSet.add(column.getDictCode());
             }
-        }
-        if (!foreignTableIdSet.isEmpty()) {
-            formatters.addAll(tableDao.findFormatterByIds(foreignTableIdSet.toArray(new Long[0])));
         }
         if (!dictCodeSet.isEmpty()) {
             formatters.addAll(dictDao.findFormatterByCodes(dictCodeSet.toArray(new String[0])));
@@ -177,16 +180,8 @@ public abstract class BaseServiceImpl<T extends BaseEntity> implements BaseServi
                 if (value == null) {
                     continue;
                 }
-                // 外键处理
-                if (columns.get(j).getForeignTableId() != null) {
-                    for (TableFormatter formatter : formatters) {
-                        if ("SysTable".equals(formatter.dictCode()) && value.toString().equals(formatter.dictKey())) {
-                            value = formatter.dictValue();
-                        }
-                    }
-                }
                 // 数据字典处理
-                else if (StringUtils.isNotBlank(columns.get(j).getDictCode())) {
+                if (StringUtils.isNotBlank(columns.get(j).getDictCode())) {
                     for (TableFormatter formatter : formatters) {
                         if (columns.get(j).getDictCode().equals(formatter.dictCode()) && value.toString().equals(formatter.dictKey())) {
                             value = formatter.dictValue();

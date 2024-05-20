@@ -1,5 +1,6 @@
 package org.aurora.base.controller.sys;
 
+import org.apache.shiro.authz.annotation.Logical;
 import org.apache.shiro.authz.annotation.RequiresAuthentication;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.aurora.base.controller.BaseController;
@@ -55,7 +56,7 @@ public class SysRoleController extends BaseController<SysRole> {
      * 系统角色树
      */
     @PostMapping(value = "/tree")
-    @RequiresPermissions("sys_role:read")
+    @RequiresPermissions(value = {"sys_role:read", "sys_auth:read"}, logical = Logical.OR)
     @ResponseBody
     public List<SysRole> getTree() {
         return roleService.findAll("orderBy", "asc");

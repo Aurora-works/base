@@ -30,7 +30,7 @@ class BaseServiceImplTest {
     }
 
     @Test
-    void findAll() {
+    void findAllInPage() {
         FilterRuleHelper filterRule = FilterRuleHelper.builder()
                 .field("createUser.nickname")
                 .op(FilterRuleHelper.CONTAINS)
@@ -38,7 +38,7 @@ class BaseServiceImplTest {
                 .build();
         List<FilterRuleHelper> filterRules = new ArrayList<>();
         filterRules.add(filterRule);
-        PageHelper<SysTable> tables = tableService.findAll(1, 50, "id", "desc", filterRules);
+        PageHelper<SysTable> tables = tableService.findAllInPage(1, 50, "id", "desc", filterRules);
         tables.getRows().forEach(System.out::println);
         System.out.println(tables.getTotal());
     }

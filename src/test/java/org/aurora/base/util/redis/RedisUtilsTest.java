@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
@@ -32,23 +33,20 @@ class RedisUtilsTest {
         System.out.println(user);
         redisUtils.set("key-user", user);
         System.out.println(redisUtils.getStr("key-user"));
+        SysUser result = (SysUser) redisUtils.get("key-user");
+        System.out.println(result);
     }
 
     @Test
-    void testObj() {
+    void testTableObj() {
         SysTable table = tableService.findById(701L);
         System.out.println(table);
         redisUtils.set("key-table", table);
         System.out.println(redisUtils.getStr("key-table"));
-    }
-
-    @Test
-    void testObj1() {
-        Object table = redisUtils.get("key-table");
-        SysTable table1 = (SysTable) table;
-        System.out.println(table1);
-        System.out.println(table1.getCreateUser());
-        System.out.println(table1.getLastUser());
+        SysTable result = (SysTable) redisUtils.get("key-table");
+        System.out.println(result);
+        System.out.println(result.getCreateUser());
+        System.out.println(result.getLastUser());
     }
 
     @Test
@@ -78,8 +76,6 @@ class RedisUtilsTest {
         System.out.println(redisUtils.decr("key-decr-1", 1));
         System.out.println(redisUtils.decr("key-decr-2", 0));
         System.out.println(redisUtils.decr("key-decr-3", -1));
-        System.out.println(redisUtils.getExpire("key-incr-1", TimeUnit.SECONDS));
-        System.out.println(redisUtils.getExpire("key-decr-1", TimeUnit.SECONDS));
     }
 
     @Test
@@ -104,7 +100,7 @@ class RedisUtilsTest {
     }
 
     @Test
-    void MultiSet() {
+    void multiSet() {
         Map<String, Object> map = new HashMap<>();
         map.put("key-11", "value-11");
         map.put("key-12", "value-12");
@@ -116,15 +112,29 @@ class RedisUtilsTest {
     }
 
     @Test
-    void MultiSetStr() {
+    void multiGet() {
+        Set<String> keys = Set.of("key-11", "key-12", "key-13");
+        List<Object> list = redisUtils.get(keys);
+        list.forEach(System.out::println);
+    }
+
+    @Test
+    void multiSetStr() {
         Map<String, String> map = new HashMap<>();
-        map.put("key-11", "value-11");
-        map.put("key-12", "value-12");
-        map.put("key-13", "value-13");
+        map.put("key-14", "value-14");
+        map.put("key-15", "value-15");
+        map.put("key-16", "value-16");
         redisUtils.setStr(map);
-        System.out.println(redisUtils.getStr("key-11"));
-        System.out.println(redisUtils.getStr("key-12"));
-        System.out.println(redisUtils.getStr("key-13"));
+        System.out.println(redisUtils.getStr("key-14"));
+        System.out.println(redisUtils.getStr("key-15"));
+        System.out.println(redisUtils.getStr("key-16"));
+    }
+
+    @Test
+    void multiGetStr() {
+        Set<String> keys = Set.of("key-14", "key-15", "key-16");
+        List<String> list = redisUtils.getStr(keys);
+        list.forEach(System.out::println);
     }
 
     private void print() {

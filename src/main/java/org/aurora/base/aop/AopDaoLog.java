@@ -18,7 +18,8 @@ public class AopDaoLog {
             " && !execution(* org.aurora.base.dao..silent*(..))" +
             " && !execution(* org.aurora.base.dao.sys.SysDictDao.findByCode(..))" +
             " && !execution(* org.aurora.base.dao.sys.SysUserRoleDao.findByUserIdWithFetchGraph(..))" +
-            " && !execution(* org.aurora.base.dao.sys.SysRoleMenuDao.findByRoleIdWithFetchGraph(..))")
+            " && !execution(* org.aurora.base.dao.sys.SysRoleMenuDao.findByRoleIdWithFetchGraph(..))" +
+            " && !execution(* org.aurora.base.dao..*.findAllWithCache(..))")
     private void daoAspect() {
     }
 

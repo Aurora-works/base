@@ -19,4 +19,12 @@ public class SysRoleMenuDaoImpl extends BaseDaoImpl<SysRoleMenu> implements SysR
                 .setCacheRegion("AuthorizationInfoRegion")
                 .list();
     }
+
+    @Override
+    public List<SysRoleMenu> findByRoleId(Long roleId) {
+        String hql = "from SysRoleMenu where roleId = :roleId";
+        return getSession().createSelectionQuery(hql, SysRoleMenu.class)
+                .setParameter("roleId", roleId)
+                .list();
+    }
 }

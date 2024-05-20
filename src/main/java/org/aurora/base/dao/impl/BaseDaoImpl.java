@@ -99,6 +99,14 @@ public abstract class BaseDaoImpl<T extends BaseEntity> implements BaseDao<T> {
     }
 
     @Override
+    public List<T> findAllWithCache(String sort, String order) {
+        String hql = "from " + entityClassName + " order by " + sort + " " + order;
+        return getSession().createSelectionQuery(hql, entityClass)
+                .setCacheable(true)
+                .list();
+    }
+
+    @Override
     public long getTotal(List<FilterRuleHelper> filterRules) {
         StringBuilder hql = new StringBuilder("select count(*) from " + entityClassName + " e");
         if (filterRules != null) {
@@ -114,7 +122,7 @@ public abstract class BaseDaoImpl<T extends BaseEntity> implements BaseDao<T> {
 
     @Override
     public long columnValueCount(String columnName, Object value) {
-        String hql = "select count(*) from " + entityClassName + " where " + columnName + "=:value";
+        String hql = "select count(*) from " + entityClassName + " where lower(" + columnName + ") = lower(:value)";
         return getSession().createSelectionQuery(hql, Long.class)
                 .setParameter("value", value)
                 .uniqueResult();

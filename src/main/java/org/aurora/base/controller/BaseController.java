@@ -59,7 +59,7 @@ public abstract class BaseController<T extends BaseEntity> {
             @RequestParam(value = "filterRules", required = false) String filterRules) {
         ShiroUtils.checkPermission(getMenuCode() + ":read");
         List<FilterRuleHelper> filterRuleList = parseFilterRules(filterRules);
-        return getService().findAll(page, size, sort, order, filterRuleList);
+        return getService().findAllInPage(page, size, sort, order, filterRuleList);
     }
 
     /**

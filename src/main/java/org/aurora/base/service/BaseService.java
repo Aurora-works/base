@@ -24,7 +24,9 @@ public interface BaseService<T extends BaseEntity> {
 
     List<T> findAll(String sort, String order);
 
-    PageHelper<T> findAll(int page, int size, String sort, String order, List<FilterRuleHelper> filterRules);
+    PageHelper<T> findAllInPage(String sort, String order);
+
+    PageHelper<T> findAllInPage(int page, int size, String sort, String order, List<FilterRuleHelper> filterRules);
 
     List<TableFormatter> getFormatters();
 

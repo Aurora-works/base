@@ -36,7 +36,7 @@ public class SysRoleServiceImpl extends BaseServiceImpl<SysRole> implements SysR
 
     @Override
     public List<ComboTreeHelper> getComboTree() {
-        List<SysRole> roles = roleDao.findAll("orderBy", "asc", null);
+        List<SysRole> roles = roleDao.findAllWithCache("orderBy", "asc");
         List<ComboTreeHelper> list = new ArrayList<>();
         roles.forEach(role -> {
             if (role.getParentId() == null) {
@@ -47,12 +47,12 @@ public class SysRoleServiceImpl extends BaseServiceImpl<SysRole> implements SysR
     }
 
     private ComboTreeHelper getChildren(SysRole role, List<SysRole> roles) {
+        List<ComboTreeHelper> list = new ArrayList<>();
         ComboTreeHelper comboTree = ComboTreeHelper.builder()
                 .id(role.getId().toString())
                 .text(role.getRoleName())
                 .iconCls("icon-man")
                 .build();
-        List<ComboTreeHelper> list = new ArrayList<>();
         roles.forEach(item -> {
             if (role.getId().equals(item.getParentId())) {
                 list.add(getChildren(item, roles));

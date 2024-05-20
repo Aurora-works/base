@@ -44,7 +44,8 @@ public class AopControllerLog {
     private final SysErrorLogService errorLogService;
 
     @Pointcut("execution(* org.aurora.base.controller..*.*(..))" +
-            " && !execution(* org.aurora.base.controller.dev.SysDictController.findByCode(..))")
+            " && !execution(* org.aurora.base.controller.dev.SysDictController.findByCode(..))" +
+            " && !execution(* org.aurora.base.controller..*.getComboTree(..))")
     private void controllerAspect() {
     }
 

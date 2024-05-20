@@ -8,4 +8,6 @@ import java.util.List;
 public interface SysRoleMenuDao extends BaseDao<SysRoleMenu> {
 
     List<SysRoleMenu> findByRoleIdWithFetchGraph(Long[] roleIds);
+
+    List<SysRoleMenu> findByRoleId(Long roleId);
 }

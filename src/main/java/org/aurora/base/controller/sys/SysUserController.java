@@ -68,6 +68,6 @@ public class SysUserController extends BaseController<SysUser> {
             @RequestParam(value = "order", required = false, defaultValue = "asc") String order,
             @RequestParam(value = "filterRules", required = false) String filterRules) {
         List<FilterRuleHelper> filterRuleList = parseFilterRules(filterRules);
-        return userService.findAll(page, size, sort, order, filterRuleList);
+        return userService.findAllInPage(page, size, sort, order, filterRuleList);
     }
 }

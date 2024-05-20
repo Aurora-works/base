@@ -27,6 +27,8 @@ public interface BaseDao<T extends BaseEntity> {
 
     List<T> findAll(int page, int size, String sort, String order, List<FilterRuleHelper> filterRules);
 
+    List<T> findAllWithCache(String sort, String order);
+
     long getTotal(List<FilterRuleHelper> filterRules);
 
     long columnValueCount(String columnName, Object value);
