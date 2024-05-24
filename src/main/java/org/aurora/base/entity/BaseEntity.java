@@ -6,6 +6,7 @@ import lombok.*;
 import org.aurora.base.entity.sys.SysUser;
 import org.aurora.base.jackson.JsonSysUserSerializer;
 import org.aurora.base.shiro.ShiroUtils;
+import org.aurora.base.util.enums.TodoUser;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.UpdateTimestamp;
@@ -28,7 +29,6 @@ public abstract class BaseEntity {
     @Column
     private String description;
 
-    @Setter(value = AccessLevel.PRIVATE)
     @Basic(optional = false)
     @Column(name = "create_time", precision = 3, updatable = false)
     @CreationTimestamp
@@ -43,7 +43,6 @@ public abstract class BaseEntity {
     @JsonSerialize(using = JsonSysUserSerializer.class)
     private SysUser createUser;
 
-    @Setter(value = AccessLevel.PRIVATE)
     @Column(name = "last_time", precision = 3, insertable = false)
     @UpdateTimestamp
     private LocalDateTime lastTime;
@@ -61,15 +60,17 @@ public abstract class BaseEntity {
 
     @PrePersist
     private void prePersist() {
-        if (this.getCreateUserId() == null) {
-            this.setCreateUserId(ShiroUtils.getCurrentUserId());
+        Long currentUserId = ShiroUtils.getCurrentUserId();
+        if (TodoUser.USER_NO_LOGIN.getUserId().equals(currentUserId)) {
+            if (this.getCreateUserId() != null) {
+                return;
+            }
         }
+        this.setCreateUserId(currentUserId);
     }
 
     @PreUpdate
     private void PreUpdate() {
-        if (this.getLastUserId() == null) {
-            this.setLastUserId(ShiroUtils.getCurrentUserId());
-        }
+        this.setLastUserId(ShiroUtils.getCurrentUserId());
     }
 }

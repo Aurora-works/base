@@ -63,9 +63,16 @@ public class ShiroUtils {
     }
 
     /**
-     * 检查权限
+     * 检查权限 (断言)
      */
     public static void checkPermission(String permission) {
         SecurityUtils.getSubject().checkPermission(permission);
+    }
+
+    /**
+     * 检查权限
+     */
+    public static boolean isPermitted(String permission) {
+        return SecurityUtils.getSubject().isPermitted(permission);
     }
 }

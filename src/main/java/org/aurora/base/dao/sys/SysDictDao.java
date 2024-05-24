@@ -11,4 +11,6 @@ public interface SysDictDao extends BaseDao<SysDict> {
     List<TableFormatter> findFormatterByCodes(String[] codes);
 
     List<SysDict> findByCode(String dictCode);
+
+    List<SysDict> findByCodes(String[] dictCodes);
 }

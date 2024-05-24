@@ -31,7 +31,7 @@ public class SysRoleServiceImpl extends BaseServiceImpl<SysRole> implements SysR
         if (role.getId().equals(role.getParentId())) {
             throw new IllegalArgumentException();
         }
-        super.update(role);
+        roleDao.update(role);
     }
 
     @Override

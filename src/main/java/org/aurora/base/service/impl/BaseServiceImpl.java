@@ -18,6 +18,7 @@ import org.aurora.base.entity.sys.SysTable;
 import org.aurora.base.entity.sys.SysTableColumn;
 import org.aurora.base.service.BaseService;
 import org.aurora.base.util.dto.TableFormatter;
+import org.aurora.base.util.enums.ColumnType;
 import org.aurora.base.util.poi.ExcelUtils;
 import org.aurora.base.util.reflect.BeanInfoUtils;
 import org.aurora.base.util.view.FilterRuleHelper;
@@ -27,6 +28,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import java.io.ByteArrayOutputStream;
 import java.lang.reflect.Field;
 import java.lang.reflect.ParameterizedType;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -166,7 +168,8 @@ public abstract class BaseServiceImpl<T extends BaseEntity> implements BaseServi
         // 冻结首行
         sheet.createFreezePane(0, 1);
         // 内容样式
-        XSSFCellStyle rowStyle = ExcelUtils.getRowStyle(workbook);
+        XSSFCellStyle stringStyle = ExcelUtils.getStringStyle(workbook);
+        XSSFCellStyle dateTimeStyle = ExcelUtils.getDateTimeStyle(workbook);
         // 数据字典
         List<TableFormatter> formatters = getFormatters();
         // 内容
@@ -175,7 +178,6 @@ public abstract class BaseServiceImpl<T extends BaseEntity> implements BaseServi
             row = sheet.createRow(i + 1);
             for (int j = 0, clen = columns.size(); j < clen; j++) {
                 cell = row.createCell(j);
-                cell.setCellStyle(rowStyle);
                 Object value = BeanInfoUtils.getPropertyValue(list.get(i), columns.get(j).getEntityName(), entityClass);
                 if (value == null) {
                     continue;
@@ -188,7 +190,13 @@ public abstract class BaseServiceImpl<T extends BaseEntity> implements BaseServi
                         }
                     }
                 }
-                cell.setCellValue(value.toString());
+                if (ColumnType.LOCAL_DATE_TIME.getKey().equals(columns.get(j).getColumnType())) {
+                    cell.setCellValue((LocalDateTime) value);
+                    cell.setCellStyle(dateTimeStyle);
+                } else {
+                    cell.setCellValue(value.toString());
+                    cell.setCellStyle(stringStyle);
+                }
             }
         }
 
@@ -266,5 +274,18 @@ public abstract class BaseServiceImpl<T extends BaseEntity> implements BaseServi
      * 子类可重写此方法控制Excel导出的列
      */
     protected void checkExportColumns(List<SysTableColumn> columns) {
+
+        SysTableColumn description = new SysTableColumn();
+        description.setDisplayName("描述");
+        description.setEntityName("description");
+
+        columns.add(description);
+
+        SysTableColumn createTime = new SysTableColumn();
+        createTime.setDisplayName("创建时间");
+        createTime.setEntityName("createTime");
+        createTime.setColumnType(ColumnType.LOCAL_DATE_TIME.getKey());
+
+        columns.add(createTime);
     }
 }

@@ -225,15 +225,6 @@
             text: '',
             interval: 1000
         });
-        changes = changes.map(item => {
-            let json = {};
-            json.id = item.id;
-            json.readOp = item.readOp;
-            json.createOp = item.createOp;
-            json.updateOp = item.updateOp;
-            json.deleteOp = item.deleteOp;
-            return json;
-        });
         let rid = role.id;
         $.ajax({
             type: 'post',

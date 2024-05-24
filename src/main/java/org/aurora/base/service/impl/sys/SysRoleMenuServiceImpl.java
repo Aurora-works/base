@@ -14,10 +14,7 @@ import org.aurora.base.util.view.PageHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 @Service
 public class SysRoleMenuServiceImpl extends BaseServiceImpl<SysRoleMenu> implements SysRoleMenuService {
@@ -84,12 +81,11 @@ public class SysRoleMenuServiceImpl extends BaseServiceImpl<SysRoleMenu> impleme
         }
 
         if (!defaultSort.equals(sort) || !defaultOrder.equals(order)) {
-            authMenus.sort(((o1, o2) -> {
-                if ("asc".equals(order)) {
-                    return String.valueOf(FieldUtils.readDeclaredField(o1, sort)).compareTo(String.valueOf(FieldUtils.readDeclaredField(o2, sort)));
-                }
-                return String.valueOf(FieldUtils.readDeclaredField(o2, sort)).compareTo(String.valueOf(FieldUtils.readDeclaredField(o1, sort)));
-            }));
+            if ("asc".equals(order)) {
+                authMenus.sort(Comparator.comparing(o -> String.valueOf(FieldUtils.readDeclaredField(o, sort))));
+            } else {
+                authMenus.sort(((o1, o2) -> String.valueOf(FieldUtils.readDeclaredField(o2, sort)).compareTo(String.valueOf(FieldUtils.readDeclaredField(o1, sort)))));
+            }
         }
 
         return new PageHelper<>(authMenus.size(), authMenus, getFormatters());

@@ -1,5 +1,6 @@
 package org.aurora.base.util.dto;
 
+// @JsonIgnoreProperties(ignoreUnknown = true)
 public record SysAuthMenu(
         Long id,
         String menuName,

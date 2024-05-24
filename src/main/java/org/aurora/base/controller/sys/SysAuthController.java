@@ -41,6 +41,9 @@ public class SysAuthController extends BaseController<SysRoleMenu> {
         return roleMenuService;
     }
 
+    /**
+     * 功能菜单列表
+     */
     @PostMapping(value = "/menu/list")
     @RequiresPermissions("sys_auth:read")
     @ResponseBody
@@ -51,6 +54,9 @@ public class SysAuthController extends BaseController<SysRoleMenu> {
         return roleMenuService.findByRoleId(sort, order, roleId);
     }
 
+    /**
+     * 保存修改
+     */
     @PostMapping(value = "/save")
     @RequiresPermissions("sys_auth:update")
     @ResponseBody

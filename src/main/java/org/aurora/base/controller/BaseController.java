@@ -69,7 +69,7 @@ public abstract class BaseController<T extends BaseEntity> {
     @ResponseBody
     public Result<Object> create(T entity) {
         ShiroUtils.checkPermission(getMenuCode() + ":create");
-        if (entity.getId() != null || entity.getCreateUserId() != null) {
+        if (entity.getId() != null) {
             throw new IllegalArgumentException();
         }
         getService().create(entity);
@@ -83,7 +83,7 @@ public abstract class BaseController<T extends BaseEntity> {
     @ResponseBody
     public Result<Object> update(T entity) {
         ShiroUtils.checkPermission(getMenuCode() + ":update");
-        if (entity.getId() == null || entity.getLastUserId() != null) {
+        if (entity.getId() == null) {
             throw new IllegalArgumentException();
         }
         getService().update(entity);

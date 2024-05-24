@@ -24,6 +24,7 @@ public class JsonSysUserSerializer extends JsonSerializer<SysUser> {
         gen.writeStringField("username", user.getUsername());
         gen.writeStringField("nickname", user.getNickname());
         gen.writeStringField("isDeleted", user.getIsDeleted());
+        gen.writeNumberField("version", user.getVersion());
         gen.writeEndObject();
     }
 
@@ -38,6 +39,7 @@ public class JsonSysUserSerializer extends JsonSerializer<SysUser> {
         gen.writeStringField("username", user.getUsername());
         gen.writeStringField("nickname", user.getNickname());
         gen.writeStringField("isDeleted", user.getIsDeleted());
+        gen.writeNumberField("version", user.getVersion());
         typeSer.writeTypeSuffix(gen, typeIdDef);
     }
 }

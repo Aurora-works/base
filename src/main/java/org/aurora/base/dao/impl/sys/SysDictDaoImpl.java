@@ -28,4 +28,12 @@ public class SysDictDaoImpl extends BaseDaoImpl<SysDict> implements SysDictDao {
                 .setCacheable(true)
                 .list();
     }
+
+    @Override
+    public List<SysDict> findByCodes(String[] dictCodes) {
+        String hql = "from SysDict where dictCode in(:dictCodes)";
+        return getSession().createSelectionQuery(hql, SysDict.class)
+                .setParameterList("dictCodes", dictCodes)
+                .list();
+    }
 }

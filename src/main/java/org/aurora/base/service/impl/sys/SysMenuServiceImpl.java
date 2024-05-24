@@ -32,7 +32,7 @@ public class SysMenuServiceImpl extends BaseServiceImpl<SysMenu> implements SysM
         if (menu.getId().equals(menu.getParentId())) {
             throw new IllegalArgumentException();
         }
-        super.update(menu);
+        menuDao.update(menu);
     }
 
     @Override

@@ -1,18 +1,20 @@
 package org.aurora.base.controller.dev;
 
+import org.apache.shiro.authz.annotation.Logical;
 import org.apache.shiro.authz.annotation.RequiresAuthentication;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.aurora.base.controller.BaseController;
 import org.aurora.base.entity.sys.SysDict;
 import org.aurora.base.service.BaseService;
 import org.aurora.base.service.sys.SysDictService;
+import org.aurora.base.shiro.ShiroUtils;
+import org.aurora.base.util.Result;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @Controller
 @RequestMapping(value = {"/sys/dict", "/dev/dict"})
@@ -47,5 +49,25 @@ public class SysDictController extends BaseController<SysDict> {
     @ResponseBody
     public List<SysDict> findByCode(@PathVariable String dictCode) {
         return dictService.findByCode(dictCode);
+    }
+
+    /**
+     * 保存修改
+     */
+    @PostMapping(value = "/save")
+    @RequiresPermissions(value = {"sys_dict:create", "sys_dict:update", "sys_dict:delete"}, logical = Logical.OR)
+    @ResponseBody
+    public Result<Object> save(@RequestBody Map<String, List<SysDict>> changes) {
+        if (!ShiroUtils.isPermitted("sys_dict:create")) {
+            changes.put("inserted", null);
+        }
+        if (!ShiroUtils.isPermitted("sys_dict:update")) {
+            changes.put("updated", null);
+        }
+        if (!ShiroUtils.isPermitted("sys_dict:delete")) {
+            changes.put("deleted", null);
+        }
+        dictService.save(changes);
+        return Result.success();
     }
 }

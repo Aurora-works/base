@@ -47,7 +47,7 @@ public class SysUserServiceImpl extends BaseServiceImpl<SysUser> implements SysU
         user.setIsDeleted(YesOrNo.NO.getKey());
         user.setPassword(defaultPwd);
         ShiroUtils.encryptPassword(user);
-        super.create(user);
+        userDao.create(user);
     }
 
     @Override
@@ -61,7 +61,7 @@ public class SysUserServiceImpl extends BaseServiceImpl<SysUser> implements SysU
         user.setSalt(updateUser.getSalt());
         user.setUserType(updateUser.getUserType());
         user.setIsDeleted(updateUser.getIsDeleted());
-        super.update(user);
+        userDao.update(user);
     }
 
     @Override
@@ -71,8 +71,10 @@ public class SysUserServiceImpl extends BaseServiceImpl<SysUser> implements SysU
             if (!UserType.ADMIN.getKey().equals(user.getUserType())) {
                 throw new IllegalArgumentException();
             }
+            user.setIsDeleted(YesOrNo.YES.getKey());
+            userDao.update(user); // SoftDelete
         }
-        userDao.softDelete(ids);
+        userRoleDao.deleteByUserIds(ids);
     }
 
     @Override
@@ -195,7 +197,7 @@ public class SysUserServiceImpl extends BaseServiceImpl<SysUser> implements SysU
         for (SysUser user : users) {
             user.setPassword(defaultPwd);
             ShiroUtils.encryptPassword(user);
-            super.update(user);
+            userDao.update(user);
         }
     }
 
