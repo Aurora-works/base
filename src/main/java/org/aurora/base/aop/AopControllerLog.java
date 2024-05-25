@@ -13,9 +13,7 @@ import org.aurora.base.entity.sys.SysRequestLog;
 import org.aurora.base.service.sys.SysErrorLogService;
 import org.aurora.base.service.sys.SysRequestLogService;
 import org.aurora.base.shiro.ShiroUtils;
-import org.aurora.base.util.constant.CommonConstant;
 import org.aurora.base.util.web.IPUtils;
-import org.aurora.base.jackson.JSONUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.request.RequestContextHolder;
@@ -25,10 +23,7 @@ import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.time.Duration;
 import java.time.Instant;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Objects;
-import java.util.Set;
 
 @Log4j2
 @Aspect
@@ -57,7 +52,7 @@ public class AopControllerLog {
         String requestIp = IPUtils.getIpAddr(request);
         String requestMethod = request.getMethod();
         String requestController = joinPoint.getTarget().getClass().getName() + "." + joinPoint.getSignature().getName() + "()";
-        String requestParameters = getParams(request);
+        String requestParameters = RequestUtils.getParams(request);
         log.info("URL:{}", requestUrl);
         log.info("IP:{}", requestIp);
         log.info("请求方式:{}", requestMethod);
@@ -98,7 +93,7 @@ public class AopControllerLog {
         errorLog.setRequestUrl(String.valueOf(request.getRequestURL()));
         errorLog.setRequestMethod(request.getMethod());
         errorLog.setRequestIp(IPUtils.getIpAddr(request));
-        errorLog.setRequestParameters(getParams(request));
+        errorLog.setRequestParameters(RequestUtils.getParams(request));
         errorLog.setCreateUserId(ShiroUtils.getCurrentUserId());
         Thread.startVirtualThread(() -> errorLogService.silentCreate(errorLog));
     }
@@ -111,15 +106,5 @@ public class AopControllerLog {
             stackTrace = sw.toString();
         }
         return stackTrace;
-    }
-
-    private String getParams(HttpServletRequest request) {
-        Map<String, String[]> map = new HashMap<>(request.getParameterMap());
-        Set.of(CommonConstant.NO_LOG_REQUEST_PARAMS).forEach(param -> {
-            if (map.containsKey(param)) {
-                map.put(param, null);
-            }
-        });
-        return JSONUtils.writeValueAsString(map);
     }
 }

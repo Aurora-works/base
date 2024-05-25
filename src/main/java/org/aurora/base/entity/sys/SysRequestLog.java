@@ -8,6 +8,7 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 import org.aurora.base.entity.BaseEntity;
+import org.hibernate.Length;
 
 /**
  * 系统操作日志表
@@ -32,6 +33,6 @@ public class SysRequestLog extends BaseEntity {
     @Column(name = "request_ip", length = 50)
     private String requestIp;
 
-    @Column(name = "request_parameters", length = 1000)
+    @Column(name = "request_parameters", length = Length.LONG)
     private String requestParameters;
 }

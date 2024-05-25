@@ -36,6 +36,6 @@ public class SysErrorLog extends BaseEntity {
     @Column(name = "request_ip", length = 50)
     private String requestIp;
 
-    @Column(name = "request_parameters", length = 1000)
+    @Column(name = "request_parameters", length = Length.LONG)
     private String requestParameters;
 }
