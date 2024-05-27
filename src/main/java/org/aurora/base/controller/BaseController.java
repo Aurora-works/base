@@ -15,6 +15,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.io.ByteArrayOutputStream;
 import java.net.URLEncoder;
@@ -120,6 +121,16 @@ public abstract class BaseController<T extends BaseEntity> {
                 .contentType(MediaType.parseMediaType(CommonConstant.MIME_TYPE_XLSX))
                 .contentLength(stream.size())
                 .body(new ByteArrayResource(stream.toByteArray()));
+    }
+
+    /**
+     * Excel导入
+     */
+    @PostMapping(value = "/excel/in")
+    @ResponseBody
+    public Result<Object> importExcel(@RequestParam MultipartFile excelFile) {
+        ShiroUtils.checkPermission(getMenuCode() + ":create");
+        return Result.success();
     }
 
     /**

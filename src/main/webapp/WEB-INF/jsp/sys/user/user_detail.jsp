@@ -101,7 +101,7 @@
             success: function (result) {
                 result = JSON.parse(result);
                 $.messager.progress('close');
-                if (result.code == '0') {
+                if (result.code == 0) {
                     eval(callback + '();');
                 } else {
                     $.messager.alert({

@@ -353,6 +353,15 @@
 
     // Excel导入
     function excelInSysUser() {
+        $('#sys_user_dialog').css('padding', '10px').dialog({
+            width: 400,
+            height: 165,
+            href: 'sys/user/import_excel',
+            iconCls: 'icon-excel-in',
+            modal: true,
+            title: 'Excel批量导入',
+            buttons: null
+        }).dialog('center');
     }
 </script>
 </body>
