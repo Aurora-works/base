@@ -78,6 +78,12 @@
             url: 'sys/dict/combo/sex',
             panelHeight: 'auto',
             editable: false,
+            icons: [{
+                iconCls: 'icon-clear',
+                handler: function (e) {
+                    $(e.data.target).combobox('clear');
+                }
+            }],
             onChange: function (value) {
                 if (value == '') {
                     $('#sys_user_win').datagrid('removeFilterRule', 'sex');
@@ -101,6 +107,12 @@
             url: 'sys/dict/combo/status',
             panelHeight: 'auto',
             editable: false,
+            icons: [{
+                iconCls: 'icon-clear',
+                handler: function (e) {
+                    $(e.data.target).combobox('clear');
+                }
+            }],
             onChange: function (value) {
                 if (value == '') {
                     $('#sys_user_win').datagrid('removeFilterRule', 'status');

@@ -263,6 +263,12 @@
             url: 'sys/dict/combo/sex',
             panelHeight: 'auto',
             editable: false,
+            icons: [{
+                iconCls: 'icon-clear',
+                handler: function (e) {
+                    $(e.data.target).combobox('clear');
+                }
+            }],
             onChange: function (value) {
                 if (value == '') {
                     $('#sys_user_list').datagrid('removeFilterRule', 'sex');
@@ -286,6 +292,12 @@
             url: 'sys/dict/combo/status',
             panelHeight: 'auto',
             editable: false,
+            icons: [{
+                iconCls: 'icon-clear',
+                handler: function (e) {
+                    $(e.data.target).combobox('clear');
+                }
+            }],
             onChange: function (value) {
                 if (value == '') {
                     $('#sys_user_list').datagrid('removeFilterRule', 'status');
@@ -296,8 +308,8 @@
                         value: value,
                         type: 'combobox'
                     });
-                    $('#sys_user_list').datagrid('doFilter')
                 }
+                $('#sys_user_list').datagrid('doFilter')
             }
         }
     }, {
@@ -305,6 +317,12 @@
         type: 'datebox',
         options: {
             editable: false,
+            icons: [{
+                iconCls: 'icon-clear',
+                handler: function (e) {
+                    $(e.data.target).datebox('clear');
+                }
+            }],
             onChange: function (value) {
                 if (value == '') {
                     $('#sys_user_list').datagrid('removeFilterRule', 'createTime');

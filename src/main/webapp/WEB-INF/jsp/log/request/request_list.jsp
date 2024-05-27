@@ -117,6 +117,12 @@
         type: 'datebox',
         options: {
             editable: false,
+            icons: [{
+                iconCls: 'icon-clear',
+                handler: function (e) {
+                    $(e.data.target).datebox('clear');
+                }
+            }],
             onChange: function (value) {
                 if (value == '') {
                     $('#sys_request_log_list').datagrid('removeFilterRule', 'createTime');
