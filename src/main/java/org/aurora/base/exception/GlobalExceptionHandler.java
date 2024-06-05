@@ -42,6 +42,13 @@ public class GlobalExceptionHandler {
         return Result.fail(e.getMessage());
     }
 
+    @ExceptionHandler(IllegalArgumentException.class)
+    @ResponseBody
+    public Result<Object> illegalArgumentException(IllegalArgumentException e) {
+        log.error(e.getMessage(), e);
+        return Result.fail(e.getMessage());
+    }
+
     @ExceptionHandler(RuntimeException.class)
     @ResponseBody
     public Result<Object> runtimeException(RuntimeException e) {

@@ -4,17 +4,42 @@ import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.xssf.usermodel.XSSFCellStyle;
 import org.apache.poi.xssf.usermodel.XSSFCreationHelper;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 
 public class ExcelUtils {
 
+    public static XSSFWorkbook create(MultipartFile excelFile) {
+        try {
+            return new XSSFWorkbook(excelFile.getInputStream());
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public static Object getCellValue(Cell cell) {
+        return switch (cell.getCellType()) {
+            case STRING -> cell.getRichStringCellValue().getString();
+            case NUMERIC -> {
+                if (DateUtil.isCellDateFormatted(cell)) {
+                    yield cell.getDateCellValue();
+                }
+                yield cell.getNumericCellValue();
+            }
+            case BOOLEAN -> cell.getBooleanCellValue();
+            case FORMULA -> cell.getCellFormula();
+            // case BLANK -> null;
+            default -> null;
+        };
+    }
+
     /**
      * 将文件写入输出流
      */
     public static void write(XSSFWorkbook workbook, ByteArrayOutputStream stream) {
-        try (workbook) {
+        try {
             workbook.write(stream);
         } catch (IOException e) {
             throw new RuntimeException(e);

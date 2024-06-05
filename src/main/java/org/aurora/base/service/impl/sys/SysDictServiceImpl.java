@@ -74,6 +74,16 @@ public class SysDictServiceImpl extends BaseServiceImpl<SysDict> implements SysD
         updateDescription(dList, dictCodes);
     }
 
+    @Override
+    public void create(SysDict dict) {
+        dict.setDictCode(dict.getDictCode().toUpperCase());
+        dictDao.create(dict);
+        List<SysDict> list = dictDao.findByCode(dict.getDictCode());
+        for (SysDict d : list) {
+            d.setDescription(dict.getDescription());
+        }
+    }
+
     private void update(List<SysDict> dList) {
         Set<String> dictCodes = new HashSet<>();
         for (SysDict dict : dList) {

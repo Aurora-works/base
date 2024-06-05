@@ -39,7 +39,7 @@ public abstract class BaseController<T extends BaseEntity> {
     }
 
     /**
-     * 唯一校验
+     * 唯一验证
      */
     @PostMapping(value = "/validate/{columnName}")
     @ResponseBody
@@ -130,6 +130,7 @@ public abstract class BaseController<T extends BaseEntity> {
     @ResponseBody
     public Result<Object> importExcel(@RequestParam MultipartFile excelFile) {
         ShiroUtils.checkPermission(getMenuCode() + ":create");
+        getService().importExcel(excelFile);
         return Result.success();
     }
 

@@ -4,6 +4,7 @@ import org.aurora.base.entity.BaseEntity;
 import org.aurora.base.util.dto.TableFormatter;
 import org.aurora.base.util.view.FilterRuleHelper;
 import org.aurora.base.util.view.PageHelper;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.io.ByteArrayOutputStream;
 import java.util.List;
@@ -33,4 +34,6 @@ public interface BaseService<T extends BaseEntity> {
     boolean uniqueValidate(String columnName, String value);
 
     String exportExcel(ByteArrayOutputStream stream, String sort, String order, List<FilterRuleHelper> filterRules);
+
+    void importExcel(MultipartFile excelFile);
 }

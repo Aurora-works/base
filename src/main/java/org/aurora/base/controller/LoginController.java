@@ -71,7 +71,7 @@ public class LoginController {
     private void checkMobilePhoneNumber(String mobilePhoneNumber) {
         Pattern pattern = Pattern.compile("^1[0-9]{10}$");
         if (!pattern.matcher(mobilePhoneNumber).matches()) {
-            throw new IllegalArgumentException("check mobile phone number");
+            throw new IllegalArgumentException();
         }
     }
 }
