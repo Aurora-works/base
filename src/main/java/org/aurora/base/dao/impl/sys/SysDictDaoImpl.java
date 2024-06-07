@@ -12,6 +12,12 @@ import java.util.List;
 public class SysDictDaoImpl extends BaseDaoImpl<SysDict> implements SysDictDao {
 
     @Override
+    public List<TableFormatter> findAllGroupByCode() {
+        String hql = "select dictCode, dictCode, description from SysDict group by dictCode, description";
+        return getSession().createSelectionQuery(hql, TableFormatter.class).list();
+    }
+
+    @Override
     public List<TableFormatter> findFormatterByCodes(String[] codes) {
         String hql = "select dictCode, dictKey, dictValue from SysDict where dictCode in(:codes)";
         return getSession().createSelectionQuery(hql, TableFormatter.class)

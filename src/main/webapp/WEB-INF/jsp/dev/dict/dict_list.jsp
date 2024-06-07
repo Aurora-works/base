@@ -176,7 +176,7 @@
             dataGrid.datagrid('insertRow', {
                 index: 0,
                 row: {
-                    status: 1
+                    status: '1'
                 }
             });
             editSysDictId = 0;

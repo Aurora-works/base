@@ -6,21 +6,21 @@
         <expiry>
             <ttl unit="minutes">10</ttl>
         </expiry>
-        <heap>100</heap>
+        <heap>1000</heap>
     </cache>
 
     <cache alias="AuthorizationInfoRegion">
         <expiry>
             <ttl unit="minutes">10</ttl>
         </expiry>
-        <heap>100</heap>
+        <heap>1000</heap>
     </cache>
 
     <cache-template name="defaultTemplate">
         <expiry>
             <none/>
         </expiry>
-        <heap>100</heap>
+        <heap>1000</heap>
     </cache-template>
 
 </config>

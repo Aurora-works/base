@@ -6,6 +6,7 @@ import org.aurora.base.dao.sys.SysDictDao;
 import org.aurora.base.entity.sys.SysDict;
 import org.aurora.base.service.impl.BaseServiceImpl;
 import org.aurora.base.service.sys.SysDictService;
+import org.aurora.base.util.dto.TableFormatter;
 import org.aurora.base.util.enums.Status;
 import org.aurora.base.util.view.FilterRuleHelper;
 import org.aurora.base.util.view.PageHelper;
@@ -36,6 +37,11 @@ public class SysDictServiceImpl extends BaseServiceImpl<SysDict> implements SysD
             rows.sort(Comparator.comparing(SysDict::getDictCode));
         }
         return allInPage;
+    }
+
+    @Override
+    public List<TableFormatter> findAllGroupByCode() {
+        return dictDao.findAllGroupByCode();
     }
 
     @Override

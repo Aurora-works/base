@@ -9,6 +9,7 @@ import org.aurora.base.service.BaseService;
 import org.aurora.base.service.sys.SysDictService;
 import org.aurora.base.shiro.ShiroUtils;
 import org.aurora.base.util.Result;
+import org.aurora.base.util.dto.TableFormatter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -40,6 +41,16 @@ public class SysDictController extends BaseController<SysDict> {
     @Override
     protected BaseService<SysDict> getService() {
         return dictService;
+    }
+
+    /**
+     * 返回根据 dictCode, description 分组后的数据列表
+     */
+    @PostMapping(value = "/grid")
+    @RequiresPermissions(value = "sys_table:read")
+    @ResponseBody
+    public List<TableFormatter> findAllGroupByCode() {
+        return dictService.findAllGroupByCode();
     }
 
     /**

@@ -8,6 +8,8 @@ import java.util.List;
 
 public interface SysDictDao extends BaseDao<SysDict> {
 
+    List<TableFormatter> findAllGroupByCode();
+
     List<TableFormatter> findFormatterByCodes(String[] codes);
 
     List<SysDict> findByCode(String dictCode);

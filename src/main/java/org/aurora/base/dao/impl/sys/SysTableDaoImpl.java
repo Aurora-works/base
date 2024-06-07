@@ -12,11 +12,18 @@ import java.util.List;
 public class SysTableDaoImpl extends BaseDaoImpl<SysTable> implements SysTableDao {
 
     @Override
-    public List<TableFormatter> findFormatterByIds(Long[] ids) {
-        String hql = "select 'SysTable', str(id), tableDesc from SysTable where id in(:ids)";
+    public List<TableFormatter> findFormatters() {
+        String hql = "select 'SysTable', str(id), tableDesc from SysTable";
         return getSession().createSelectionQuery(hql, TableFormatter.class)
-                .setParameterList("ids", ids)
                 .setCacheable(true)
+                .list();
+    }
+
+    @Override
+    public List<SysTable> findByForeignTableId(Long tableId) {
+        String hql = "from SysTable t join t.columns c where c.tableId <> :tableId and c.foreignTableId = :tableId";
+        return getSession().createSelectionQuery(hql, SysTable.class)
+                .setParameter("tableId", tableId)
                 .list();
     }
 
