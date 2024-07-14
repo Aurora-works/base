@@ -16,10 +16,12 @@ public abstract class BaseDaoImpl<T extends BaseEntity> implements BaseDao<T> {
     @SuppressWarnings("unchecked")
     protected BaseDaoImpl() {
         entityClass = (Class<T>) ((ParameterizedType) this.getClass().getGenericSuperclass()).getActualTypeArguments()[0];
+        entityName = entityClass.getSimpleName();
         entityClassName = entityClass.getName();
     }
 
     private final Class<T> entityClass;
+    private final String entityName;
     private final String entityClassName;
 
     @PersistenceContext
@@ -27,6 +29,10 @@ public abstract class BaseDaoImpl<T extends BaseEntity> implements BaseDao<T> {
 
     protected Session getSession() {
         return entityManager.unwrap(Session.class);
+    }
+
+    protected String getEntityName() {
+        return entityName;
     }
 
     @Override

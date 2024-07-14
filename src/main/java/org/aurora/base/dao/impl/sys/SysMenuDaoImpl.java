@@ -13,7 +13,7 @@ public class SysMenuDaoImpl extends BaseDaoImpl<SysMenu> implements SysMenuDao {
 
     @Override
     public List<TableFormatter> getFormatters() {
-        String hql = "select 'SysMenu', str(id), menuName from SysMenu";
+        String hql = "select '" + getEntityName() + "', str(id), menuName from SysMenu";
         return getSession().createSelectionQuery(hql, TableFormatter.class)
                 .setCacheable(true)
                 .list();

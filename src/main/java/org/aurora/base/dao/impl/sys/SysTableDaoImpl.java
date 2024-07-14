@@ -12,8 +12,8 @@ import java.util.List;
 public class SysTableDaoImpl extends BaseDaoImpl<SysTable> implements SysTableDao {
 
     @Override
-    public List<TableFormatter> findFormatters() {
-        String hql = "select 'SysTable', str(id), tableDesc from SysTable";
+    public List<TableFormatter> getFormatters() {
+        String hql = "select '" + getEntityName() + "', str(id), tableDesc from SysTable";
         return getSession().createSelectionQuery(hql, TableFormatter.class)
                 .setCacheable(true)
                 .list();

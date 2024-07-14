@@ -194,6 +194,16 @@ public abstract class BaseServiceImpl<T extends BaseEntity> implements BaseServi
                         for (TableFormatter formatter : formatters) {
                             if (columns.get(j).getDictCode().equals(formatter.dictCode()) && value.toString().equals(formatter.dictKey())) {
                                 value = formatter.dictValue();
+                                break;
+                            }
+                        }
+                    }
+                    // 外键处理
+                    else if (columns.get(j).getForeignTableId() != null) {
+                        for (TableFormatter formatter : formatters) {
+                            if (columns.get(j).getForeignTable().getEntityName().equals(formatter.dictCode()) && value.toString().equals(formatter.dictKey())) {
+                                value = formatter.dictValue();
+                                break;
                             }
                         }
                     }
@@ -260,8 +270,14 @@ public abstract class BaseServiceImpl<T extends BaseEntity> implements BaseServi
                     Object value = ExcelUtils.getCellValue(cell);
 
                     SysTableColumn column = titleArr[j];
+
+                    if (value == null) {
+                        BeanInfoUtils.setPropertyValue(entity, value, column.getEntityName(), entityClass);
+                        continue;
+                    }
+
                     // 数据类型
-                    if (value != null && ColumnType.STRING.getKey().equals(column.getColumnType())) {
+                    if (ColumnType.STRING.getKey().equals(column.getColumnType())) {
                         if (value instanceof Number) {
                             value = new BigDecimal(value.toString()).stripTrailingZeros().toPlainString();
                         } else {
@@ -270,14 +286,14 @@ public abstract class BaseServiceImpl<T extends BaseEntity> implements BaseServi
                     }
 
                     // 唯一验证
-                    if (value != null && YesOrNo.YES.getKey().equals(column.getIsUnique())) {
+                    if (YesOrNo.YES.getKey().equals(column.getIsUnique())) {
                         if (!uniqueValidate(column.getEntityName(), value.toString())) {
                             throw new IllegalArgumentException("[" + column.getDisplayName() + "] [" + value + "] 已存在, 请修改");
                         }
                     }
 
                     // 数据字典
-                    if (value != null && StringUtils.isNotBlank(column.getDictCode())) {
+                    if (StringUtils.isNotBlank(column.getDictCode())) {
                         boolean flag = true;
                         for (TableFormatter formatter : formatters) {
                             if (column.getDictCode().equals(formatter.dictCode()) && value.toString().equals(formatter.dictValue())) {
@@ -289,6 +305,25 @@ public abstract class BaseServiceImpl<T extends BaseEntity> implements BaseServi
                         if (flag) {
                             throw new IllegalArgumentException("[" + value + "] 不是有效的 [" + column.getDisplayName() + "]");
                         }
+                    }
+
+                    // 外键处理
+                    else if (column.getForeignTableId() != null) {
+                        boolean flag = true;
+                        for (TableFormatter formatter : formatters) {
+                            if (column.getForeignTable().getEntityName().equals(formatter.dictCode()) && value.toString().equals(formatter.dictValue())) {
+                                value = formatter.dictKey();
+                                flag = false;
+                                break;
+                            }
+                        }
+                        if (flag) {
+                            throw new IllegalArgumentException("[" + value + "] 不是有效的 [" + column.getDisplayName() + "]");
+                        }
+                    }
+
+                    if (ColumnType.LONG.getKey().equals(column.getColumnType())) {
+                        value = Long.parseLong(value.toString());
                     }
 
                     BeanInfoUtils.setPropertyValue(entity, value, column.getEntityName(), entityClass);

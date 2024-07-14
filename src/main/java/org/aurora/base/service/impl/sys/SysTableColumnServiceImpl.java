@@ -94,7 +94,7 @@ public class SysTableColumnServiceImpl extends BaseServiceImpl<SysTableColumn> i
     public List<TableFormatter> getFormatters() {
         List<TableFormatter> formatters = super.getFormatters();
         formatters.addAll(dictDao.findAllGroupByCode());
-        formatters.addAll(tableDao.findFormatters());
+        formatters.addAll(tableDao.getFormatters());
         return formatters;
     }
 }

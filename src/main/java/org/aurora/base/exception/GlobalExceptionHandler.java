@@ -53,7 +53,7 @@ public class GlobalExceptionHandler {
     @ResponseBody
     public Result<Object> runtimeException(RuntimeException e) {
         log.error(e.getMessage(), e);
-        return Result.fail();
+        return Result.fail(e.getClass().getSimpleName());
     }
 
     @ExceptionHandler(Exception.class)
