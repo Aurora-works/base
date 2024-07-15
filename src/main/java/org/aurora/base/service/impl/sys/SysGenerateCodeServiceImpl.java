@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class SysGenerateCodeServiceImpl extends BaseServiceImpl<SysGenerateCode> implements SysGenerateCodeService {
@@ -37,5 +38,41 @@ public class SysGenerateCodeServiceImpl extends BaseServiceImpl<SysGenerateCode>
         formatters.addAll(tableDao.getFormatters());
         formatters.addAll(menuDao.getFormatters());
         return formatters;
+    }
+
+    @Override
+    public void save(Map<String, List<SysGenerateCode>> changes) {
+        List<SysGenerateCode> createList = changes.get("inserted");
+        List<SysGenerateCode> updateList = changes.get("updated");
+        List<SysGenerateCode> deleteList = changes.get("deleted");
+        if (createList != null) {
+            for (SysGenerateCode gen : createList) {
+                if (gen.getId() != null) {
+                    throw new IllegalArgumentException();
+                }
+                generateCodeDao.create(gen);
+            }
+        }
+        if (updateList != null) {
+            for (SysGenerateCode gen : updateList) {
+                if (gen.getId() == null) {
+                    throw new IllegalArgumentException();
+                }
+                generateCodeDao.update(gen);
+            }
+        }
+        if (deleteList != null) {
+            for (SysGenerateCode gen : deleteList) {
+                if (gen.getId() == null) {
+                    throw new IllegalArgumentException();
+                }
+                generateCodeDao.delete(gen.getId());
+            }
+        }
+    }
+
+    @Override
+    public void code(Long id) {
+
     }
 }
