@@ -12,9 +12,21 @@ public enum SysParam {
      */
     SYS_DEFAULT_PASSWORD("SYS_DEFAULT_PASSWORD"),
     /**
+     * 系统默认主题
+     */
+    SYS_DEFAULT_THEMES("SYS_DEFAULT_THEMES"),
+    /**
      * 默认添加字段
      */
-    SYS_DEFAULT_TABLE_COLUMN("SYS_DEFAULT_TABLE_COLUMN");
+    SYS_DEFAULT_TABLE_COLUMN("SYS_DEFAULT_TABLE_COLUMN"),
+    /**
+     * 代码生成目录
+     */
+    SYS_GENERATE_PATH("SYS_GENERATE_PATH"),
+    /**
+     * 项目名称
+     */
+    SYS_PROJECT_NAME("SYS_PROJECT_NAME");
 
     private final String code;
 

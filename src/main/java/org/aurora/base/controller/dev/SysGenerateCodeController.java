@@ -5,6 +5,7 @@ import org.apache.shiro.authz.annotation.RequiresAuthentication;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.aurora.base.controller.BaseController;
 import org.aurora.base.entity.sys.SysGenerateCode;
+import org.aurora.base.exception.BusinessException;
 import org.aurora.base.service.BaseService;
 import org.aurora.base.service.sys.SysGenerateCodeService;
 import org.aurora.base.shiro.ShiroUtils;
@@ -69,6 +70,10 @@ public class SysGenerateCodeController extends BaseController<SysGenerateCode> {
     @RequiresPermissions("sys_generate:read")
     @ResponseBody
     public Result<Object> code(@RequestParam Long id) {
+        String OSName = System.getProperty("os.name");
+        if (!OSName.startsWith("Windows")) {
+            throw new BusinessException("暂不支持 [" + OSName + "] 系统, 此功能仅支持Windows本地开发时使用");
+        }
         generateCodeService.code(id);
         return Result.success();
     }

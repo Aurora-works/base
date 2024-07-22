@@ -1,9 +1,13 @@
 package org.aurora.base.controller;
 
 import org.apache.shiro.authz.annotation.RequiresAuthentication;
+import org.aurora.base.service.sys.SysParamService;
 import org.aurora.base.shiro.ShiroUtils;
 import org.aurora.base.util.Result;
+import org.aurora.base.util.enums.SysParam;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -13,12 +17,20 @@ import java.util.regex.Pattern;
 
 @Controller
 public class LoginController {
+    @Autowired
+    public LoginController(SysParamService paramService) {
+        this.paramService = paramService;
+    }
+
+    private final SysParamService paramService;
 
     /**
      * 跳转至登录页面
      */
     @GetMapping(value = "/login")
-    public String login() {
+    public String login(Model model) {
+        String defaultThemes = paramService.getValueByCode(SysParam.SYS_DEFAULT_THEMES.getCode());
+        model.addAttribute("defaultThemes", defaultThemes);
         return "login";
     }
 

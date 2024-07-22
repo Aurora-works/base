@@ -9,6 +9,8 @@
         <heap>1000</heap>
     </cache>
 
+    <cache alias="SysParamRegion" uses-template="defaultTemplate"/>
+
     <cache alias="AuthorizationInfoRegion">
         <expiry>
             <ttl unit="minutes">10</ttl>

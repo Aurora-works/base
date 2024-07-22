@@ -13,6 +13,8 @@ public class SysParamDaoImpl extends BaseDaoImpl<SysParam> implements SysParamDa
         String hql = "from SysParam where paramCode = :paramCode";
         return getSession().createSelectionQuery(hql, SysParam.class)
                 .setParameter("paramCode", paramCode)
+                .setCacheable(true)
+                .setCacheRegion("SysParamRegion")
                 .uniqueResult();
     }
 }

@@ -21,4 +21,9 @@ public class SysParamServiceImpl extends BaseServiceImpl<SysParam> implements Sy
     protected BaseDao<SysParam> getDao() {
         return paramDao;
     }
+
+    @Override
+    public String getValueByCode(String code) {
+        return paramDao.findByCode(code).getParamValue();
+    }
 }

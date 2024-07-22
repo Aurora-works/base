@@ -2,7 +2,10 @@ package org.aurora.base.entity;
 
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import jakarta.persistence.*;
-import lombok.*;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
 import org.aurora.base.entity.sys.SysUser;
 import org.aurora.base.jackson.JsonSysUserSerializer;
 import org.aurora.base.shiro.ShiroUtils;
