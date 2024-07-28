@@ -136,7 +136,7 @@
                 text: '保存',
                 width: 120,
                 handler: function () {
-                    commitSysMenuDetailForm('create', 'sysMenuCallback');
+                    commitSysMenuDetailForm('create', sysMenuCallback);
                 }
             }, {
                 iconCls: 'icon-cancel',
@@ -168,7 +168,7 @@
                     text: '保存',
                     width: 120,
                     handler: function () {
-                        commitSysMenuDetailForm('update', 'sysMenuCallback');
+                        commitSysMenuDetailForm('update', sysMenuCallback);
                     }
                 }, {
                     iconCls: 'icon-cancel',

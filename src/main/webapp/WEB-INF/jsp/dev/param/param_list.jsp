@@ -44,7 +44,7 @@
         <span class="datagrid-btn-separator" style="float: none"></span>
     </shiro:hasPermission>
     <a href="javascript:" class="easyui-linkbutton" data-options="iconCls: 'icon-excel-out', plain: true, text: '导出'" onclick="excelOutSysParam()"></a>
-    <shiro:hasPermission name="sys_dict:create">
+    <shiro:hasPermission name="sys_param:create">
         <a href="javascript:" class="easyui-linkbutton" data-options="iconCls: 'icon-excel-in', plain: true, text: '导入'" onclick="excelInSysParam()"></a>
     </shiro:hasPermission>
 </div>
@@ -71,7 +71,7 @@
                 text: '保存',
                 width: 120,
                 handler: function () {
-                    commitSysParamDetailForm('create', 'sysParamCallback');
+                    commitSysParamDetailForm('create', sysParamCallback);
                 }
             }, {
                 iconCls: 'icon-cancel',
@@ -101,7 +101,7 @@
                     text: '保存',
                     width: 120,
                     handler: function () {
-                        commitSysParamDetailForm('update', 'sysParamCallback');
+                        commitSysParamDetailForm('update', sysParamCallback);
                     }
                 }, {
                     iconCls: 'icon-cancel',

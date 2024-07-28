@@ -131,7 +131,7 @@
                 text: '保存',
                 width: 120,
                 handler: function () {
-                    executeCallback('sysRoleUserCallback');
+                    executeCallback(sysRoleUserCallback);
                 }
             }, {
                 iconCls: 'icon-cancel',

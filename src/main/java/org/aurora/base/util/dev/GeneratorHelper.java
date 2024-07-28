@@ -38,6 +38,11 @@ public class GeneratorHelper {
     private final String serviceImplPath; // 业务层实现
     private final String controllerPath; // 控制层
 
+    private final String listPath; // _list.jsp
+    private final String detailPath; // _detail.jsp
+    private final String readPath; // _read.jsp
+    private final String importExcelPath; // _import_excel.jsp
+
     private Map<String, Object> data = new HashMap<>();
 
     public GeneratorHelper(SysGenerateCode generateCode, String generatePath, String projectName) {
@@ -59,6 +64,10 @@ public class GeneratorHelper {
         this.servicePath = javaPath + "/service/" + package1 + "/" + entityName + "Service.java"; // D:/SystemGenerateCode/base/src/main/java/org/aurora/base/service/sys/SysUserService.java
         this.serviceImplPath = javaPath + "/service/impl/" + package1 + "/" + entityName + "ServiceImpl.java"; // D:/SystemGenerateCode/base/src/main/java/org/aurora/base/service/impl/sys/SysUserServiceImpl.java
         this.controllerPath = javaPath + "/controller/" + package1 + "/" + entityName + "Controller.java"; // D:/SystemGenerateCode/base/src/main/java/org/aurora/base/controller/sys/SysUserController.java
+        this.listPath = webPath + "/" + package1 + "/" + package2 + "/" + package2 + "_list.jsp"; // D:/SystemGenerateCode/base/src/main/webapp/WEB-INF/jsp/sys/user/user_list.jsp
+        this.detailPath = webPath + "/" + package1 + "/" + package2 + "/" + package2 + "_detail.jsp"; // D:/SystemGenerateCode/base/src/main/webapp/WEB-INF/jsp/sys/user/user_detail.jsp
+        this.readPath = webPath + "/" + package1 + "/" + package2 + "/" + package2 + "_read.jsp"; // D:/SystemGenerateCode/base/src/main/webapp/WEB-INF/jsp/sys/user/user_read.jsp
+        this.importExcelPath = webPath + "/" + package1 + "/" + package2 + "/" + package2 + "_import_excel.jsp"; // D:/SystemGenerateCode/base/src/main/webapp/WEB-INF/jsp/sys/user/user_import_excel.jsp
 
         data.put("projectName", projectName);
         data.put("columns", columns);

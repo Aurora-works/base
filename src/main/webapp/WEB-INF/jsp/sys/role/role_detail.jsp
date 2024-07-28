@@ -99,7 +99,7 @@
                 result = JSON.parse(result);
                 $.messager.progress('close');
                 if (result.code == 0) {
-                    eval(callback + '(\'' + roleCode + '\');');
+                    callback(roleCode);
                 } else {
                     $.messager.alert({
                         title: '提示',

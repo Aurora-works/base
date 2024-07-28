@@ -16,7 +16,7 @@
                    style="width: 100%"/>
         </div>
         <div style="width:25%; float: left; padding: 0 20px">
-            <input id="'sys_user_detail_nickname'" name="nickname" class="easyui-textbox"
+            <input id="sys_user_detail_nickname" name="nickname" class="easyui-textbox"
                    data-options="label: '姓名', labelPosition: 'top', validateOnCreate: false, required: true" style="width: 100%"/>
         </div>
         <div style="width:25%; float: left; padding: 0 20px">
@@ -102,7 +102,7 @@
                 result = JSON.parse(result);
                 $.messager.progress('close');
                 if (result.code == 0) {
-                    eval(callback + '();');
+                    callback();
                 } else {
                     $.messager.alert({
                         title: '提示',

@@ -28,6 +28,10 @@ public class CodeGenerator {
     }
 
     public static void code(GeneratorHelper helper) {
+        generateRead(helper);
+        generateDetail(helper);
+        generateImportExcel(helper);
+        generateList(helper);
         generateEntity(helper);
         generateDao(helper);
         generateDaoImpl(helper);
@@ -36,21 +40,42 @@ public class CodeGenerator {
         generateController(helper);
     }
 
+    private static void generateRead(GeneratorHelper helper) {
+        Template template = getTemplate("_read.jsp.ftl");
+        generateCode(template, helper.getData(), helper.getReadPath());
+    }
+
+    private static void generateDetail(GeneratorHelper helper) {
+        Template template = getTemplate("_detail.jsp.ftl");
+        generateCode(template, helper.getData(), helper.getDetailPath());
+    }
+
+    private static void generateImportExcel(GeneratorHelper helper) {
+        Template template = getTemplate("_import_excel.jsp.ftl");
+        generateCode(template, helper.getData(), helper.getImportExcelPath());
+    }
+
+    private static void generateList(GeneratorHelper helper) {
+        Template template = getTemplate("_list.jsp.ftl");
+        generateCode(template, helper.getData(), helper.getListPath());
+    }
+
     private static void generateEntity(GeneratorHelper helper) {
 
         Map<String, Object> data = helper.getData();
 
         // import
-        boolean hasForeign = false; // 记录是否有外键
+        // boolean hasForeign = false; // 记录是否有外键
         boolean hasLocalDate = false; // 记录是否有LocalDate类型
         boolean hasLocalTime = false; // 记录是否有LocalTime类型
         boolean hasLocalDateTime = false; // 记录是否有LocalDateTime类型
         boolean hasBigDecimal = false; // 记录是否有BigDecimal类型
 
         for (SysTableColumn column : helper.getColumns()) {
-            if (!hasForeign && column.getForeignTableId() != null) {
-                hasForeign = true;
-            } else if (!hasLocalDate && ColumnType.LOCAL_DATE.getKey().equals(column.getColumnType())) {
+            // if (!hasForeign && column.getForeignTableId() != null) {
+            //     hasForeign = true;
+            // } else
+            if (!hasLocalDate && ColumnType.LOCAL_DATE.getKey().equals(column.getColumnType())) {
                 hasLocalDate = true;
             } else if (!hasLocalTime && ColumnType.LOCAL_TIME.getKey().equals(column.getColumnType())) {
                 hasLocalTime = true;
@@ -61,7 +86,7 @@ public class CodeGenerator {
             }
         }
 
-        data.put("hasForeign", hasForeign);
+        // data.put("hasForeign", hasForeign);
         data.put("hasLocalDate", hasLocalDate);
         data.put("hasLocalTime", hasLocalTime);
         data.put("hasLocalDateTime", hasLocalDateTime);

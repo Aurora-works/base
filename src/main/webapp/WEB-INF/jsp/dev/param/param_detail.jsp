@@ -88,7 +88,7 @@
                 result = JSON.parse(result);
                 $.messager.progress('close');
                 if (result.code == 0) {
-                    eval(callback + '();');
+                    callback();
                 } else {
                     $.messager.alert({
                         title: '提示',

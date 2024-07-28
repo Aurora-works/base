@@ -115,7 +115,7 @@
                 text: '保存',
                 width: 120,
                 handler: function () {
-                    commitSysRoleDetailForm('create', 'sysRoleCallback');
+                    commitSysRoleDetailForm('create', sysRoleCallback);
                 }
             }, {
                 iconCls: 'icon-cancel',
@@ -146,7 +146,7 @@
                 text: '保存',
                 width: 120,
                 handler: function () {
-                    commitSysRoleDetailForm('update', 'sysRoleCallback');
+                    commitSysRoleDetailForm('update', sysRoleCallback);
                 }
             }, {
                 iconCls: 'icon-cancel',

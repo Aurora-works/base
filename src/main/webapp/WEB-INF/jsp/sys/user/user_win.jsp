@@ -51,7 +51,7 @@
         for (let i = 0; i < rows.length; i++) {
             userIds.push(rows[i].id);
         }
-        eval(callback + '([' + userIds + ']);');
+        callback(userIds);
     }
 
     function convert_sys_user_win(data) {

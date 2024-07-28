@@ -84,7 +84,7 @@
                 text: '保存',
                 width: 120,
                 handler: function () {
-                    commitSysUserDetailForm('create', 'sysUserCallback');
+                    commitSysUserDetailForm('create', sysUserCallback);
                 }
             }, {
                 iconCls: 'icon-cancel',
@@ -116,7 +116,7 @@
                     text: '保存',
                     width: 120,
                     handler: function () {
-                        commitSysUserDetailForm('update', 'sysUserCallback');
+                        commitSysUserDetailForm('update', sysUserCallback);
                     }
                 }, {
                     iconCls: 'icon-cancel',
