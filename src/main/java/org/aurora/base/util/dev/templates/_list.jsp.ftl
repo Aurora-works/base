@@ -26,12 +26,12 @@
         <th data-options="field: '${column.entityName}', title: '${column.displayName}', width: 100, sortable: true,
             formatter: function (value, row, index) {
                 return row.${column.entityName}Text;
-            "></th>
+            }"></th>
         <#elseif column.columnType == "LocalDateTime">
         <th data-options="field: '${column.entityName}', title: '${column.displayName}', width: 100, sortable: true,
             formatter: function (value, row, index) {
                 return formatDateTime(value);
-            "></th>
+            }"></th>
         <#else>
         <th data-options="field: '${column.entityName}', title: '${column.displayName}', width: 100, sortable: true"></th>
         </#if>
@@ -91,7 +91,7 @@
                 text: '保存',
                 width: 120,
                 handler: function () {
-                    commit${entityName}DetailForm('create', '${entityName_}Callback');
+                    commit${entityName}DetailForm('create', ${entityName_}Callback);
                 }
             }, {
                 iconCls: 'icon-cancel',
@@ -121,7 +121,7 @@
                     text: '保存',
                     width: 120,
                     handler: function () {
-                        commit${entityName}DetailForm('update', '${entityName_}Callback');
+                        commit${entityName}DetailForm('update', ${entityName_}Callback);
                     }
                 }, {
                     iconCls: 'icon-cancel',
@@ -191,8 +191,8 @@
             data.formatter.forEach(item => {
                 <#list columns as column>
                 <#if column.dictCode??>
-                if (item.dictCode == '${row.dictCode}' && item.dictKey == row.${column.entityName}) {
-                    row.${entityName}Text = item.dictValue;
+                if (item.dictCode == '${column.dictCode}' && item.dictKey == row.${column.entityName}) {
+                    row.${column.entityName}Text = item.dictValue;
                 }
                 </#if>
                 </#list>
@@ -250,8 +250,7 @@
                 $('#${menuCode}_list').datagrid('doFilter');
             }
         }
-    }<#list columns as column>, {
-        <#if column.dictCode??>
+    }<#list columns as column><#if column.dictCode??>, {
         field: '${column.entityName}',
         type: 'combobox',
         options: {
@@ -268,7 +267,7 @@
             }],
             onChange: function (value) {
                 if (value == '') {
-                    $('#${menuCode}_list').datagrid('removeFilterRule', 'status');
+                    $('#${menuCode}_list').datagrid('removeFilterRule', '${column.entityName}');
                 } else {
                     $('#${menuCode}_list').datagrid('addFilterRule', {
                         field: '${column.entityName}',
@@ -280,7 +279,7 @@
                 $('#${menuCode}_list').datagrid('doFilter')
             }
         }
-        <#elseif column.columnType == "LocalDateTime">
+    }<#elseif column.columnType == "LocalDate" || column.columnType == "LocalDateTime">, {
         field: '${column.entityName}',
         type: 'datebox',
         options: {
@@ -293,7 +292,7 @@
             }],
             onChange: function (value) {
                 if (value == '') {
-                    $('#${menuCode}list').datagrid('removeFilterRule', 'createTime');
+                    $('#${menuCode}list').datagrid('removeFilterRule', '${column.entityName}');
                 } else {
                     $('#${menuCode}_list').datagrid('addFilterRule', {
                         field: '${column.entityName}',
@@ -305,8 +304,22 @@
                 $('#${menuCode}_list').datagrid('doFilter');
             }
         }
-        </#if>
-    }</#list>]);
+    }<#elseif column.columnType == "BigDecimal">, {
+        field: '${column.entityName}',
+        type: 'numberbox',
+        op: ['equal', 'less', 'greater'],
+        options: {
+            precision: ${column.columnLength?split(",")?last}
+        }
+    }<#elseif column.columnType == "Long" || column.columnType == "Integer">, {
+        field: '${column.entityName}',
+        type: 'numberbox',
+        op: ['equal', 'less', 'greater'],
+        options: {
+            precision: 0
+        }
+    }</#if>
+    </#list>]);
 
     // Excel导出
     function excelOut${entityName}() {

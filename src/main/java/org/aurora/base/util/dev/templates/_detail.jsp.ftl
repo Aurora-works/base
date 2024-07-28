@@ -14,6 +14,16 @@
         <div style="width:25%; float: left; padding: 0 20px">
             <#if column.dictCode??>
             <input id="${menuCode}_detail_${column.entityName}" name="${column.entityName}" class="easyui-combobox"
+            <#elseif column.columnType == "LocalDate">
+            <input id="${menuCode}_detail_${column.entityName}" name="${column.entityName}" class="easyui-datebox"
+            <#elseif column.columnType == "LocalTime">
+            <input id="${menuCode}_detail_${column.entityName}" name="${column.entityName}" class="easyui-timespinner"
+            <#elseif column.columnType == "LocalDateTime">
+            <input id="${menuCode}_detail_${column.entityName}" name="${column.entityName}" class="easyui-datetimebox"
+            <#elseif column.columnType == "BigDecimal">
+            <input id="${menuCode}_detail_${column.entityName}" name="${column.entityName}" class="easyui-numberspinner"
+            <#elseif column.columnType == "Long" || column.columnType == "Integer">
+            <input id="${menuCode}_detail_${column.entityName}" name="${column.entityName}" class="easyui-numberspinner"
             <#else>
             <input id="${menuCode}_detail_${column.entityName}" name="${column.entityName}" class="easyui-textbox"
             </#if>
@@ -21,6 +31,7 @@
                    data-options="label: '${column.displayName}', labelPosition: 'top'<#if column.isNullable == "0">, required: true, validateOnCreate: false</#if>, panelHeight: 'auto', editable: false, valueField: 'dictKey', textField: 'dictValue', url: 'sys/dict/combo/${column.dictCode}'" style="width: 100%"/>
                    <#else>
                    data-options="label: '${column.displayName}', labelPosition: 'top'<#if column.isNullable == "0">, required: true</#if
+                   ><#if column.columnType == "BigDecimal">, precision: ${column.columnLength?split(",")?last}</#if
                    ><#if column.isUnique == "1">, validType: 'remote[\'${package1}/${package2}/validate/${column.entityName}\', \'value\']', invalidMessage: '${column.displayName}已存在, 请修改'</#if
                    ><#if column.isNullable == "0" || column.isUnique == "1">, validateOnCreate: false</#if>" style="width: 100%"/>
                    </#if>
