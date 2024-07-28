@@ -7,9 +7,6 @@ import lombok.Setter;
 import lombok.ToString;
 import org.aurora.base.entity.BaseEntity;
 <#if hasBigDecimal || hasLocalDate || hasLocalDateTime || hasLocalTime>
-<#if hasLocalDateTime>
-import org.springframework.format.annotation.DateTimeFormat;
-</#if>
 
 <#if hasBigDecimal>
 import java.math.BigDecimal;
@@ -45,9 +42,6 @@ public class ${entityName} extends BaseEntity {
         ><#if column.isUnique == "1">, unique = true</#if
         ><#if column.isInsertable == "0">, insertable = false</#if
         ><#if column.isUpdatable == "0">, updatable = false</#if>)
-    <#if column.columnType == "LocalDateTime">
-    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-    </#if>
     private ${column.columnType} ${column.entityName};
     <#if column.foreignTableId??>
 
