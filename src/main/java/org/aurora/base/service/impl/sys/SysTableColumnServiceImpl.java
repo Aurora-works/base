@@ -1,6 +1,5 @@
 package org.aurora.base.service.impl.sys;
 
-import org.apache.commons.lang3.StringUtils;
 import org.aurora.base.dao.BaseDao;
 import org.aurora.base.dao.sys.SysDictDao;
 import org.aurora.base.dao.sys.SysParamDao;
@@ -59,8 +58,6 @@ public class SysTableColumnServiceImpl extends BaseServiceImpl<SysTableColumn> i
             if (column.getId() != null) {
                 throw new IllegalArgumentException();
             }
-            if (StringUtils.isBlank(column.getColumnLength())) column.setColumnLength(null);
-            if (StringUtils.isBlank(column.getDictCode())) column.setDictCode(null);
             columnDao.create(column);
         }
     }
@@ -70,8 +67,6 @@ public class SysTableColumnServiceImpl extends BaseServiceImpl<SysTableColumn> i
             if (column.getId() == null) {
                 throw new IllegalArgumentException();
             }
-            if (StringUtils.isBlank(column.getColumnLength())) column.setColumnLength(null);
-            if (StringUtils.isBlank(column.getDictCode())) column.setDictCode(null);
             columnDao.update(column);
         }
     }
