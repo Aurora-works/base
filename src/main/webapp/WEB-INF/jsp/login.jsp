@@ -1,17 +1,14 @@
 <%@ page contentType="text/html;charset=UTF-8" %>
-<%
-    String basePath = request.getContextPath();
-%>
 <!DOCTYPE html>
 <html>
 <head>
     <meta charset="utf-8">
     <title>后台管理系统</title>
-    <script type="text/javascript" src="<%=basePath%>/static/jquery-easyui-1.10.19/jquery.min.js"></script>
-    <script type="text/javascript" src="<%=basePath%>/static/jquery-easyui-1.10.19/jquery.easyui.min.js"></script>
-    <script type="text/javascript" src="<%=basePath%>/static/jquery-easyui-1.10.19/locale/easyui-lang-zh_CN.js"></script>
-    <link rel="stylesheet" type="text/css" href="<%=basePath%>/static/jquery-easyui-1.10.19/themes/${defaultThemes}/easyui.css">
-    <link rel="stylesheet" type="text/css" href="<%=basePath%>/static/jquery-easyui-1.10.19/themes/icon.css">
+    <script type="text/javascript" src="static/jquery-easyui-1.10.19/jquery.min.js"></script>
+    <script type="text/javascript" src="static/jquery-easyui-1.10.19/jquery.easyui.min.js"></script>
+    <script type="text/javascript" src="static/jquery-easyui-1.10.19/locale/easyui-lang-zh_CN.js"></script>
+    <link rel="stylesheet" type="text/css" href="static/jquery-easyui-1.10.19/themes/${defaultThemes}/easyui.css">
+    <link rel="stylesheet" type="text/css" href="static/jquery-easyui-1.10.19/themes/icon.css">
 </head>
 <body>
 <%-- 登录窗口 --%>
@@ -88,7 +85,7 @@
     });
     $('#login_form').form({
         novalidate: true,
-        url: '/login',
+        url: 'login',
         onSubmit: function () {
             let isValid = $(this).form('enableValidation').form('validate');
             if (isValid) {
@@ -111,7 +108,7 @@
                     text: '',
                     interval: 1000
                 });
-                window.location = '/';
+                window.location = '';
             } else {
                 $.messager.alert('提示', result.message ? result.message : '用户名或密码错误!');
             }
@@ -161,7 +158,7 @@
                     }
                 }, 1000);
                 $(this).textbox('textbox').focus();
-                $.post('/sendCode', {mobilePhoneNumber: $('#mobilePhoneNumber').textbox('getText')}, function (result) {
+                $.post('sendCode', {mobilePhoneNumber: $('#mobilePhoneNumber').textbox('getText')}, function (result) {
                     if (result.code != 0) {
                         $.messager.alert({
                             title: '提示',
@@ -180,7 +177,7 @@
     });
     $('#login_by_mobile_form').form({
         novalidate: true,
-        url: '/loginByMobile',
+        url: 'loginByMobile',
         onSubmit: function () {
             let isValid = $(this).form('enableValidation').form('validate');
             if (isValid) {
@@ -203,7 +200,7 @@
                     text: '',
                     interval: 1000
                 });
-                window.location = '/';
+                window.location = '';
             } else {
                 $.messager.alert('提示', result.message ? result.message : '用户未注册或没有授权, 请联系管理员');
             }

@@ -1,25 +1,22 @@
 <%@ page contentType="text/html;charset=UTF-8" %>
-<%
-    String basePath = request.getContextPath();
-%>
 <!DOCTYPE html>
 <html>
 <head>
     <meta charset="utf-8">
     <title>后台管理系统</title>
-    <script type="text/javascript" src="<%=basePath%>/static/jquery-easyui-1.10.19/jquery.min.js"></script>
-    <script type="text/javascript" src="<%=basePath%>/static/jquery-easyui-1.10.19/jquery.easyui.min.js"></script>
-    <script type="text/javascript" src="<%=basePath%>/static/jquery-easyui-1.10.19/locale/easyui-lang-zh_CN.js"></script>
-    <script type="text/javascript" src="<%=basePath%>/static/jquery-easyui-1.10.19/extension/datagrid-filter.js"></script>
-    <link rel="stylesheet" type="text/css" href="<%=basePath%>/static/jquery-easyui-1.10.19/themes/${defaultThemes}/easyui.css">
-    <link rel="stylesheet" type="text/css" href="<%=basePath%>/static/jquery-easyui-1.10.19/themes/icon.css">
+    <script type="text/javascript" src="static/jquery-easyui-1.10.19/jquery.min.js"></script>
+    <script type="text/javascript" src="static/jquery-easyui-1.10.19/jquery.easyui.min.js"></script>
+    <script type="text/javascript" src="static/jquery-easyui-1.10.19/locale/easyui-lang-zh_CN.js"></script>
+    <script type="text/javascript" src="static/jquery-easyui-1.10.19/extension/datagrid-filter.js"></script>
+    <link rel="stylesheet" type="text/css" href="static/jquery-easyui-1.10.19/themes/${defaultThemes}/easyui.css">
+    <link rel="stylesheet" type="text/css" href="static/jquery-easyui-1.10.19/themes/icon.css">
 </head>
 <%-- 布局 --%>
 <body class="easyui-layout">
 <%-- 顶部 --%>
 <div data-options="region: 'north', title: '顶部'" style="height: 100px; overflow-y: hidden; display: flex; align-items: center; justify-content: space-between">
     <div style="height: 100%; flex: 1">
-        <img src="<%=basePath%>/static/images/base.png" alt="logo" style="height: 100%; max-height: 67px">
+        <img src="static/images/base.png" alt="logo" style="height: 100%; max-height: 67px">
     </div>
     <div>
         <a href="javascript:" class="easyui-linkbutton" data-options="iconCls: 'icon-exit', plain: true, text: '退出系统'" onclick="logout()" style="margin-right: 10px"></a>
@@ -117,7 +114,7 @@
             text: '',
             interval: 1000
         });
-        $.post('/logout', function (result) {
+        $.post('logout', function (result) {
             $.messager.progress('close');
             if (result.code == 0) {
                 $.messager.progress({
@@ -126,7 +123,7 @@
                     text: '',
                     interval: 1000
                 });
-                window.location = '/';
+                window.location = '';
             } else {
                 $.messager.alert({
                     title: '提示',
@@ -154,7 +151,7 @@
         return user.nickname + '[' + user.username + ']';
     }
 
-    // 添加验证规则
+    // 扩展验证规则
     $.extend($.fn.validatebox.defaults.rules, {
         mobilePhoneNumber: { // 手机号验证
             validator: function (value, param) {
