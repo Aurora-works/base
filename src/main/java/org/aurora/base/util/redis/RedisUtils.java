@@ -111,4 +111,26 @@ public class RedisUtils {
     public Long decr(String key, long delta) {
         return redisTemplate.opsForValue().decrement(key, delta);
     }
+
+    /**
+     * 追加value到key
+     */
+    public Long rightPush(String key, Object value) {
+        return redisTemplate.opsForList().rightPush(key, value);
+    }
+
+    /**
+     * 从key获取开始和结束之间的元素
+     * e.g. start=-10 end=-1 获取最后10个元素
+     */
+    public List<Object> lRange(String key, long start, long end) {
+        return redisTemplate.opsForList().range(key, start, end);
+    }
+
+    /**
+     * 裁剪列表
+     */
+    public void trim(String key, long start, long end) {
+        redisTemplate.opsForList().trim(key, start, end);
+    }
 }

@@ -2,3 +2,5 @@
 
 # easyui
 **/src/main/webapp/**/jquery-easyui-*/** linguist-vendored
+# echarts
+**/src/main/webapp/**/echarts-*/** linguist-vendored

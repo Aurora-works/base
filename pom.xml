@@ -23,16 +23,17 @@
         <spring.version>6.1.9</spring.version>
         <aspectj.version>1.9.22.1</aspectj.version>
         <shiro.version>2.0.1</shiro.version>
-        <hibernate.version>6.4.9.Final</hibernate.version>
+        <hibernate.version>6.4.10.Final</hibernate.version>
         <ehcache.version>3.10.8</ehcache.version>
         <mysql-connector.version>8.3.0</mysql-connector.version>
         <spring-data-redis.version>3.3.2</spring-data-redis.version>
-        <lettuce.version>6.3.2.RELEASE</lettuce.version>
+        <lettuce.version>6.4.0.RELEASE</lettuce.version>
         <jackson.version>2.17.2</jackson.version>
         <lombok.version>1.18.34</lombok.version>
         <commons-lang3.version>3.15.0</commons-lang3.version>
         <poi.version>5.3.0</poi.version>
         <freemarker.version>2.3.33</freemarker.version>
+        <oshi.version>6.6.2</oshi.version>
 
         <jakarta.servlet-api.version>6.0.0</jakarta.servlet-api.version>
     </properties>
@@ -224,6 +225,12 @@
             <groupId>org.freemarker</groupId>
             <artifactId>freemarker</artifactId>
             <version>${freemarker.version}</version>
+        </dependency>
+        <!-- oshi -->
+        <dependency>
+            <groupId>com.github.oshi</groupId>
+            <artifactId>oshi-core</artifactId>
+            <version>${oshi.version}</version>
         </dependency>
 
         <!-- jakarta.servlet-api -->
