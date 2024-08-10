@@ -7,7 +7,7 @@
 <form id="${menuCode}_read_form" method="post" style="margin-block-end: 1em">
     <fieldset style="border: 1px solid #ccc">
         <legend>基础信息</legend>
-        <div style="text-align: center; display: none">
+        <div style="display: none">
             <input id="${menuCode}_read_id" name="id" class="easyui-textbox" data-options="label: '编号'"/>
         </div>
         <#list columns as column>

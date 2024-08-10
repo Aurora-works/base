@@ -2,21 +2,11 @@
 
     <cache alias="default-update-timestamps-region" uses-template="defaultTemplate"/>
 
-    <cache alias="default-query-results-region">
-        <expiry>
-            <ttl unit="minutes">10</ttl>
-        </expiry>
-        <heap>1000</heap>
-    </cache>
+    <cache alias="default-query-results-region" uses-template="ttl_minutes_10"/>
 
-    <cache alias="SysParamRegion" uses-template="defaultTemplate"/>
+    <cache alias="SysParamRegion" uses-template="ttl_minutes_10"/>
 
-    <cache alias="AuthorizationInfoRegion">
-        <expiry>
-            <ttl unit="minutes">10</ttl>
-        </expiry>
-        <heap>1000</heap>
-    </cache>
+    <cache alias="AuthorizationInfoRegion" uses-template="ttl_minutes_10"/>
 
     <cache-template name="defaultTemplate">
         <expiry>
@@ -25,4 +15,10 @@
         <heap>1000</heap>
     </cache-template>
 
+    <cache-template name="ttl_minutes_10">
+        <expiry>
+            <ttl unit="minutes">10</ttl>
+        </expiry>
+        <heap>1000</heap>
+    </cache-template>
 </config>

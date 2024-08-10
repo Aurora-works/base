@@ -5,7 +5,7 @@
 </head>
 <body>
 <form id="sys_role_read_form" method="post">
-    <div style="text-align: center; display: none">
+    <div style="display: none">
         <input id="sys_role_read_id" name="id" class="easyui-textbox" data-options="label: '编号'"/>
     </div>
     <div style="width:25%; float: left; padding: 0 20px">

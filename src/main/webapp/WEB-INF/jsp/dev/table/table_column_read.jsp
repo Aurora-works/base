@@ -7,7 +7,7 @@
 <form id="sys_table_column_read_form" method="post" style="margin-block-end: 1em">
     <fieldset style="border: 1px solid #ccc">
         <legend>基础信息</legend>
-        <div style="text-align: center; display: none">
+        <div style="display: none">
             <input id="sys_table_column_read_id" name="id" class="easyui-textbox" data-options="label: '编号'"/>
         </div>
         <div style="width:25%; float: left; padding: 0 20px">

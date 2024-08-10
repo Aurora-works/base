@@ -7,7 +7,7 @@
 <form id="sys_role_detail_form" method="post" style="margin-block-end: 1em">
     <fieldset style="border: 1px solid #ccc">
         <legend>基础信息</legend>
-        <div style="text-align: center; display: none">
+        <div style="display: none">
             <input id="sys_role_detail_id" name="id" class="easyui-textbox" data-options="label: '编号'"/>
         </div>
         <div style="width:25%; float: left; padding: 0 20px">
@@ -34,7 +34,7 @@
         <div style="width:25%; float: left; padding: 0 20px">
             <input id="sys_role_detail_description" name="description" class="easyui-textbox" data-options="label: '描述', labelPosition: 'top'" style="width: 100%"/>
         </div>
-        <div style="text-align: center; display: none">
+        <div style="display: none">
             <input id="sys_role_detail_version" name="version" class="easyui-textbox" data-options="label: '版本'"/>
         </div>
     </fieldset>

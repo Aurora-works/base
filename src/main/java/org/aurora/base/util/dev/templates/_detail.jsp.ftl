@@ -7,7 +7,7 @@
 <form id="${menuCode}_detail_form" method="post" style="margin-block-end: 1em">
     <fieldset style="border: 1px solid #ccc">
         <legend>基础信息</legend>
-        <div style="text-align: center; display: none">
+        <div style="display: none">
             <input id="${menuCode}_detail_id" name="id" class="easyui-textbox" data-options="label: '编号'"/>
         </div>
         <#list columns as column>
@@ -40,7 +40,7 @@
         <div style="width:25%; float: left; padding: 0 20px">
             <input id="${menuCode}_detail_description" name="description" class="easyui-textbox" data-options="label: '描述', labelPosition: 'top'" style="width: 100%"/>
         </div>
-        <div style="text-align: center; display: none">
+        <div style="display: none">
             <input id="${menuCode}_detail_version" name="version" class="easyui-textbox" data-options="label: '版本'"/>
         </div>
     </fieldset>
