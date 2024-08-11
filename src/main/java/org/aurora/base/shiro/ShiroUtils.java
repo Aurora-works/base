@@ -20,23 +20,31 @@ public class ShiroUtils {
      */
     public static void encryptPassword(SysUser user) {
         user.setSalt(saltGenerator.nextBytes().toHex());
-        user.setPassword(new SimpleHash(
+        user.setPassword(generatePassword(user.getPassword(), user.getSalt()));
+    }
+
+    /**
+     * 生成密码
+     */
+    public static String generatePassword(String password, String salt) {
+        return new SimpleHash(
                 hashAlgorithmName,
-                user.getPassword(),
-                ByteSource.Util.bytes(user.getSalt()),
+                password,
+                ByteSource.Util.bytes(salt),
                 hashIterations
-        ).toHex());
+        ).toHex();
     }
 
     /**
      * 获取当前用户id
      */
     public static Long getCurrentUserId() {
-        SysUser user = (SysUser) SecurityUtils.getSubject().getPrincipal();
-        if (user == null) {
+        // SysUser user = (SysUser) SecurityUtils.getSubject().getPrincipal();
+        Long userId = (Long) SecurityUtils.getSubject().getPrincipal();
+        if (userId == null) {
             return TodoUser.USER_NO_LOGIN.getUserId();
         }
-        return user.getId();
+        return userId;
     }
 
     /**

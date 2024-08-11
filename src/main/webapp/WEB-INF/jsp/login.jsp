@@ -78,7 +78,8 @@
         onClickButton: function () {
             $(this).textbox('textbox').focus();
         },
-        required: true
+        required: true,
+        validType: 'length[6,16]'
     });
     $('#login_btn').linkbutton({
         iconCls: 'icon-ok'

@@ -16,10 +16,11 @@
 <body class="easyui-layout">
 <%-- 顶部 --%>
 <div data-options="region: 'north', title: '顶部'" style="height: 100px; overflow-y: hidden; display: flex; align-items: center; justify-content: space-between">
-    <div style="height: 100%; flex: 1">
-        <img src="static/images/base.png" alt="logo" style="height: 100%; max-height: 67px">
+    <div style="height: 100%">
+        <img src="static/images/base.png" alt="logo" style="height: 100%; max-height: 100px">
     </div>
     <div>
+        <a href="javascript:" class="easyui-linkbutton" data-options="iconCls: 'icon-edit-user', plain: true, text: '个人资料'" onclick="edit_user()"></a>
         <a href="javascript:" class="easyui-linkbutton" data-options="iconCls: 'icon-exit', plain: true, text: '退出系统'" onclick="logout()" style="margin-right: 10px"></a>
     </div>
 </div>
@@ -52,6 +53,45 @@
 <%-- 底部 --%>
 <div data-options="region: 'south', title: '底部'" style="height: 65px; overflow-y: hidden; display: flex; align-items: center; justify-content: center">
     <p>后台管理系统</p>
+</div>
+<%-- 弹出框 --%>
+<div id="edit_user_dialog" class="easyui-dialog" style="width: 390px" data-options="closed: true, modal: true">
+    <form id="edit_user_form" method="post" style="padding: 10px">
+        <fieldset style="border: 1px solid #ccc; padding: 10px 15px; margin-block-end: 1em">
+            <legend>我的信息</legend>
+            <div style="display: none">
+                <input name="id" class="easyui-textbox" data-options="label: '编号'"/>
+            </div>
+            <div style="margin-bottom:10px">
+                <input name="username" class="easyui-textbox" data-options="label: '用户名', disabled: true" style="width: 100%">
+            </div>
+            <div style="margin-bottom:10px">
+                <input name="nickname" class="easyui-textbox" data-options="label: '姓名', required: true" style="width: 100%">
+            </div>
+            <div style="margin-bottom:10px">
+                <input name="sex" class="easyui-combobox"
+                       data-options="label: '性别', panelHeight: 'auto', editable: false, valueField: 'dictKey', textField: 'dictValue', url: 'sys/dict/combo/sex'" style="width: 100%"/>
+            </div>
+            <div style="margin-bottom:10px">
+                <input name="email" class="easyui-textbox" data-options="label: '电子邮件', validType: 'email'" style="width: 100%">
+            </div>
+            <div style="margin-bottom:10px">
+                <input name="mobilePhoneNumber" class="easyui-textbox" data-options="label: '手机号码', required: true, validType: 'mobilePhoneNumber'" style="width: 100%">
+            </div>
+            <div style="margin-bottom:10px">
+                <input name="description" class="easyui-textbox" data-options="label: '描述'" style="width: 100%"/>
+            </div>
+        </fieldset>
+        <fieldset style="border: 1px solid #ccc; padding: 10px 15px">
+            <legend>更改密码</legend>
+            <div style="margin-bottom:10px">
+                <input name="oldPassword" class="easyui-passwordbox" data-options="label: '旧密码', validType: 'length[6,16]'" style="width: 100%"/>
+            </div>
+            <div style="margin-bottom:10px">
+                <input name="newPassword" class="easyui-passwordbox" data-options="label: '新密码', validType: 'length[6,16]'" style="width: 100%"/>
+            </div>
+        </fieldset>
+    </form>
 </div>
 </body>
 <style>
@@ -128,6 +168,68 @@
             });
         }
         return nodes;
+    }
+
+    // 个人资料
+    function edit_user() {
+        $.messager.progress({
+            title: '提示',
+            msg: '正在加载数据, 请稍候...',
+            text: '',
+            interval: 1000
+        });
+        $('#edit_user_form').form({
+            onLoadSuccess: function (data) {
+                $.messager.progress('close');
+                $('#edit_user_dialog').dialog({
+                    title: '个人资料',
+                    buttons: [{
+                        iconCls: 'icon-ok',
+                        text: '保存',
+                        width: 90,
+                        handler: function () {
+                            $('#edit_user_form').form('submit', {
+                                url: 'personalData',
+                                onSubmit: function () {
+                                    let isValid = $(this).form('validate');
+                                    if (isValid) {
+                                        $.messager.progress({
+                                            title: '提示',
+                                            msg: '保存中, 请稍候...',
+                                            text: '',
+                                            interval: 1000
+                                        });
+                                    }
+                                    return isValid;
+                                },
+                                success: function (result) {
+                                    result = JSON.parse(result);
+                                    $.messager.progress('close');
+                                    if (result.code == 0) {
+                                        $.messager.alert({
+                                            title: '提示',
+                                            msg: '信息更新成功'
+                                        });
+                                    } else {
+                                        $.messager.alert({
+                                            title: '提示',
+                                            msg: result.message
+                                        });
+                                    }
+                                }
+                            });
+                        }
+                    }, {
+                        iconCls: 'icon-cancel',
+                        text: '取消',
+                        width: 90,
+                        handler: function () {
+                            $('#edit_user_dialog').dialog('close');
+                        }
+                    }]
+                }).dialog('open').dialog('center');
+            }
+        }).form('load', 'personalData');
     }
 
     // 退出系统

@@ -5,7 +5,7 @@ public class CommonConstant {
     /**
      * 不记录日志的请求参数
      */
-    public static final String[] NO_LOG_REQUEST_PARAMS = {"password"};
+    public static final String[] NO_LOG_REQUEST_PARAMS = {"password", "oldPassword", "newPassword"};
 
     /**
      * <a href="https://developer.mozilla.org/zh-CN/docs/Web/HTTP/Basics_of_HTTP/MIME_types/Common_types">常见 MIME 类型列表</a>

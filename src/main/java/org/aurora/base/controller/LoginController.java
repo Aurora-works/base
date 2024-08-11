@@ -5,6 +5,7 @@ import org.aurora.base.service.sys.SysParamService;
 import org.aurora.base.shiro.ShiroUtils;
 import org.aurora.base.util.Result;
 import org.aurora.base.util.enums.SysParam;
+import org.aurora.base.util.matcher.MatcherHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -12,8 +13,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-
-import java.util.regex.Pattern;
 
 @Controller
 public class LoginController {
@@ -50,7 +49,7 @@ public class LoginController {
     @PostMapping(value = "/loginByMobile")
     @ResponseBody
     public Result<Object> loginByMobile(@RequestParam String mobilePhoneNumber, @RequestParam String code) {
-        checkMobilePhoneNumber(mobilePhoneNumber);
+        MatcherHelper.checkMobilePhoneNumber(mobilePhoneNumber);
         ShiroUtils.loginByMobile(mobilePhoneNumber, code);
         return Result.success();
     }
@@ -61,7 +60,7 @@ public class LoginController {
     @PostMapping(value = "/sendCode")
     @ResponseBody
     public Result<Object> sendCode(@RequestParam String mobilePhoneNumber) {
-        checkMobilePhoneNumber(mobilePhoneNumber);
+        MatcherHelper.checkMobilePhoneNumber(mobilePhoneNumber);
         // TODO 发送验证码
         return Result.success();
     }
@@ -75,15 +74,5 @@ public class LoginController {
     public Result<Object> logout() {
         ShiroUtils.logout();
         return Result.success();
-    }
-
-    /**
-     * 手机号校验
-     */
-    private void checkMobilePhoneNumber(String mobilePhoneNumber) {
-        Pattern pattern = Pattern.compile("^1[0-9]{10}$");
-        if (!pattern.matcher(mobilePhoneNumber).matches()) {
-            throw new IllegalArgumentException();
-        }
     }
 }

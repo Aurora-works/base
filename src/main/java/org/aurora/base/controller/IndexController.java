@@ -2,19 +2,24 @@ package org.aurora.base.controller;
 
 import org.apache.shiro.authz.annotation.RequiresAuthentication;
 import org.aurora.base.entity.sys.SysMenu;
+import org.aurora.base.entity.sys.SysUser;
 import org.aurora.base.jackson.JSONUtils;
 import org.aurora.base.service.sys.SysParamService;
 import org.aurora.base.service.sys.SysUserService;
 import org.aurora.base.shiro.ShiroUtils;
 import org.aurora.base.task.SystemMonitor;
+import org.aurora.base.util.Result;
 import org.aurora.base.util.constant.CommonConstant;
+import org.aurora.base.util.dto.PersonalData;
 import org.aurora.base.util.enums.SysParam;
+import org.aurora.base.util.matcher.MatcherHelper;
 import org.aurora.base.util.oshi.OSHIUtils;
 import org.aurora.base.util.redis.RedisUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.HashMap;
@@ -96,5 +101,37 @@ public class IndexController {
         result.put("fileStoreNameArr", fileStoreNameArr);
         result.put("spaceInUseArr", spaceInUseArr);
         return result;
+    }
+
+    /**
+     * 个人资料
+     */
+    @GetMapping(value = "/personalData")
+    @ResponseBody
+    public PersonalData personalData() {
+        SysUser user = userService.findById(ShiroUtils.getCurrentUserId());
+        return new PersonalData(
+                user.getId(),
+                user.getUsername(),
+                user.getNickname(),
+                user.getSex(),
+                user.getEmail(),
+                user.getMobilePhoneNumber(),
+                user.getDescription(),
+                "", "");
+    }
+
+    /**
+     * 修改个人资料
+     */
+    @PostMapping(value = "/personalData")
+    @ResponseBody
+    public Result<Object> updatePersonalData(PersonalData data) {
+        if (!ShiroUtils.getCurrentUserId().equals(data.id())) {
+            throw new IllegalArgumentException();
+        }
+        MatcherHelper.checkMobilePhoneNumber(data.mobilePhoneNumber());
+        userService.updatePersonalData(data);
+        return Result.success();
     }
 }

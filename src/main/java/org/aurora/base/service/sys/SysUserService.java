@@ -3,6 +3,7 @@ package org.aurora.base.service.sys;
 import org.aurora.base.entity.sys.SysMenu;
 import org.aurora.base.entity.sys.SysUser;
 import org.aurora.base.service.BaseService;
+import org.aurora.base.util.dto.PersonalData;
 import org.aurora.base.util.view.PageHelper;
 
 import java.util.Map;
@@ -18,6 +19,8 @@ public interface SysUserService extends BaseService<SysUser> {
     Map<String, Set<String>> getAuthorizationInfo(Long id);
 
     TreeSet<SysMenu> getMenuTree(Long id);
+
+    void updatePersonalData(PersonalData data);
 
     void resetPwd(Long[] ids);
 

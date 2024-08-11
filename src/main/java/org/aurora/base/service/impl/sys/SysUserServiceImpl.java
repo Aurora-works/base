@@ -1,14 +1,17 @@
 package org.aurora.base.service.impl.sys;
 
+import org.apache.commons.lang3.StringUtils;
 import org.aurora.base.dao.BaseDao;
 import org.aurora.base.dao.sys.SysParamDao;
 import org.aurora.base.dao.sys.SysRoleMenuDao;
 import org.aurora.base.dao.sys.SysUserDao;
 import org.aurora.base.dao.sys.SysUserRoleDao;
 import org.aurora.base.entity.sys.*;
+import org.aurora.base.exception.BusinessException;
 import org.aurora.base.service.impl.BaseServiceImpl;
 import org.aurora.base.service.sys.SysUserService;
 import org.aurora.base.shiro.ShiroUtils;
+import org.aurora.base.util.dto.PersonalData;
 import org.aurora.base.util.enums.Status;
 import org.aurora.base.util.enums.SysParam;
 import org.aurora.base.util.enums.UserType;
@@ -188,6 +191,27 @@ public class SysUserServiceImpl extends BaseServiceImpl<SysUser> implements SysU
                     }
                 });
         return menus;
+    }
+
+    @Override
+    public void updatePersonalData(PersonalData data) {
+
+        SysUser user = userDao.findById(ShiroUtils.getCurrentUserId());
+
+        if (StringUtils.isNotBlank(data.oldPassword()) && StringUtils.isNotBlank(data.newPassword())) {
+            if (user.getPassword().equals(ShiroUtils.generatePassword(data.oldPassword(), user.getSalt()))) {
+                user.setPassword(data.newPassword());
+                ShiroUtils.encryptPassword(user);
+            } else {
+                throw new BusinessException("信息更新失败, 您输入了错误的 [旧密码]");
+            }
+        }
+
+        user.setNickname(data.nickname());
+        user.setSex(data.sex());
+        user.setEmail(data.email());
+        user.setMobilePhoneNumber(data.mobilePhoneNumber());
+        user.setDescription(data.description());
     }
 
     @Override

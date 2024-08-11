@@ -8,6 +8,9 @@
 .icon-exit{
 	background:url('icons/extra/exit.png') no-repeat center center;
 }
+.icon-edit-user{
+	background:url('icons/extra/edit_user.png') no-repeat center center;
+}
 /*end*/
 .icon-blank{
 	background:url('icons/blank.gif') no-repeat center center;

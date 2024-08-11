@@ -24,8 +24,8 @@ public class SysUserRealm extends AuthorizingRealm {
 
     @Override
     protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principalCollection) {
-        SysUser user = (SysUser) principalCollection.getPrimaryPrincipal();
-        Long userId = user.getId();
+        // SysUser user = (SysUser) principalCollection.getPrimaryPrincipal();
+        Long userId = (Long) principalCollection.getPrimaryPrincipal();
         SimpleAuthorizationInfo authorizationInfo = new SimpleAuthorizationInfo();
         Map<String, Set<String>> map = userService.getAuthorizationInfo(userId);
         authorizationInfo.setRoles(map.get("roles"));
@@ -48,7 +48,8 @@ public class SysUserRealm extends AuthorizingRealm {
             throw new LockedAccountException();
         }
         return new SimpleAuthenticationInfo(
-                user,
+                // user,
+                user.getId(),
                 user.getPassword(),
                 ByteSource.Util.bytes(user.getSalt()),
                 getName()
