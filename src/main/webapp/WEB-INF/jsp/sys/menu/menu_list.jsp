@@ -197,7 +197,7 @@
             }
             $.messager.progress({
                 title: '提示',
-                msg: '删除中, 请稍后...',
+                msg: '删除中, 请稍候...',
                 text: '',
                 interval: 1000
             });

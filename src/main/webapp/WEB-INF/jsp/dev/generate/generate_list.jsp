@@ -369,7 +369,7 @@
         if (row && row.id) {
             $.messager.progress({
                 title: '提示',
-                msg: '正在生成代码, 请稍后...',
+                msg: '正在生成代码, 请稍候...',
                 text: '',
                 interval: 1000
             });

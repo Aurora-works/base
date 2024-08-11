@@ -156,7 +156,7 @@
             }
             $.messager.progress({
                 title: '提示',
-                msg: '解除中, 请稍后...',
+                msg: '解除中, 请稍候...',
                 text: '',
                 interval: 1000
             });
