@@ -3,20 +3,19 @@
 <Configuration xmlns="http://logging.apache.org/log4j/2.0/config" status="info">
 
     <Properties>
-        <Property name="console_date_format">%d{ABSOLUTE} [%p] [%t] %m%n</Property>
-        <Property name="file_date_format">%d [%p] [%t] %m%n</Property>
+        <Property name="console_pattern">%d{ABSOLUTE} [%p] [%t] %m%n</Property>
+        <Property name="file_pattern">%d [%p] [%t] %m%n</Property>
         <Property name="file_dir">../logs/base</Property>
     </Properties>
 
     <Appenders>
 
         <Console name="console" target="SYSTEM_OUT">
-            <!--<PatternLayout pattern="${console_date_format}"/>-->
-            <PatternLayout pattern="${console_date_format}" charset="GBK"/>
+            <PatternLayout pattern="${console_pattern}"/>
         </Console>
 
         <RollingFile name="file_info" fileName="${file_dir}/info.log" filePattern="${file_dir}/info/%d{yyyy-MM-dd}-%i.info.log.gz">
-            <PatternLayout pattern="${file_date_format}"/>
+            <PatternLayout pattern="${file_pattern}"/>
             <Policies>
                 <TimeBasedTriggeringPolicy/>
                 <SizeBasedTriggeringPolicy size="50MB"/>
@@ -25,7 +24,7 @@
         </RollingFile>
 
         <RollingFile name="file_warn" fileName="${file_dir}/warn.log" filePattern="${file_dir}/warn/%d{yyyy-MM-dd}-%i.warn.log.gz">
-            <PatternLayout pattern="${file_date_format}"/>
+            <PatternLayout pattern="${file_pattern}"/>
             <Policies>
                 <TimeBasedTriggeringPolicy/>
                 <SizeBasedTriggeringPolicy size="50MB"/>
@@ -34,7 +33,7 @@
         </RollingFile>
 
         <RollingFile name="file_error" fileName="${file_dir}/error.log" filePattern="${file_dir}/error/%d{yyyy-MM-dd}-%i.error.log.gz">
-            <PatternLayout pattern="${file_date_format}"/>
+            <PatternLayout pattern="${file_pattern}"/>
             <Policies>
                 <TimeBasedTriggeringPolicy/>
                 <SizeBasedTriggeringPolicy size="50MB"/>
