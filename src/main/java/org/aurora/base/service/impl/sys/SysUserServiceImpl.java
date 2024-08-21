@@ -26,17 +26,19 @@ import java.util.*;
 @Service
 public class SysUserServiceImpl extends BaseServiceImpl<SysUser> implements SysUserService {
     @Autowired
-    public SysUserServiceImpl(SysUserDao userDao, SysUserRoleDao userRoleDao, SysRoleMenuDao roleMenuDao, SysParamDao paramDao) {
+    public SysUserServiceImpl(SysUserDao userDao, SysUserRoleDao userRoleDao, SysRoleMenuDao roleMenuDao, SysParamDao paramDao, ShiroUtils shiroUtils) {
         this.userDao = userDao;
         this.userRoleDao = userRoleDao;
         this.roleMenuDao = roleMenuDao;
         this.paramDao = paramDao;
+        this.shiroUtils = shiroUtils;
     }
 
     private final SysUserDao userDao;
     private final SysUserRoleDao userRoleDao;
     private final SysRoleMenuDao roleMenuDao;
     private final SysParamDao paramDao;
+    private final ShiroUtils shiroUtils;
 
     @Override
     protected BaseDao<SysUser> getDao() {
@@ -49,7 +51,7 @@ public class SysUserServiceImpl extends BaseServiceImpl<SysUser> implements SysU
         user.setUserType(UserType.ADMIN.getKey());
         user.setIsDeleted(YesOrNo.NO.getKey());
         user.setPassword(defaultPwd);
-        ShiroUtils.encryptPassword(user);
+        shiroUtils.encryptPassword(user);
         userDao.create(user);
     }
 
@@ -199,9 +201,9 @@ public class SysUserServiceImpl extends BaseServiceImpl<SysUser> implements SysU
         SysUser user = userDao.findById(ShiroUtils.getCurrentUserId());
 
         if (StringUtils.isNotBlank(data.oldPassword()) && StringUtils.isNotBlank(data.newPassword())) {
-            if (user.getPassword().equals(ShiroUtils.generatePassword(data.oldPassword(), user.getSalt()))) {
+            if (user.getPassword().equals(shiroUtils.generatePassword(data.oldPassword(), user.getSalt()))) {
                 user.setPassword(data.newPassword());
-                ShiroUtils.encryptPassword(user);
+                shiroUtils.encryptPassword(user);
             } else {
                 throw new BusinessException("信息更新失败, 您输入了错误的 [旧密码]");
             }
@@ -220,7 +222,7 @@ public class SysUserServiceImpl extends BaseServiceImpl<SysUser> implements SysU
         List<SysUser> users = userDao.findByIds(ids);
         for (SysUser user : users) {
             user.setPassword(defaultPwd);
-            ShiroUtils.encryptPassword(user);
+            shiroUtils.encryptPassword(user);
             userDao.update(user);
         }
     }

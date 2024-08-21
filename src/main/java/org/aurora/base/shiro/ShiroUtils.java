@@ -7,18 +7,24 @@ import org.apache.shiro.crypto.hash.SimpleHash;
 import org.apache.shiro.lang.util.ByteSource;
 import org.aurora.base.entity.sys.SysUser;
 import org.aurora.base.util.enums.TodoUser;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
 
+@Component
 public class ShiroUtils {
 
-    // spring-shiro.xml
-    private static final String hashAlgorithmName = "SHA-256";
-    private static final int hashIterations = 1;
-    private static final RandomNumberGenerator saltGenerator = new SecureRandomNumberGenerator();
+    @Value("${shiro.hashAlgorithmName}")
+    private String hashAlgorithmName;
+
+    @Value("${shiro.hashIterations}")
+    private int hashIterations;
+
+    private final RandomNumberGenerator saltGenerator = new SecureRandomNumberGenerator();
 
     /**
      * 密码加密
      */
-    public static void encryptPassword(SysUser user) {
+    public void encryptPassword(SysUser user) {
         user.setSalt(saltGenerator.nextBytes().toHex());
         user.setPassword(generatePassword(user.getPassword(), user.getSalt()));
     }
@@ -26,7 +32,7 @@ public class ShiroUtils {
     /**
      * 生成密码
      */
-    public static String generatePassword(String password, String salt) {
+    public String generatePassword(String password, String salt) {
         return new SimpleHash(
                 hashAlgorithmName,
                 password,

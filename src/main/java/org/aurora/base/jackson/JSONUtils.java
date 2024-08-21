@@ -12,7 +12,7 @@ import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateSerializer;
 import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;
 import com.fasterxml.jackson.datatype.jsr310.ser.LocalTimeSerializer;
 import lombok.extern.log4j.Log4j2;
-import org.aurora.base.util.constant.CommonConstant;
+import org.aurora.base.util.CommonConstant;
 
 import java.time.format.DateTimeFormatter;
 import java.util.HashSet;

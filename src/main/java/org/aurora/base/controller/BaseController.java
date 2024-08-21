@@ -7,7 +7,7 @@ import org.aurora.base.jackson.JSONUtils;
 import org.aurora.base.service.BaseService;
 import org.aurora.base.shiro.ShiroUtils;
 import org.aurora.base.util.Result;
-import org.aurora.base.util.constant.CommonConstant;
+import org.aurora.base.util.CommonConstant;
 import org.aurora.base.util.view.FilterRuleHelper;
 import org.aurora.base.util.view.PageHelper;
 import org.springframework.core.io.ByteArrayResource;

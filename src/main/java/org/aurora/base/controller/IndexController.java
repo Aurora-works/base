@@ -9,7 +9,7 @@ import org.aurora.base.service.sys.SysUserService;
 import org.aurora.base.shiro.ShiroUtils;
 import org.aurora.base.task.SystemMonitor;
 import org.aurora.base.util.Result;
-import org.aurora.base.util.constant.CommonConstant;
+import org.aurora.base.util.CommonConstant;
 import org.aurora.base.util.dto.PersonalData;
 import org.aurora.base.util.enums.SysParam;
 import org.aurora.base.util.matcher.MatcherHelper;

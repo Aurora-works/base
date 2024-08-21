@@ -1,5 +1,8 @@
-package org.aurora.base.util.constant;
+package org.aurora.base.util;
 
+/**
+ * 公共常量
+ */
 public class CommonConstant {
 
     /**

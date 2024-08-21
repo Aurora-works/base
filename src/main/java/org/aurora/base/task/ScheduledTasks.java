@@ -1,7 +1,7 @@
 package org.aurora.base.task;
 
 import lombok.extern.log4j.Log4j2;
-import org.aurora.base.util.constant.CommonConstant;
+import org.aurora.base.util.CommonConstant;
 import org.aurora.base.util.math.NumberUtils;
 import org.aurora.base.util.oshi.OSHIUtils;
 import org.aurora.base.util.redis.RedisUtils;
@@ -58,7 +58,7 @@ public class ScheduledTasks {
                     .movePointRight(2);
         }
         SystemMonitor dto = new SystemMonitor(time, cpuLoad, memoryInUse, spaceInUse);
-        if (redisUtils.rightPush(CommonConstant.TASK_REDIS_KEY_SYSTEM_MONITOR, dto) > 60) {
+        if (redisUtils.rightPush(CommonConstant.TASK_REDIS_KEY_SYSTEM_MONITOR, dto) > 120) {
             redisUtils.trim(CommonConstant.TASK_REDIS_KEY_SYSTEM_MONITOR, -60, -1);
         }
     }
