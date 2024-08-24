@@ -17,7 +17,10 @@ import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
 @ExtendWith(TimingExtension.class)
-@SpringJUnitConfig(locations = "classpath:applicationContext.xml")
+@SpringJUnitConfig(locations = {
+        "classpath:applicationContext.xml",
+        "classpath:spring-redis.xml",
+        "classpath:spring-shiro.xml"})
 class RedisUtilsTest {
 
     @Autowired

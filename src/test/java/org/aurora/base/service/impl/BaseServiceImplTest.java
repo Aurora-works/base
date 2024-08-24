@@ -13,7 +13,10 @@ import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 import java.util.ArrayList;
 import java.util.List;
 
-@SpringJUnitConfig(locations = "classpath:applicationContext.xml")
+@SpringJUnitConfig(locations = {
+        "classpath:applicationContext.xml",
+        "classpath:spring-redis.xml",
+        "classpath:spring-shiro.xml"})
 class BaseServiceImplTest {
 
     @Autowired

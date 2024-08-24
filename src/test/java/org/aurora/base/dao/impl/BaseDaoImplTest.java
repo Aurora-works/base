@@ -9,7 +9,10 @@ import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
-@SpringJUnitConfig(locations = "classpath:applicationContext.xml")
+@SpringJUnitConfig(locations = {
+        "classpath:applicationContext.xml",
+        "classpath:spring-redis.xml",
+        "classpath:spring-shiro.xml"})
 class BaseDaoImplTest {
 
     @Autowired

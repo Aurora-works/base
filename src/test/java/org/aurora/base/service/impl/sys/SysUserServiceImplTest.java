@@ -8,9 +8,10 @@ import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 import java.util.Map;
 import java.util.Set;
 
-import static org.junit.jupiter.api.Assertions.*;
-
-@SpringJUnitConfig(locations = "classpath:applicationContext.xml")
+@SpringJUnitConfig(locations = {
+        "classpath:applicationContext.xml",
+        "classpath:spring-redis.xml",
+        "classpath:spring-shiro.xml"})
 class SysUserServiceImplTest {
 
     @Autowired

@@ -10,7 +10,10 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
-@SpringJUnitConfig(locations = "classpath:applicationContext.xml")
+@SpringJUnitConfig(locations = {
+        "classpath:applicationContext.xml",
+        "classpath:spring-redis.xml",
+        "classpath:spring-shiro.xml"})
 class SysRoleMenuDaoImplTest {
 
     @Autowired

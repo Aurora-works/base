@@ -58,7 +58,7 @@ public class ScheduledTasks {
                     .movePointRight(2);
         }
         SystemMonitor dto = new SystemMonitor(time, cpuLoad, memoryInUse, spaceInUse);
-        if (redisUtils.rightPush(CommonConstant.TASK_REDIS_KEY_SYSTEM_MONITOR, dto) > 120) {
+        if (redisUtils.rightPush(CommonConstant.TASK_REDIS_KEY_SYSTEM_MONITOR, dto) > 60) {
             redisUtils.trim(CommonConstant.TASK_REDIS_KEY_SYSTEM_MONITOR, -60, -1);
         }
     }
