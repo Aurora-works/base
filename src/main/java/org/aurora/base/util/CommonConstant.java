@@ -16,7 +16,7 @@ public class CommonConstant {
     public static final String MIME_TYPE_XLSX = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
 
     /**
-     * 定时任务SystemMonitor使用的Redis Key
+     * 定时任务 SystemMonitor 使用的 Redis Key
      */
-    public static String TASK_REDIS_KEY_SYSTEM_MONITOR = "system_monitor";
+    public static String TASK_REDIS_KEY_SYSTEM_MONITOR = "task:system:monitor";
 }
