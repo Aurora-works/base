@@ -1,4 +1,4 @@
-package org.aurora.base.util.dto;
+package org.aurora.base.common.dto;
 
 public record TableFormatter(
         String dictCode,

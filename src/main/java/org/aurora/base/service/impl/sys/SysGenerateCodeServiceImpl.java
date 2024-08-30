@@ -1,5 +1,7 @@
 package org.aurora.base.service.impl.sys;
 
+import org.aurora.base.common.dict.SysParam;
+import org.aurora.base.common.dto.TableFormatter;
 import org.aurora.base.dao.BaseDao;
 import org.aurora.base.dao.sys.SysGenerateCodeDao;
 import org.aurora.base.dao.sys.SysMenuDao;
@@ -10,8 +12,6 @@ import org.aurora.base.service.impl.BaseServiceImpl;
 import org.aurora.base.service.sys.SysGenerateCodeService;
 import org.aurora.base.util.dev.CodeGenerator;
 import org.aurora.base.util.dev.GeneratorHelper;
-import org.aurora.base.util.dto.TableFormatter;
-import org.aurora.base.util.enums.SysParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

@@ -1,4 +1,4 @@
-package org.aurora.base.util;
+package org.aurora.base.common;
 
 /**
  * 公共常量
@@ -16,7 +16,7 @@ public interface CommonConstant {
     String MIME_TYPE_XLSX = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
 
     /**
-     * 定时任务 SystemMonitor 使用的 Redis Key
+     * 定时任务 SystemMonitor 在 Redis 中的 Key
      */
     String TASK_REDIS_KEY_SYSTEM_MONITOR = "task:system:monitor";
 }

@@ -1,4 +1,4 @@
-package org.aurora.base.util.poi;
+package org.aurora.base.util;
 
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.xssf.usermodel.XSSFCellStyle;

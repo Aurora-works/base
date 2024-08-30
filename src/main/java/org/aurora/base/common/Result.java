@@ -1,7 +1,10 @@
-package org.aurora.base.util;
+package org.aurora.base.common;
 
 import lombok.Getter;
 
+/**
+ * 自定义返回结果
+ */
 public record Result<T>(Integer code, String message, T data) {
 
     public static <T> Result<T> success(T data) {
@@ -23,7 +26,7 @@ public record Result<T>(Integer code, String message, T data) {
     }
 
     /**
-     * 请求结果
+     * 自定义返回状态
      */
     @Getter
     private enum RequestStatus {

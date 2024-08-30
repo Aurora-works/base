@@ -1,14 +1,13 @@
 package org.aurora.base.task;
 
 import lombok.extern.log4j.Log4j2;
-import org.aurora.base.util.CommonConstant;
-import org.aurora.base.util.math.NumberUtils;
-import org.aurora.base.util.oshi.OSHIUtils;
-import org.aurora.base.util.redis.RedisUtils;
+import org.aurora.base.common.CommonConstant;
+import org.aurora.base.util.NumberUtils;
+import org.aurora.base.util.OSHIUtils;
+import org.aurora.base.util.RedisUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
-import oshi.SystemInfo;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
@@ -30,7 +29,7 @@ public class ScheduledTasks {
         private static long[] OLD_TICKS;
 
         static {
-            OLD_TICKS = new SystemInfo().getHardware().getProcessor().getSystemCpuLoadTicks();
+            OLD_TICKS = OSHIUtils.getCpuLoadTicks();
         }
     }
 

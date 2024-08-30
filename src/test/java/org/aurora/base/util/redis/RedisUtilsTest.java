@@ -5,6 +5,7 @@ import org.aurora.base.entity.sys.SysUser;
 import org.aurora.base.extension.TimingExtension;
 import org.aurora.base.service.sys.SysTableService;
 import org.aurora.base.service.sys.SysUserService;
+import org.aurora.base.util.RedisUtils;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;

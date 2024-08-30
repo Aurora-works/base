@@ -1,4 +1,4 @@
-package org.aurora.base.util.enums;
+package org.aurora.base.common.dict;
 
 import lombok.Getter;
 

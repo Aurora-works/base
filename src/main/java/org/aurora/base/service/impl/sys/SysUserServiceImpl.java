@@ -1,6 +1,13 @@
 package org.aurora.base.service.impl.sys;
 
 import org.apache.commons.lang3.StringUtils;
+import org.aurora.base.common.dict.Status;
+import org.aurora.base.common.dict.SysParam;
+import org.aurora.base.common.dict.UserType;
+import org.aurora.base.common.dict.YesOrNo;
+import org.aurora.base.common.dto.PersonalData;
+import org.aurora.base.common.view.FilterRuleHelper;
+import org.aurora.base.common.view.PageHelper;
 import org.aurora.base.dao.BaseDao;
 import org.aurora.base.dao.sys.SysParamDao;
 import org.aurora.base.dao.sys.SysRoleMenuDao;
@@ -11,13 +18,6 @@ import org.aurora.base.exception.BusinessException;
 import org.aurora.base.service.impl.BaseServiceImpl;
 import org.aurora.base.service.sys.SysUserService;
 import org.aurora.base.shiro.ShiroUtils;
-import org.aurora.base.util.dto.PersonalData;
-import org.aurora.base.util.enums.Status;
-import org.aurora.base.util.enums.SysParam;
-import org.aurora.base.util.enums.UserType;
-import org.aurora.base.util.enums.YesOrNo;
-import org.aurora.base.util.view.FilterRuleHelper;
-import org.aurora.base.util.view.PageHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

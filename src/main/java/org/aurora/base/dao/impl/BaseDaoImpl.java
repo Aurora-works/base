@@ -2,9 +2,9 @@ package org.aurora.base.dao.impl;
 
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
+import org.aurora.base.common.view.FilterRuleHelper;
 import org.aurora.base.dao.BaseDao;
 import org.aurora.base.entity.BaseEntity;
-import org.aurora.base.util.view.FilterRuleHelper;
 import org.hibernate.Session;
 import org.hibernate.query.SelectionQuery;
 

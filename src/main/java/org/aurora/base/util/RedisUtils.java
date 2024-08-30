@@ -1,4 +1,4 @@
-package org.aurora.base.util.redis;
+package org.aurora.base.util;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;

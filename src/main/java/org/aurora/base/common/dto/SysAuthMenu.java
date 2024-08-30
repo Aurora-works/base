@@ -1,4 +1,4 @@
-package org.aurora.base.util.dto;
+package org.aurora.base.common.dto;
 
 // @JsonIgnoreProperties(ignoreUnknown = true)
 public record SysAuthMenu(

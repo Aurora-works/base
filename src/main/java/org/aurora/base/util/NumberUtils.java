@@ -1,4 +1,4 @@
-package org.aurora.base.util.math;
+package org.aurora.base.util;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;

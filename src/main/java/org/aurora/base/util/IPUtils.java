@@ -1,4 +1,4 @@
-package org.aurora.base.util.web;
+package org.aurora.base.util;
 
 import jakarta.servlet.http.HttpServletRequest;
 

@@ -1,7 +1,9 @@
-package org.aurora.base.util.view;
+package org.aurora.base.common.view;
 
-import lombok.*;
-import org.aurora.base.util.dto.TableFormatter;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import org.aurora.base.common.dto.TableFormatter;
 
 import java.util.List;
 

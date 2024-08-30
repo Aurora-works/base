@@ -1,7 +1,7 @@
 package org.aurora.base.dao;
 
+import org.aurora.base.common.view.FilterRuleHelper;
 import org.aurora.base.entity.BaseEntity;
-import org.aurora.base.util.view.FilterRuleHelper;
 
 import java.util.List;
 

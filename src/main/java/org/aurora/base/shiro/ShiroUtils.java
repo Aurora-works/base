@@ -5,8 +5,8 @@ import org.apache.shiro.crypto.RandomNumberGenerator;
 import org.apache.shiro.crypto.SecureRandomNumberGenerator;
 import org.apache.shiro.crypto.hash.SimpleHash;
 import org.apache.shiro.lang.util.ByteSource;
+import org.aurora.base.common.dict.TodoUser;
 import org.aurora.base.entity.sys.SysUser;
-import org.aurora.base.util.enums.TodoUser;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 

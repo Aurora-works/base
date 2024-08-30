@@ -1,5 +1,8 @@
 package org.aurora.base.service.impl.sys;
 
+import org.aurora.base.common.dict.Status;
+import org.aurora.base.common.dto.SysAuthMenu;
+import org.aurora.base.common.view.PageHelper;
 import org.aurora.base.dao.BaseDao;
 import org.aurora.base.dao.sys.SysMenuDao;
 import org.aurora.base.dao.sys.SysRoleMenuDao;
@@ -7,10 +10,7 @@ import org.aurora.base.entity.sys.SysMenu;
 import org.aurora.base.entity.sys.SysRoleMenu;
 import org.aurora.base.service.impl.BaseServiceImpl;
 import org.aurora.base.service.sys.SysRoleMenuService;
-import org.aurora.base.util.dto.SysAuthMenu;
-import org.aurora.base.util.enums.Status;
 import org.aurora.base.util.reflect.FieldUtils;
-import org.aurora.base.util.view.PageHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

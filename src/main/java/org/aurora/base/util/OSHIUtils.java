@@ -1,4 +1,4 @@
-package org.aurora.base.util.oshi;
+package org.aurora.base.util;
 
 import oshi.SystemInfo;
 import oshi.hardware.HardwareAbstractionLayer;

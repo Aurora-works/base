@@ -4,8 +4,8 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.Part;
 import lombok.extern.log4j.Log4j2;
+import org.aurora.base.common.CommonConstant;
 import org.aurora.base.jackson.JSONUtils;
-import org.aurora.base.util.CommonConstant;
 import org.springframework.web.util.ContentCachingRequestWrapper;
 
 import java.io.IOException;

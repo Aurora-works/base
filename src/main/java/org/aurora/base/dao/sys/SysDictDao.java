@@ -1,8 +1,8 @@
 package org.aurora.base.dao.sys;
 
+import org.aurora.base.common.dto.TableFormatter;
 import org.aurora.base.dao.BaseDao;
 import org.aurora.base.entity.sys.SysDict;
-import org.aurora.base.util.dto.TableFormatter;
 
 import java.util.List;
 

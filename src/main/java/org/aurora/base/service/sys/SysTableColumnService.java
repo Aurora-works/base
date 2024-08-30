@@ -1,8 +1,8 @@
 package org.aurora.base.service.sys;
 
+import org.aurora.base.common.view.PageHelper;
 import org.aurora.base.entity.sys.SysTableColumn;
 import org.aurora.base.service.BaseService;
-import org.aurora.base.util.view.PageHelper;
 
 import java.util.List;
 import java.util.Map;

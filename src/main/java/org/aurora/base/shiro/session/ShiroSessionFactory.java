@@ -6,7 +6,7 @@ import org.apache.shiro.session.mgt.SessionContext;
 import org.apache.shiro.session.mgt.SessionFactory;
 import org.apache.shiro.session.mgt.SimpleSession;
 import org.apache.shiro.web.session.mgt.WebSessionContext;
-import org.aurora.base.util.web.IPUtils;
+import org.aurora.base.util.IPUtils;
 
 public class ShiroSessionFactory implements SessionFactory {
 

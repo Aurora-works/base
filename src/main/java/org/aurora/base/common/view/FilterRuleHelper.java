@@ -1,4 +1,4 @@
-package org.aurora.base.util.view;
+package org.aurora.base.common.view;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

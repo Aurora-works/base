@@ -1,11 +1,12 @@
 package org.aurora.base.controller;
 
 import org.apache.shiro.authz.annotation.RequiresAuthentication;
+import org.aurora.base.common.Result;
+import org.aurora.base.common.dict.SysParam;
+import org.aurora.base.common.validation.Mobile;
+import org.aurora.base.common.validation.Password;
 import org.aurora.base.service.sys.SysParamService;
 import org.aurora.base.shiro.ShiroUtils;
-import org.aurora.base.util.Result;
-import org.aurora.base.util.enums.SysParam;
-import org.aurora.base.util.matcher.MatcherHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -38,7 +39,9 @@ public class LoginController {
      */
     @PostMapping(value = "/login")
     @ResponseBody
-    public Result<Object> login(@RequestParam String username, @RequestParam String password) {
+    public Result<Object> login(
+            @RequestParam String username,
+            @RequestParam @Password String password) {
         ShiroUtils.loginByPassword(username, password);
         return Result.success();
     }
@@ -48,8 +51,9 @@ public class LoginController {
      */
     @PostMapping(value = "/loginByMobile")
     @ResponseBody
-    public Result<Object> loginByMobile(@RequestParam String mobilePhoneNumber, @RequestParam String code) {
-        MatcherHelper.checkMobilePhoneNumber(mobilePhoneNumber);
+    public Result<Object> loginByMobile(
+            @RequestParam @Mobile String mobilePhoneNumber,
+            @RequestParam String code) {
         ShiroUtils.loginByMobile(mobilePhoneNumber, code);
         return Result.success();
     }
@@ -59,8 +63,8 @@ public class LoginController {
      */
     @PostMapping(value = "/sendCode")
     @ResponseBody
-    public Result<Object> sendCode(@RequestParam String mobilePhoneNumber) {
-        MatcherHelper.checkMobilePhoneNumber(mobilePhoneNumber);
+    public Result<Object> sendCode(
+            @RequestParam @Mobile String mobilePhoneNumber) {
         // TODO 发送验证码
         return Result.success();
     }

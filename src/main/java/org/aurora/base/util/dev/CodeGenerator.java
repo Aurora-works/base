@@ -4,9 +4,9 @@ import freemarker.template.Configuration;
 import freemarker.template.Template;
 import freemarker.template.TemplateException;
 import lombok.extern.log4j.Log4j2;
+import org.aurora.base.common.dict.ColumnType;
 import org.aurora.base.entity.sys.SysTableColumn;
 import org.aurora.base.exception.BusinessException;
-import org.aurora.base.util.enums.ColumnType;
 
 import java.io.File;
 import java.io.FileWriter;

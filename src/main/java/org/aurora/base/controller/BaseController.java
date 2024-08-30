@@ -2,14 +2,14 @@ package org.aurora.base.controller;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import org.apache.commons.lang3.StringUtils;
+import org.aurora.base.common.CommonConstant;
+import org.aurora.base.common.Result;
+import org.aurora.base.common.view.FilterRuleHelper;
+import org.aurora.base.common.view.PageHelper;
 import org.aurora.base.entity.BaseEntity;
 import org.aurora.base.jackson.JSONUtils;
 import org.aurora.base.service.BaseService;
 import org.aurora.base.shiro.ShiroUtils;
-import org.aurora.base.util.Result;
-import org.aurora.base.util.CommonConstant;
-import org.aurora.base.util.view.FilterRuleHelper;
-import org.aurora.base.util.view.PageHelper;
 import org.springframework.core.io.ByteArrayResource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
@@ -106,7 +106,7 @@ public abstract class BaseController<T extends BaseEntity> {
     }
 
     /**
-     * Excel导出
+     * Excel 导出
      */
     @GetMapping(value = "/excel/out")
     public ResponseEntity<ByteArrayResource> exportExcel(
@@ -124,7 +124,7 @@ public abstract class BaseController<T extends BaseEntity> {
     }
 
     /**
-     * Excel导入
+     * Excel 导入
      */
     @PostMapping(value = "/excel/in")
     @ResponseBody
@@ -135,7 +135,7 @@ public abstract class BaseController<T extends BaseEntity> {
     }
 
     /**
-     * 将JSON格式的过滤条件转换为Java对象格式
+     * 将 JSON 格式的过滤条件转换为 Java 对象格式
      */
     protected List<FilterRuleHelper> parseFilterRules(String filterRules) {
         if (StringUtils.isBlank(filterRules) || "[]".equals(filterRules)) {

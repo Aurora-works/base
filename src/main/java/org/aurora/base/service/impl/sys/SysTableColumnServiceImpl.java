@@ -1,5 +1,7 @@
 package org.aurora.base.service.impl.sys;
 
+import org.aurora.base.common.dto.TableFormatter;
+import org.aurora.base.common.view.PageHelper;
 import org.aurora.base.dao.BaseDao;
 import org.aurora.base.dao.sys.SysDictDao;
 import org.aurora.base.dao.sys.SysParamDao;
@@ -9,8 +11,6 @@ import org.aurora.base.entity.sys.SysParam;
 import org.aurora.base.entity.sys.SysTableColumn;
 import org.aurora.base.service.impl.BaseServiceImpl;
 import org.aurora.base.service.sys.SysTableColumnService;
-import org.aurora.base.util.dto.TableFormatter;
-import org.aurora.base.util.view.PageHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -83,7 +83,7 @@ public class SysTableColumnServiceImpl extends BaseServiceImpl<SysTableColumn> i
     @Override
     public PageHelper<SysTableColumn> findByTableId(int page, int size, String sort, String order, Long tableId) {
         checkFields(sort, order, null);
-        SysParam param = paramDao.findByCode(org.aurora.base.util.enums.SysParam.SYS_DEFAULT_TABLE_COLUMN.getCode());
+        SysParam param = paramDao.findByCode(org.aurora.base.common.dict.SysParam.SYS_DEFAULT_TABLE_COLUMN.getCode());
         return new PageHelper<>(
                 columnDao.getTotalByTableId(tableId, param.getParamValue()),
                 columnDao.findByTableId(page, size, sort, order, tableId, param.getParamValue()),
