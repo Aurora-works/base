@@ -18,23 +18,23 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
         <junit.version>5.10.3</junit.version>
-        <log4j.version>2.23.1</log4j.version>
+        <log4j.version>2.24.0</log4j.version>
         <hikaricp.version>5.1.0</hikaricp.version>
-        <spring.version>6.1.12</spring.version>
+        <spring.version>6.1.13</spring.version>
         <aspectj.version>1.9.22.1</aspectj.version>
         <hibernate-validator.version>8.0.1.Final</hibernate-validator.version>
         <shiro.version>2.0.1</shiro.version>
         <hibernate.version>6.4.10.Final</hibernate.version>
         <ehcache.version>3.10.8</ehcache.version>
         <mysql-connector.version>8.3.0</mysql-connector.version>
-        <spring-data-redis.version>3.3.3</spring-data-redis.version>
+        <spring-data-redis.version>3.3.4</spring-data-redis.version>
         <lettuce.version>6.4.0.RELEASE</lettuce.version>
         <jackson.version>2.17.2</jackson.version>
         <lombok.version>1.18.34</lombok.version>
-        <commons-lang3.version>3.16.0</commons-lang3.version>
+        <commons-lang3.version>3.17.0</commons-lang3.version>
         <poi.version>5.3.0</poi.version>
         <freemarker.version>2.3.33</freemarker.version>
-        <oshi.version>6.6.3</oshi.version>
+        <oshi.version>6.6.4</oshi.version>
 
         <jakarta.servlet-api.version>6.0.0</jakarta.servlet-api.version>
     </properties>
