@@ -17,11 +17,12 @@ import java.time.Instant;
 @Component
 public class AopServiceLog {
 
-    @Pointcut("execution(* org.aurora.base.service..*.*(..))" +
-            " && !execution(* org.aurora.base.service..*.silent*(..))" +
-            " && !execution(* org.aurora.base.service.sys.SysDictService.findByCode(..))" +
-            " && !execution(* org.aurora.base.service.sys.SysUserService.getAuthorizationInfo(..))" +
-            " && !execution(* org.aurora.base.service..*.getComboTree(..))")
+    @Pointcut("""
+            execution(* org.aurora.base.service..*.*(..)) &&
+            !execution(* org.aurora.base.service..*.silent*(..)) &&
+            !execution(* org.aurora.base.service.sys.SysDictService.findByCode(..)) &&
+            !execution(* org.aurora.base.service.sys.SysUserService.getAuthorizationInfo(..)) &&
+            !execution(* org.aurora.base.service..*.getComboTree(..))""")
     private void serviceAspect() {
     }
 

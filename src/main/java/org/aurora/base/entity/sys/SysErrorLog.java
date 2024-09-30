@@ -3,10 +3,7 @@ package org.aurora.base.entity.sys;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 import org.aurora.base.entity.BaseEntity;
 import org.hibernate.Length;
 
@@ -17,6 +14,9 @@ import org.hibernate.Length;
 @Setter
 @ToString(callSuper = true)
 @EqualsAndHashCode(callSuper = true)
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity
 @Table(name = "t_system_error_log")
 public class SysErrorLog extends BaseEntity {

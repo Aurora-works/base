@@ -4,10 +4,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.log4j.Log4j2;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.ProceedingJoinPoint;
-import org.aspectj.lang.annotation.AfterThrowing;
-import org.aspectj.lang.annotation.Around;
-import org.aspectj.lang.annotation.Aspect;
-import org.aspectj.lang.annotation.Pointcut;
+import org.aspectj.lang.annotation.*;
 import org.aurora.base.entity.sys.SysErrorLog;
 import org.aurora.base.entity.sys.SysRequestLog;
 import org.aurora.base.service.sys.SysErrorLogService;
@@ -38,10 +35,21 @@ public class AopControllerLog {
     private final SysRequestLogService logService;
     private final SysErrorLogService errorLogService;
 
-    @Pointcut("execution(* org.aurora.base.controller..*.*(..))" +
-            " && !execution(* org.aurora.base.controller.dev.SysDictController.findByCode(..))" +
-            " && !execution(* org.aurora.base.controller..*.getComboTree(..))")
+    @Pointcut("execution(* org.aurora.base.controller..*.*(..))")
     private void controllerAspect() {
+    }
+
+    @Pointcut("""
+            execution(* org.aurora.base.controller..*.*(..)) &&
+            !execution(* org.aurora.base.controller.dev.SysDictController.findByCode(..)) &&
+            !execution(* org.aurora.base.controller..*.getComboTree(..)) &&
+            !execution(* org.aurora.base.controller.IndexController.systemMonitor(..))""")
+    private void controllerAspectRecord() {
+    }
+
+    @Before("controllerAspectRecord()")
+    public void before(JoinPoint joinPoint) {
+        newRequestLog(joinPoint);
     }
 
     @Around("controllerAspect()")
@@ -58,7 +66,6 @@ public class AopControllerLog {
         log.info("请求方式:{}", requestMethod);
         log.info("请求方法:{}", requestController);
         log.info("参数列表:{}", requestParameters);
-        newRequestLog(requestUrl, requestIp, requestMethod, requestController, requestParameters);
         Object result = joinPoint.proceed();
         Duration duration = Duration.between(startTime, Instant.now());
         log.info("方法结束:{}.{}() Time taken: {} ms", joinPoint.getTarget().getClass().getName(), joinPoint.getSignature().getName(), duration.toMillis());
@@ -73,27 +80,30 @@ public class AopControllerLog {
         newErrorLog(joinPoint, e);
     }
 
-    private void newRequestLog(String requestUrl, String requestIp, String requestMethod, String requestController, String requestParameters) {
-        SysRequestLog requestLog = new SysRequestLog();
-        requestLog.setRequestController(requestController);
-        requestLog.setRequestUrl(requestUrl);
-        requestLog.setRequestMethod(requestMethod);
-        requestLog.setRequestIp(requestIp);
-        requestLog.setRequestParameters(requestParameters);
+    private void newRequestLog(JoinPoint joinPoint) {
+        HttpServletRequest request = ((ServletRequestAttributes) Objects.requireNonNull(RequestContextHolder.getRequestAttributes())).getRequest();
+        SysRequestLog requestLog = SysRequestLog.builder()
+                .requestController(joinPoint.getTarget().getClass().getName() + "." + joinPoint.getSignature().getName() + "()")
+                .requestUrl(String.valueOf(request.getRequestURL()))
+                .requestMethod(request.getMethod())
+                .requestIp(IPUtils.getIpAddr(request))
+                .requestParameters(RequestUtils.getParams(request))
+                .build();
         requestLog.setCreateUserId(ShiroUtils.getCurrentUserId());
         Thread.startVirtualThread(() -> logService.silentCreate(requestLog));
     }
 
     private void newErrorLog(JoinPoint joinPoint, Throwable e) {
         HttpServletRequest request = ((ServletRequestAttributes) Objects.requireNonNull(RequestContextHolder.getRequestAttributes())).getRequest();
-        SysErrorLog errorLog = new SysErrorLog();
-        errorLog.setErrorName(e.getClass().getName());
-        errorLog.setErrorStackTrace(getStackTrace(e));
-        errorLog.setErrorController(joinPoint.getTarget().getClass().getName() + "." + joinPoint.getSignature().getName() + "()");
-        errorLog.setRequestUrl(String.valueOf(request.getRequestURL()));
-        errorLog.setRequestMethod(request.getMethod());
-        errorLog.setRequestIp(IPUtils.getIpAddr(request));
-        errorLog.setRequestParameters(RequestUtils.getParams(request));
+        SysErrorLog errorLog = SysErrorLog.builder()
+                .errorName(e.getClass().getName())
+                .errorStackTrace(getStackTrace(e))
+                .errorController(joinPoint.getTarget().getClass().getName() + "." + joinPoint.getSignature().getName() + "()")
+                .requestUrl(String.valueOf(request.getRequestURL()))
+                .requestMethod(request.getMethod())
+                .requestIp(IPUtils.getIpAddr(request))
+                .requestParameters(RequestUtils.getParams(request))
+                .build();
         errorLog.setCreateUserId(ShiroUtils.getCurrentUserId());
         Thread.startVirtualThread(() -> errorLogService.silentCreate(errorLog));
     }

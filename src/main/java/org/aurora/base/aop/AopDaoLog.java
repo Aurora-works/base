@@ -17,12 +17,13 @@ import java.time.Instant;
 @Component
 public class AopDaoLog {
 
-    @Pointcut("execution(* org.aurora.base.dao..*.*(..))" +
-            " && !execution(* org.aurora.base.dao..silent*(..))" +
-            " && !execution(* org.aurora.base.dao.sys.SysDictDao.findByCode(..))" +
-            " && !execution(* org.aurora.base.dao.sys.SysUserRoleDao.findByUserIdWithFetchGraph(..))" +
-            " && !execution(* org.aurora.base.dao.sys.SysRoleMenuDao.findByRoleIdWithFetchGraph(..))" +
-            " && !execution(* org.aurora.base.dao..*.findAllWithCache(..))")
+    @Pointcut("""
+            execution(* org.aurora.base.dao..*.*(..)) &&
+            !execution(* org.aurora.base.dao..silent*(..)) &&
+            !execution(* org.aurora.base.dao.sys.SysDictDao.findByCode(..)) &&
+            !execution(* org.aurora.base.dao.sys.SysUserRoleDao.findByUserIdWithFetchGraph(..)) &&
+            !execution(* org.aurora.base.dao.sys.SysRoleMenuDao.findByRoleIdWithFetchGraph(..)) &&
+            !execution(* org.aurora.base.dao..*.findAllWithCache(..))""")
     private void daoAspect() {
     }
 
