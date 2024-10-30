@@ -1,8 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<Configuration xmlns="http://logging.apache.org/log4j/2.0/config" status="info">
+<!-- https://logging.apache.org/log4j/2.x/index.html -->
+<Configuration xmlns="https://logging.apache.org/xml/ns"
+               xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+               xsi:schemaLocation="https://logging.apache.org/xml/ns https://logging.apache.org/xml/ns/log4j-config-2.xsd"
+               status="INFO">
 
     <Properties>
-        <Property name="console_pattern">%d{ABSOLUTE} [%p] [%t] %m%n</Property>
+        <Property name="console_pattern" value="%d{ABSOLUTE} [%p] [%t] %m%n"/>
     </Properties>
 
     <Appenders>
@@ -12,7 +16,7 @@
     </Appenders>
 
     <Loggers>
-        <Root level="info">
+        <Root level="INFO">
             <AppenderRef ref="console"/>
         </Root>
     </Loggers>
