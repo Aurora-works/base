@@ -19,4 +19,9 @@ public interface CommonConstant {
      * 定时任务 SystemMonitor 在 Redis 中的 Key
      */
     String TASK_REDIS_KEY_SYSTEM_MONITOR = "task:system:monitor";
+
+    /**
+     * 是否保存 IP 地址
+     */
+    boolean SAVE_IP = false;
 }
