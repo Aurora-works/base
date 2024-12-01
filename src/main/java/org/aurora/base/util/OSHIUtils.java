@@ -22,28 +22,28 @@ public class OSHIUtils {
     }
 
     /**
-     * 系统版本（字符串）
+     * 系统版本 (字符串)
      */
     public static String getOSVersionStr() {
         return String.valueOf(os);
     }
 
     /**
-     * 开机时间（字符串）
+     * 开机时间 (字符串)
      */
     public static String getSystemBootTime() {
         return Instant.ofEpochSecond(os.getSystemBootTime()).toString();
     }
 
     /**
-     * 正常运行时间（字符串）
+     * 正常运行时间 (字符串)
      */
     public static String getSystemUptime() {
         return FormatUtil.formatElapsedSecs(os.getSystemUptime());
     }
 
     /**
-     * cpu（字符串）
+     * cpu (字符串)
      */
     public static String getCpuStr() {
         String cpuName = hal.getProcessor().getProcessorIdentifier().getName();
@@ -54,35 +54,35 @@ public class OSHIUtils {
     }
 
     /**
-     * 物理内存（可用）
+     * 物理内存 (可用)
      */
     public static long getMemoryAvailable() {
         return hal.getMemory().getAvailable();
     }
 
     /**
-     * 物理内存（总计）
+     * 物理内存 (总计)
      */
     public static long getMemoryTotal() {
         return hal.getMemory().getTotal();
     }
 
     /**
-     * cpu利用率
+     * cpu 利用率
      */
     public static double getCpuLoad(long delay) {
         return hal.getProcessor().getSystemCpuLoad(delay);
     }
 
     /**
-     * cpu利用率
+     * cpu 利用率
      */
     public static double getCpuLoad(long[] oldTicks) {
         return hal.getProcessor().getSystemCpuLoadBetweenTicks(oldTicks);
     }
 
     /**
-     * cpu负载计数器
+     * cpu 负载计数器
      */
     public static long[] getCpuLoadTicks() {
         return hal.getProcessor().getSystemCpuLoadTicks();

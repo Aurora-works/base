@@ -5,6 +5,7 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Component;
 
+import java.time.Duration;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
@@ -22,113 +23,164 @@ public class RedisUtils {
     private final StringRedisTemplate stringRedisTemplate;
     private final RedisTemplate<String, Object> redisTemplate;
 
+    /**
+     * 设置 key 的值
+     */
     public void set(String key, Object value) {
         redisTemplate.opsForValue().set(key, value);
     }
 
-    public void set(String key, Object value, long expire, TimeUnit timeUnit) {
-        redisTemplate.opsForValue().set(key, value, expire, timeUnit);
+    /**
+     * 设置 key 的值和过期时间
+     */
+    public void set(String key, Object value, long timeout, TimeUnit unit) {
+        redisTemplate.opsForValue().set(key, value, timeout, unit);
     }
 
+    /**
+     * 设置 key 的值和过期时间
+     */
+    public void set(String key, Object value, Duration timeout) {
+        redisTemplate.opsForValue().set(key, value, timeout);
+    }
+
+    /**
+     * 设置多个 key 的值
+     */
     public void set(Map<String, Object> map) {
         redisTemplate.opsForValue().multiSet(map);
     }
 
+    /**
+     * 获取 key 的值
+     */
     public Object get(String key) {
         return redisTemplate.opsForValue().get(key);
     }
 
+    /**
+     * 获取多个 key 的值
+     */
     public List<Object> get(Collection<String> keys) {
         return redisTemplate.opsForValue().multiGet(keys);
     }
 
+    /**
+     * 设置 key 的值
+     */
     public void setStr(String key, String value) {
         stringRedisTemplate.opsForValue().set(key, value);
     }
 
+    /**
+     * 设置 key 的值和过期时间
+     */
     public void setStr(String key, String value, long expire, TimeUnit timeUnit) {
         stringRedisTemplate.opsForValue().set(key, value, expire, timeUnit);
     }
 
+    /**
+     * 设置 key 的值和过期时间
+     */
+    public void setStr(String key, String value, Duration timeout) {
+        stringRedisTemplate.opsForValue().set(key, value, timeout);
+    }
+
+    /**
+     * 设置多个 key 的值
+     */
     public void setStr(Map<String, String> map) {
         stringRedisTemplate.opsForValue().multiSet(map);
     }
 
+    /**
+     * 获取 key 的值
+     */
     public String getStr(String key) {
         return stringRedisTemplate.opsForValue().get(key);
     }
 
+    /**
+     * 获取多个 key 的值
+     */
     public List<String> getStr(Collection<String> keys) {
         return stringRedisTemplate.opsForValue().multiGet(keys);
     }
 
+    /**
+     * 删除 key
+     */
     public void delete(String key) {
         redisTemplate.delete(key);
     }
 
+    /**
+     * 删除多个 key
+     */
     public void delete(Collection<String> keys) {
         redisTemplate.delete(keys);
     }
 
     /**
-     * 是否存在key
+     * 判断 key 是否存在
      */
     public Boolean exists(String key) {
-        return stringRedisTemplate.hasKey(key);
+        return redisTemplate.hasKey(key);
     }
 
     /**
-     * 设置过期时间
+     * 设置 key 的过期时间
      */
-    public void expire(String key, long expire, TimeUnit timeUnit) {
-        redisTemplate.expire(key, expire, timeUnit);
+    public void expire(String key, long timeout, TimeUnit unit) {
+        redisTemplate.expire(key, timeout, unit);
     }
 
     /**
-     * 查找匹配的key
+     * 获取所有匹配给定模式的 key
+     * 例: pattern=* 获取所有 key
      */
     public Set<String> keys(String pattern) {
         return redisTemplate.keys(pattern);
     }
 
     /**
-     * 返回key的剩余过期时间
+     * 获取 key 的过期时间
      */
-    public Long getExpire(String key, TimeUnit timeUnit) {
-        return redisTemplate.getExpire(key, timeUnit);
+    public Long getExpire(String key, TimeUnit unit) {
+        return redisTemplate.getExpire(key, unit);
     }
 
     /**
-     * 递增
+     * 将 key 的整数值递增 delta
      */
     public Long incr(String key, long delta) {
         return redisTemplate.opsForValue().increment(key, delta);
     }
 
     /**
-     * 递减
+     * 将 key 的整数值递减 delta
      */
     public Long decr(String key, long delta) {
         return redisTemplate.opsForValue().decrement(key, delta);
     }
 
     /**
-     * 追加value到key
+     * 将值追加到列表 key
      */
     public Long rightPush(String key, Object value) {
         return redisTemplate.opsForList().rightPush(key, value);
     }
 
     /**
-     * 从key获取开始和结束之间的元素
-     * e.g. start=-10 end=-1 获取最后10个元素
+     * 获取列表 key 中从开始到结束的元素
+     * 例: start=-10 end=-1 获取最后 10 个元素
      */
     public List<Object> lRange(String key, long start, long end) {
         return redisTemplate.opsForList().range(key, start, end);
     }
 
     /**
-     * 裁剪列表
+     * 裁剪列表 key 保留从开始到结束的元素
      */
     public void trim(String key, long start, long end) {
         redisTemplate.opsForList().trim(key, start, end);

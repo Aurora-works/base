@@ -11,8 +11,11 @@ import org.springframework.stereotype.Component;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.concurrent.TimeUnit;
 
 @Log4j2
 @Component
@@ -24,12 +27,18 @@ public class ScheduledTasks {
 
     public final RedisUtils redisUtils;
 
-    private static class SystemMonitorHelper {
+    public static class SystemMonitorHelper {
 
         private static long[] OLD_TICKS;
+        public final static String HOST_NAME;
 
         static {
             OLD_TICKS = OSHIUtils.getCpuLoadTicks();
+            try {
+                HOST_NAME = InetAddress.getLocalHost().getHostName();
+            } catch (UnknownHostException e) {
+                throw new RuntimeException(e);
+            }
         }
     }
 
@@ -60,5 +69,6 @@ public class ScheduledTasks {
         if (redisUtils.rightPush(CommonConstant.TASK_REDIS_KEY_SYSTEM_MONITOR, dto) > 60) {
             redisUtils.trim(CommonConstant.TASK_REDIS_KEY_SYSTEM_MONITOR, -60, -1);
         }
+        redisUtils.expire(CommonConstant.TASK_REDIS_KEY_SYSTEM_MONITOR, 1, TimeUnit.HOURS);
     }
 }

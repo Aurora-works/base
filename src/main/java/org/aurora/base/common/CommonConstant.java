@@ -1,5 +1,7 @@
 package org.aurora.base.common;
 
+import org.aurora.base.task.ScheduledTasks;
+
 /**
  * 公共常量
  */
@@ -18,7 +20,7 @@ public interface CommonConstant {
     /**
      * 定时任务 SystemMonitor 在 Redis 中的 Key
      */
-    String TASK_REDIS_KEY_SYSTEM_MONITOR = "task:system:monitor";
+    String TASK_REDIS_KEY_SYSTEM_MONITOR = "task:system:monitor:" + ScheduledTasks.SystemMonitorHelper.HOST_NAME;
 
     /**
      * 是否保存 IP 地址
