@@ -200,6 +200,10 @@ public class SysUserServiceImpl extends BaseServiceImpl<SysUser> implements SysU
 
         SysUser user = userDao.findById(ShiroUtils.getCurrentUserId());
 
+        if (user == null || YesOrNo.YES.getKey().equals(user.getIsDeleted()) || !UserType.ADMIN.getKey().equals(user.getUserType())) {
+            throw new IllegalArgumentException();
+        }
+
         if (StringUtils.isNotBlank(data.oldPassword()) && StringUtils.isNotBlank(data.newPassword())) {
             if (user.getPassword().equals(shiroUtils.generatePassword(data.oldPassword(), user.getSalt()))) {
                 user.setPassword(data.newPassword());
@@ -214,6 +218,8 @@ public class SysUserServiceImpl extends BaseServiceImpl<SysUser> implements SysU
         user.setEmail(data.email());
         user.setMobilePhoneNumber(data.mobilePhoneNumber());
         user.setDescription(data.description());
+
+        userDao.update(user);
     }
 
     @Override
