@@ -22,7 +22,7 @@ public class CodeGenerator {
     private static final Configuration cfg;
 
     static {
-        cfg = new Configuration(Configuration.VERSION_2_3_33);
+        cfg = new Configuration(Configuration.VERSION_2_3_34);
         cfg.setClassForTemplateLoading(CodeGenerator.class, "/" + CodeGenerator.class.getPackageName().replace(".", "/") + "/templates");
         cfg.setDefaultEncoding("UTF-8");
     }
