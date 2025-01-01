@@ -222,7 +222,8 @@
     // 详情
     function readSysMenu(id) {
         let row = $('#sys_menu_list').treegrid('find', id);
-        $('#sys_menu_dialog').css('padding', '10px').dialog({
+        // $('#sys_menu_dialog').css('padding', '10px').dialog({
+        $('#index_default_dialog').css('padding', '10px').dialog({
             height: 600,
             width: 1200,
             href: 'sys/menu/read',
@@ -234,7 +235,8 @@
                 text: '取消',
                 width: 120,
                 handler: function () {
-                    $('#sys_menu_dialog').dialog('close');
+                    // $('#sys_menu_dialog').dialog('close');
+                    $('#index_default_dialog').dialog('close');
                 }
             }],
             onLoad: function () {

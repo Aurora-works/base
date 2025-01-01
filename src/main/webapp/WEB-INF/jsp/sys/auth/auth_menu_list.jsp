@@ -259,7 +259,8 @@
     }
 
     function readAuthSysMenu(id) {
-        $('#sys_auth_menu_dialog').css('padding', '10px').dialog({
+        // $('#sys_auth_menu_dialog').css('padding', '10px').dialog({
+        $('#index_default_dialog').css('padding', '10px').dialog({
             height: 600,
             width: 1200,
             href: 'sys/menu/read',
@@ -271,7 +272,8 @@
                 text: '取消',
                 width: 120,
                 handler: function () {
-                    $('#sys_auth_menu_dialog').dialog('close');
+                    // $('#sys_auth_menu_dialog').dialog('close');
+                    $('#index_default_dialog').dialog('close');
                 }
             }],
             onLoad: function () {

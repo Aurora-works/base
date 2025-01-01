@@ -232,7 +232,8 @@
     // 详情
     function readSysUser(index) {
         let row = $('#sys_user_list').datagrid('getRows')[index];
-        $('#sys_user_dialog').css('padding', '10px').dialog({
+        // $('#sys_user_dialog').css('padding', '10px').dialog({
+        $('#index_default_dialog').css('padding', '10px').dialog({
             width: 1200,
             height: 600,
             href: 'sys/user/read',
@@ -244,7 +245,8 @@
                 text: '取消',
                 width: 120,
                 handler: function () {
-                    $('#sys_user_dialog').dialog('close');
+                    // $('#sys_user_dialog').dialog('close');
+                    $('#index_default_dialog').dialog('close');
                 }
             }],
             onLoad: function () {

@@ -54,7 +54,7 @@
 <div data-options="region: 'south', title: '底部'" style="height: 65px; overflow-y: hidden; display: flex; align-items: center; justify-content: center">
     <p>后台管理系统</p>
 </div>
-<%-- 弹出框 --%>
+<%-- 弹出框 (个人资料) --%>
 <div id="edit_user_dialog" class="easyui-dialog" style="width: 390px" data-options="closed: true, modal: true">
     <form id="edit_user_form" method="post" style="padding: 10px">
         <fieldset style="border: 1px solid #ccc; padding: 10px 15px; margin-block-end: 1em">
@@ -93,6 +93,8 @@
         </fieldset>
     </form>
 </div>
+<%-- 弹出框 --%>
+<div id="index_default_dialog"></div>
 </body>
 <style>
     /** 不显示上边框 **/

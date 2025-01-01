@@ -55,7 +55,8 @@
 
     function readSysRoleUser(index) {
         let row = $('#sys_role_user_list').datagrid('getRows')[index];
-        $('#sys_role_user_dialog').css('padding', '10px').dialog({
+        // $('#sys_role_user_dialog').css('padding', '10px').dialog({
+        $('#index_default_dialog').css('padding', '10px').dialog({
             width: 1200,
             height: 600,
             href: 'sys/user/read',
@@ -67,7 +68,8 @@
                 text: '取消',
                 width: 120,
                 handler: function () {
-                    $('#sys_role_user_dialog').dialog('close');
+                    // $('#sys_role_user_dialog').dialog('close');
+                    $('#index_default_dialog').dialog('close');
                 }
             }],
             onLoad: function () {
