@@ -3,7 +3,7 @@ package org.aurora.base.aop;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.Part;
-import lombok.extern.log4j.Log4j2;
+import lombok.extern.slf4j.Slf4j;
 import org.aurora.base.common.CommonConstant;
 import org.aurora.base.jackson.JSONUtils;
 import org.springframework.web.util.ContentCachingRequestWrapper;
@@ -14,7 +14,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
-@Log4j2
+@Slf4j
 public class RequestUtils {
 
     public static String getParams(HttpServletRequest request) {

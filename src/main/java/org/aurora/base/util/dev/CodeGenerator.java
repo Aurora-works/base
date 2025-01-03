@@ -3,7 +3,7 @@ package org.aurora.base.util.dev;
 import freemarker.template.Configuration;
 import freemarker.template.Template;
 import freemarker.template.TemplateException;
-import lombok.extern.log4j.Log4j2;
+import lombok.extern.slf4j.Slf4j;
 import org.aurora.base.common.dict.ColumnType;
 import org.aurora.base.entity.sys.SysTableColumn;
 import org.aurora.base.exception.BusinessException;
@@ -16,7 +16,7 @@ import java.util.Map;
 /**
  * 生成代码
  */
-@Log4j2
+@Slf4j
 public class CodeGenerator {
 
     private static final Configuration cfg;

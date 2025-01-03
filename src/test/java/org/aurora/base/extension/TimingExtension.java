@@ -1,6 +1,6 @@
 package org.aurora.base.extension;
 
-import lombok.extern.log4j.Log4j2;
+import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.extension.AfterTestExecutionCallback;
 import org.junit.jupiter.api.extension.BeforeTestExecutionCallback;
 import org.junit.jupiter.api.extension.ExtensionContext;
@@ -11,7 +11,7 @@ import java.lang.reflect.Method;
 import java.time.Duration;
 import java.time.Instant;
 
-@Log4j2
+@Slf4j
 public class TimingExtension implements BeforeTestExecutionCallback, AfterTestExecutionCallback {
 
     @Override

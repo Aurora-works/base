@@ -1,6 +1,6 @@
 package org.aurora.base.exception;
 
-import lombok.extern.log4j.Log4j2;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authz.UnauthenticatedException;
 import org.apache.shiro.authz.UnauthorizedException;
@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 /**
  * 全局异常处理
  */
-@Log4j2
+@Slf4j
 @ControllerAdvice
 public class GlobalExceptionHandler {
 

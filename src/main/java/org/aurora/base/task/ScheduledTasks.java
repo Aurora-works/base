@@ -1,6 +1,6 @@
 package org.aurora.base.task;
 
-import lombok.extern.log4j.Log4j2;
+import lombok.extern.slf4j.Slf4j;
 import org.aurora.base.common.CommonConstant;
 import org.aurora.base.util.NumberUtils;
 import org.aurora.base.util.OSHIUtils;
@@ -17,7 +17,7 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.concurrent.TimeUnit;
 
-@Log4j2
+@Slf4j
 @Component
 public class ScheduledTasks {
     @Autowired
