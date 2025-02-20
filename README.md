@@ -7,8 +7,8 @@
 - Java 21
 - Tomcat 10.1
 - Maven 3.9.9
-- MySQL 8.4.3
-- Redis 7.4.1
+- MySQL 8.4.4
+- Redis 7.4.2
 
 ## 项目搭建
 
